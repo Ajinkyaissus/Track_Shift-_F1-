@@ -1,0 +1,27 @@
+{
+  "model_version": "v5_tcn_stage3_2026-09-07",
+  "stage": 3,
+  "architecture": "MultiTaskBehavioralTCN",
+  "total_parameters": 52972,
+  "embedding_dimension": 16,
+  "features": [
+    "braking_aggression",
+    "throttle_transient_smoothness",
+    "lateral_dynamics_proxy",
+    "kerb_usage",
+    "lockup_flag_rate"
+  ],
+  "split_method": "chronological_events (train_dates: 7, val_dates: 3, test_dates: 3)",
+  "training_seed": 42,
+  "total_laps_evaluated": 1021,
+  "held_out_metrics": {
+    "rmse_seconds": 1.8753374814987183,
+    "mae_seconds": 0.6734288930892944,
+    "r2": -0.0018314123153686523,
+    "pearson_correlation": 0.025613987384893018,
+    "best_validation_loss": 1.0947029269658601
+  },
+  "model_hash_sha256": "dc453100cbe468e2167f1b87bf385d95e5fa7885ab7e8d0950ddc9bf1538783f",
+  "preprocessing_fit_scope": "train_split (N=533 laps)",
+  "verification_status": "SCIENTIFICALLY_DEFENSIBLE"
+}

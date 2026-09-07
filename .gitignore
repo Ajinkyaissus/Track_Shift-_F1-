@@ -1,0 +1,36 @@
+# Data and Databases
+data/2022/
+data/2023/
+data/2024/
+data/fastf1_http_cache*
+api/tyredebt.db
+*.db
+*.sqlite
+
+# Node & Frontend Build
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+frontend/@rolldown/
+.rolldown/
+
+# IDE and Tools
+.agents/
+.cursor/
+.jetro/
+
+# Python / Environment
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.env
+venv/
+env/
+.venv/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+

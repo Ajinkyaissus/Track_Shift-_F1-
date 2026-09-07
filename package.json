@@ -1,0 +1,17 @@
+{
+  "name": "trackshift-workspace",
+  "private": true,
+  "version": "1.0.0",
+  "description": "TrackShift — Formula 1 Tyre Debt Intelligence Platform",
+  "scripts": {
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "lint": "npm --prefix frontend run lint",
+    "preview": "npm --prefix frontend run preview",
+    "start": "npm --prefix frontend run dev",
+    "api": "python -m uvicorn api.main:app --reload --port 8000",
+    "api:prod": "python -m uvicorn api.main:app --port 8000 --workers 4",
+    "seed": "python seed.py",
+    "test": "python -m pytest tests"
+  }
+}

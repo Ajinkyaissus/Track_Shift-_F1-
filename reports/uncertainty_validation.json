@@ -1,0 +1,66 @@
+{
+  "method": "stint_cluster_bootstrap",
+  "resampling_unit": "stint_id",
+  "n_bootstrap": 50,
+  "confidence_level": 0.95,
+  "n_stints_sampled": 349,
+  "total_laps": 4118,
+  "coefficients_bootstrap_summary": {
+    "braking_aggression": {
+      "mean": -0.0009269682608610399,
+      "std": 0.0037473841217459313,
+      "p2_5": -0.006437583213053497,
+      "p50": -0.0015545080865435137,
+      "p97_5": 0.007098079135782559,
+      "ci_95": [
+        -0.006438,
+        0.007098
+      ]
+    },
+    "throttle_transient_smoothness": {
+      "mean": -0.12745644485382376,
+      "std": 0.05750357099099088,
+      "p2_5": -0.23441618553476662,
+      "p50": -0.12359253518572325,
+      "p97_5": -0.01603143104963396,
+      "ci_95": [
+        -0.234416,
+        -0.016031
+      ]
+    },
+    "lateral_dynamics_proxy": {
+      "mean": 5.085339547142031e-13,
+      "std": 4.1239792595790984e-13,
+      "p2_5": -4.873977951048299e-13,
+      "p50": 5.36819739177846e-13,
+      "p97_5": 9.855446837825828e-13,
+      "ci_95": [
+        -0.0,
+        0.0
+      ]
+    },
+    "kerb_usage": {
+      "mean": 0.0025590928098871623,
+      "std": 0.0013981628055395182,
+      "p2_5": 0.0001774916121059019,
+      "p50": 0.0024597160668365405,
+      "p97_5": 0.00585987109361825,
+      "ci_95": [
+        0.000177,
+        0.00586
+      ]
+    },
+    "lockup_flag_rate": {
+      "mean": -0.7775927178354786,
+      "std": 0.49654247793844475,
+      "p2_5": -1.6232876487748893,
+      "p50": -0.8261463258149746,
+      "p97_5": 0.013636862039904824,
+      "ci_95": [
+        -1.623288,
+        0.013637
+      ]
+    }
+  },
+  "scientific_interpretation": "Stint-level cluster bootstrap resamples entire stints with replacement, correctly accounting for within-stint lap autocorrelation and lap time clustering. Percentile intervals (2.5%, 97.5%) provide non-parametric empirical uncertainty bounds for observational sensitivity estimates."
+}
