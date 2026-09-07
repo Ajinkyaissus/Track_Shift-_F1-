@@ -23,7 +23,6 @@ frontend/@rolldown/
 scratch/
 *.log
 *.tmp
-*.pdf
 tests/*.csv
 
 # Python / Environment
