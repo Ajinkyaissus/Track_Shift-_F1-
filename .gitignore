@@ -20,10 +20,11 @@ frontend/@rolldown/
 .cursor/
 .jetro/
 
-# Scratch & Temp
+# Scratch, Temp & Generated Outputs
 scratch/
 *.log
 *.tmp
+*.pdf
 tests/*.csv
 
 # Python / Environment
