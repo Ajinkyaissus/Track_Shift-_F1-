@@ -1,7 +1,6 @@
 # Data and Databases
 data/2022/
 data/2023/
-data/2024/
 data/fastf1_http_cache*
 api/tyredebt.db
 *.db
