@@ -20,6 +20,12 @@ frontend/@rolldown/
 .cursor/
 .jetro/
 
+# Scratch & Temp
+scratch/
+*.log
+*.tmp
+tests/*.csv
+
 # Python / Environment
 __pycache__/
 *.py[cod]
