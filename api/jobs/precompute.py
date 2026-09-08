@@ -145,10 +145,14 @@ async def run_precompute() -> dict:
         for stint_id, lap_group in grouped_laps:
             # DL Behavioral Embedding
             seq = lap_group[BEHAVIORAL_FEATURES].to_numpy()
-            emb = registry.get_or_generate_embedding(stint_id, seq)
-            emb_key = CacheKeys.behavioral_embedding(stage3_version, stint_id, TELEMETRY_VERSION)
-            await cache.set(emb_key, {"stint_id": stint_id, "embedding": emb, "embedding_dim": len(emb)})
-            embeddings_cached += 1
+            try:
+                emb = registry.get_or_generate_embedding(stint_id, seq)
+            except ValueError:
+                emb = None
+            if emb is not None:
+                emb_key = CacheKeys.behavioral_embedding(stage3_version, stint_id, TELEMETRY_VERSION)
+                await cache.set(emb_key, {"stint_id": stint_id, "embedding": emb, "embedding_dim": len(emb)})
+                embeddings_cached += 1
 
             # Classical + Hybrid Attribution
             if stint_id in means_df.index:
@@ -191,7 +195,7 @@ async def run_precompute() -> dict:
                     "stint_id": stint_id,
                     "model_version": stage3_version,
                     "algorithm": "hybrid_tcn_ridge_attribution",
-                    "behavioral_embedding_dim": len(emb),
+                    "behavioral_embedding_dim": len(emb) if emb is not None else 0,
                     "deg_per_lap": round(deg_per_lap, 4),
                     "attribution": attribution
                 }

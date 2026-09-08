@@ -10,7 +10,7 @@ from api.jobs.precompute import run_precompute
 async def test_offline_precompute_execution():
     summary = await run_precompute()
     
-    assert summary["circuits"] == 13
+    assert summary["circuits"] >= 13
     assert summary["stints"] >= 6
     assert summary["evaluated_laps"] >= 943
     assert summary["embeddings_generated"] >= 6

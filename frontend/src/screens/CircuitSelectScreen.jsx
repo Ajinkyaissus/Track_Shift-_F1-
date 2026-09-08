@@ -20,7 +20,7 @@ const CIRCUIT_LENGTHS = {
 };
 
 export default function CircuitSelectScreen() {
-  const { circuits, selectCircuit, error } = useCircuit();
+  const { circuits, selectCircuit, error, selectedSeason, availableSeasons = [2025, 2024], selectSeason } = useCircuit();
   const [viewMode, setViewMode] = useState('globe'); // 'globe' | 'grid'
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -39,8 +39,8 @@ export default function CircuitSelectScreen() {
         </div>
       )}
 
-      {/* View Switcher Bar (3D Globe vs Grid Gallery) */}
-      <div className="view-mode-bar">
+      {/* View Switcher Bar (3D Globe vs Grid Gallery + Season Switcher) */}
+      <div className="view-mode-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.8rem' }}>
         <div className="view-mode-pills">
           <button 
             className={`view-pill ${viewMode === 'globe' ? 'active' : ''}`}
@@ -55,7 +55,32 @@ export default function CircuitSelectScreen() {
             🏁 Circuit Grid List ({circuits.length})
           </button>
         </div>
+
+        {/* Global Season Selector Pills */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', background: '#12121C', padding: '0.2rem 0.4rem', borderRadius: '6px', border: '1px solid #222233' }}>
+          <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#888', marginRight: '0.3rem' }}>SEASON:</span>
+          {availableSeasons.map(yr => (
+            <button
+              key={yr}
+              onClick={() => selectSeason && selectSeason(yr)}
+              style={{
+                background: selectedSeason === yr ? 'var(--accent-red)' : 'transparent',
+                color: selectedSeason === yr ? '#FFF' : '#888',
+                border: 'none',
+                padding: '0.3rem 0.75rem',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                fontWeight: selectedSeason === yr ? 800 : 600,
+                fontSize: '0.8rem',
+                transition: 'all 0.15s ease'
+              }}
+            >
+              {yr}
+            </button>
+          ))}
+        </div>
       </div>
+
 
       {viewMode === 'globe' ? (
         /* Primary 3D Global F1 World View */

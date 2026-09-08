@@ -75,7 +75,7 @@ function createProceduralCloudTexture() {
 
 export default function GlobalF1Globe({ onSelectCircuit }) {
   const containerRef = useRef(null);
-  const { circuits } = useCircuit();
+  const { circuits, selectedSeason, availableSeasons = [2025, 2024], selectSeason } = useCircuit();
   
   const [selectedCircuit, setSelectedCircuit] = useState(null);
   const [hoveredCircuit, setHoveredCircuit] = useState(null);
@@ -629,7 +629,7 @@ export default function GlobalF1Globe({ onSelectCircuit }) {
     const endRotY = startRotY + diffY;
 
     setIsTransitioning(true);
-    const duration = prefersReducedMotion ? 300 : 1100;
+    const duration = prefersReducedMotion ? 200 : 650;
     const startTime = performance.now();
 
     const animateFlyTo = (time) => {
@@ -664,7 +664,7 @@ export default function GlobalF1Globe({ onSelectCircuit }) {
 
     setTimeout(() => {
       onSelectCircuit(selectedCircuit.track_id);
-    }, 450);
+    }, 120);
   };
 
   // Reset Globe View
@@ -687,13 +687,33 @@ export default function GlobalF1Globe({ onSelectCircuit }) {
       {/* Top Header Hierarchy */}
       <div className="globe-overlay-top">
         <div className="globe-brand-block">
-          <div className="globe-pill-badge">
+          <div className="globe-pill-badge" style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
             <span className="pulse-red-dot"></span>
-            <span>2024 SEASON • 13 CIRCUITS • REAL FASTF1 DATA</span>
+            <span>{selectedSeason} SEASON • {circuits.length} CIRCUITS • REAL FASTF1 HISTORICAL DATA</span>
+            <div style={{ display: 'inline-flex', gap: '0.2rem', marginLeft: '0.5rem', background: 'rgba(0,0,0,0.5)', padding: '0.15rem 0.25rem', borderRadius: '4px', border: '1px solid rgba(255,255,255,0.1)' }}>
+              {availableSeasons.map(yr => (
+                <button
+                  key={yr}
+                  onClick={(e) => { e.stopPropagation(); selectSeason && selectSeason(yr); }}
+                  style={{
+                    background: selectedSeason === yr ? 'var(--accent-red)' : 'transparent',
+                    color: selectedSeason === yr ? '#FFF' : '#888',
+                    border: 'none',
+                    padding: '0.15rem 0.5rem',
+                    borderRadius: '3px',
+                    cursor: 'pointer',
+                    fontWeight: selectedSeason === yr ? 800 : 500,
+                    fontSize: '0.7rem'
+                  }}
+                >
+                  {yr}
+                </button>
+              ))}
+            </div>
           </div>
           <h1 className="globe-main-title">TRACKSHIFT /</h1>
           <p className="globe-sub-title">
-            REAL F1 TELEMETRY • GLOBAL CIRCUIT EXPLORER • TYRE DEGRADATION INTELLIGENCE
+            REAL F1 TELEMETRY • GLOBAL CIRCUIT EXPLORER • TYRE DEGRADATION INTELLIGENCE ({selectedSeason})
           </p>
         </div>
 
@@ -707,6 +727,7 @@ export default function GlobalF1Globe({ onSelectCircuit }) {
           </button>
         </div>
       </div>
+
 
       {/* 3D WebGL Canvas Viewport with Touch & Pointer Capturing */}
       <div 
@@ -812,14 +833,15 @@ export default function GlobalF1Globe({ onSelectCircuit }) {
       {/* Bottom Global Statistics Bar */}
       <div className="globe-bottom-stats-bar">
         <div className="stat-col">
-          <span className="stat-number">13</span>
-          <span className="stat-label">Verified Circuits</span>
+          <span className="stat-number">{circuits.length || 0}</span>
+          <span className="stat-label">Season {selectedSeason} Circuits</span>
         </div>
         <div className="stat-divider" />
         <div className="stat-col">
-          <span className="stat-number">1,021</span>
-          <span className="stat-label">Laps in Dataset</span>
+          <span className="stat-number">FASTF1</span>
+          <span className="stat-label">Verified Historical Data</span>
         </div>
+
         <div className="stat-divider" />
         <div className="stat-col">
           <span className="stat-number">REAL GPS</span>

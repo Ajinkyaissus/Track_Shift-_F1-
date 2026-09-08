@@ -33,6 +33,7 @@ function getTeamColor(team, hexFromBackend) {
 export default function DriverCockpitHUD() {
   const { 
     sessionTelemetry, 
+    sessionPitStops,
     selectedDriver, 
     currentDriverLapTelemetry, 
     currentLeaderboard, 
@@ -42,6 +43,11 @@ export default function DriverCockpitHUD() {
     stintLedger,
     circuitMapData 
   } = useCircuit();
+
+  const driverPitData = useMemo(() => {
+    if (!sessionPitStops?.drivers || !selectedDriver) return null;
+    return sessionPitStops.drivers.find(d => d.driver_id === selectedDriver) || null;
+  }, [sessionPitStops, selectedDriver]);
 
   const driverMeta = useMemo(() => {
     return sessionTelemetry?.drivers?.find(d => d.driver_id === selectedDriver) || {
@@ -328,6 +334,70 @@ export default function DriverCockpitHUD() {
                 </div>
               </div>
             </div>
+
+            {/* Driver Pit Profile Card */}
+            {driverPitData && (
+              <div className="driver-pit-profile-hud">
+                <div className="panel-header-small">
+                  <span className="panel-tag">DRIVER PIT PROFILE</span>
+                  <span className="pit-summary-tag">
+                    {driverPitData.pit_stop_count} {driverPitData.pit_stop_count === 1 ? 'Stop' : 'Stops'}
+                  </span>
+                </div>
+
+                <div className="pit-profile-metrics-row">
+                  <div className="pit-prof-metric">
+                    <span className="prof-lbl">Total Stationary</span>
+                    <strong className="prof-val">
+                      {driverPitData.pit_stops?.reduce((acc, s) => acc + (s.duration || 0), 0).toFixed(2)}s
+                    </strong>
+                  </div>
+                  <div className="pit-prof-metric">
+                    <span className="prof-lbl">Average Stop</span>
+                    <strong className="prof-val">
+                      {driverPitData.pit_stops?.length > 0 
+                        ? (driverPitData.pit_stops.reduce((acc, s) => acc + (s.duration || 0), 0) / driverPitData.pit_stops.length).toFixed(2) + 's'
+                        : '—'}
+                    </strong>
+                  </div>
+                </div>
+
+                <div className="pit-stops-individual-list">
+                  {driverPitData.pit_stops?.length === 0 ? (
+                    <div className="pit-stop-empty-note">Zero verified pit stops (Single-stint / Running)</div>
+                  ) : (
+                    driverPitData.pit_stops.map(ps => (
+                      <div key={ps.stop_number} className="hud-pit-stop-item">
+                        <div className="hud-stop-header">
+                          <strong className="hud-stop-num">PIT STOP #{ps.stop_number}</strong>
+                          <span className="hud-stop-lap">Lap {ps.lap}</span>
+                          <span className="hud-stop-dur">{ps.duration}s</span>
+                        </div>
+                        <div className="hud-stop-details">
+                          <span className="hud-compounds">
+                            {ps.compound_before} → {ps.compound_after}
+                          </span>
+                          <span className="hud-age">
+                            Age {ps.tyre_age_before}L → {ps.tyre_age_after}L
+                          </span>
+                        </div>
+                        {ps.position_before !== null && ps.position_after !== null && (
+                          <div className="hud-position-delta-row">
+                            <span className="hud-pos-lbl">POSITION CHANGE ACROSS PIT STOP:</span>
+                            <span className="hud-pos-val">
+                              P{ps.position_before} → P{ps.position_after}
+                              <span className={`pos-delta-pill ${ps.position_delta > 0 ? 'gain' : ps.position_delta < 0 ? 'loss' : 'even'}`}>
+                                ({ps.position_delta > 0 ? `+${ps.position_delta}` : ps.position_delta})
+                              </span>
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            )}
           </>
         ) : (
           <div className="insufficient-telemetry-notice">

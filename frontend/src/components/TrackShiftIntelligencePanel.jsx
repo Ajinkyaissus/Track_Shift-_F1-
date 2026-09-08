@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { useCircuit } from '../context/CircuitContext';
 import { computeCounterfactual, computeSignatureTransfer } from '../api';
 import { CountryFlag } from '../utils/countryFlags';
+import PitStopAnalyticsPanel from './PitStopAnalyticsPanel';
 import { 
   BarChart, 
   Bar, 
@@ -148,6 +149,9 @@ export default function TrackShiftIntelligencePanel() {
 
   return (
     <div className="intelligence-panel-wrapper">
+      {/* 0. All-Driver Pit Stop Analytics System */}
+      <PitStopAnalyticsPanel />
+
       {/* 1. Large Driver Photo & Broadcast Identity Header */}
       <div className="analytics-driver-header-card" style={{ borderLeft: `5px solid ${driverMeta.team_color || '#E10600'}` }}>
         <div className="analytics-driver-portrait-wrap" style={{ borderColor: driverMeta.team_color || '#E10600' }}>
@@ -231,20 +235,35 @@ export default function TrackShiftIntelligencePanel() {
           {/* 16-D Embedding Vector Visualization */}
           <div className="embedding-vector-container">
             <span className="vector-label">16-D BEHAVIORAL EMBEDDING (z_behavior):</span>
-            <div className="vector-cells-grid">
-              {[0.142, -0.285, 0.651, 0.089, -0.412, 0.334, -0.198, 0.521, -0.076, 0.298, -0.441, 0.187, 0.054, -0.329, 0.612, -0.115].map((val, i) => (
-                <div 
-                  key={i} 
-                  className="vector-cell"
-                  style={{ 
-                    backgroundColor: val >= 0 ? `rgba(0, 210, 190, ${Math.min(1, Math.abs(val) * 1.5)})` : `rgba(225, 6, 0, ${Math.min(1, Math.abs(val) * 1.5)})` 
-                  }}
-                  title={`Dim ${i + 1}: ${val}`}
-                >
-                  <span className="cell-num">{i + 1}</span>
+            {(() => {
+              const activeDriverObj = sessionTelemetry?.drivers?.find(d => (d.driver?.id === selectedDriver || d.driver?.abbreviation === selectedDriver || d.driver_id === selectedDriver));
+              const tcnData = activeDriverObj?.tcn;
+              const tcnEmbedding = tcnData?.available && Array.isArray(tcnData?.embedding) && tcnData.embedding.length > 0 ? tcnData.embedding : null;
+
+              if (tcnEmbedding) {
+                return (
+                  <div className="vector-cells-grid">
+                    {tcnEmbedding.map((val, i) => (
+                      <div 
+                        key={i} 
+                        className="vector-cell"
+                        style={{ 
+                          backgroundColor: val >= 0 ? `rgba(0, 210, 190, ${Math.min(1, Math.abs(val) * 1.5)})` : `rgba(225, 6, 0, ${Math.min(1, Math.abs(val) * 1.5)})` 
+                        }}
+                        title={`Dim ${i + 1}: ${val}`}
+                      >
+                        <span className="cell-num">{i + 1}</span>
+                      </div>
+                    ))}
+                  </div>
+                );
+              }
+              return (
+                <div className="tcn-unavailable-banner" style={{ padding: '10px 14px', background: 'rgba(255,255,255,0.03)', borderRadius: '6px', color: '#94a3b8', fontSize: '11px', border: '1px solid rgba(255,255,255,0.08)', letterSpacing: '0.05em' }}>
+                  TCN ANALYSIS UNAVAILABLE — INSUFFICIENT REAL TELEMETRY
                 </div>
-              ))}
-            </div>
+              );
+            })()}
           </div>
         </div>
 

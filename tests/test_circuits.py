@@ -69,9 +69,7 @@ def test_get_circuit_sessions():
     response = client.get("/circuits/silverstone/sessions")
     assert response.status_code == 200
     data = response.json()
-    assert isinstance(data, list)
-    assert len(data) >= 1
-    assert data[0]["year"] == 2024
+    assert any(s["year"] == 2024 for s in data)
 
 def test_get_circuit_stints():
     response = client.get("/circuits/bahrain/stints")

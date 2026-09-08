@@ -67,8 +67,12 @@ def run_stint_bootstrap(n_bootstrap: int = 1000, seed: int = 42) -> Dict[str, An
     n_stints = len(stints)
     print(f"Sampling unit: Independent Stints (N={n_stints} distinct stints, {len(data)} total laps)")
 
-    # Pre-group data by stint for fast bootstrap resampling
+    # Pre-extract numpy arrays per stint for lightning fast bootstrap resampling
     stint_groups = {s: data[data['stint_id'] == s] for s in stints}
+    stint_numpy = {
+        s: (stint_groups[s][BEHAVIORAL_FEATURES].values, stint_groups[s]['residual'].values)
+        for s in stints
+    }
 
     # Grid of delta percentages to precompute: -50% to +50% in 5% steps
     delta_grid = [float(d) for d in range(-50, 55, 5)]
@@ -100,11 +104,9 @@ def run_stint_bootstrap(n_bootstrap: int = 1000, seed: int = 42) -> Dict[str, An
     for b in range(n_bootstrap):
         # Resample stint IDs with replacement
         resampled_stint_ids = np.random.choice(stints, size=n_stints, replace=True)
-        # Assemble bootstrap dataset
-        boot_df = pd.concat([stint_groups[s] for s in resampled_stint_ids], ignore_index=True)
-
-        X_b = boot_df[BEHAVIORAL_FEATURES].values
-        y_b = boot_df['residual'].values
+        # Assemble bootstrap dataset using pre-extracted numpy arrays
+        X_b = np.concatenate([stint_numpy[s][0] for s in resampled_stint_ids], axis=0)
+        y_b = np.concatenate([stint_numpy[s][1] for s in resampled_stint_ids], axis=0)
 
         scaler_b = StandardScaler()
         X_b_scaled = scaler_b.fit_transform(X_b)
@@ -138,6 +140,9 @@ def run_stint_bootstrap(n_bootstrap: int = 1000, seed: int = 42) -> Dict[str, An
     print("\nPrecomputing empirical uncertainty lookup table across all stints and delta grid...")
     records = []
     
+    deltas_arr = np.array(delta_grid)  # (n_deltas,)
+    deltas_2d = deltas_arr[:, None] / 100.0  # (n_deltas, 1)
+
     for stint_id in stints:
         means = stint_feature_means.get(stint_id, {})
         stint_len = max(5, stint_lengths.get(stint_id, 20) or 20)
@@ -150,17 +155,19 @@ def run_stint_bootstrap(n_bootstrap: int = 1000, seed: int = 42) -> Dict[str, An
                 avg_val = 0.0
 
             feat_boot_coefs = np.array(boot_coefs[feat])  # shape (n_bootstrap,)
+            
+            # Vectorized across all deltas and bootstrap samples at once: shape (n_deltas, n_bootstrap)
+            raw_recovered = -(feat_boot_coefs[None, :] * deltas_2d * avg_val) / deg_per_lap
+            bounded_recovered = max_physical_laps * np.tanh(raw_recovered / max_physical_laps)
 
-            for delta in delta_grid:
-                # Vectorized counterfactual evaluation across all B replicates
-                # linear recovery = - (coef * (delta / 100) * avg_val) / deg_per_lap
-                raw_recovered = -(feat_boot_coefs * (delta / 100.0) * avg_val) / deg_per_lap
-                # Physical tanh saturation
-                bounded_recovered = max_physical_laps * np.tanh(raw_recovered / max_physical_laps)
+            q025_vec = np.percentile(bounded_recovered, 2.5, axis=1)
+            q50_vec = np.percentile(bounded_recovered, 50.0, axis=1)
+            q975_vec = np.percentile(bounded_recovered, 97.5, axis=1)
 
-                q025 = float(np.percentile(bounded_recovered, 2.5))
-                q50 = float(np.percentile(bounded_recovered, 50.0))
-                q975 = float(np.percentile(bounded_recovered, 97.5))
+            for d_idx, delta in enumerate(delta_grid):
+                q025 = float(q025_vec[d_idx])
+                q50 = float(q50_vec[d_idx])
+                q975 = float(q975_vec[d_idx])
 
                 records.append({
                     "stint_id": stint_id,

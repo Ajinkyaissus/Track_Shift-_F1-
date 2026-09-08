@@ -1,0 +1,1 @@
+{"stint_id": "2024_hungaroring_R_RIC_3", "model_version": "v3_stage1_2026-09-07", "total_debt_seconds": -0.0434, "series": [{"lap_number": 29.0, "residual": -0.14604700748476615, "cumulative_debt": -0.14604700748476615}, {"lap_number": 30.0, "residual": 0.10265823899384742, "cumulative_debt": -0.04338876849091873}]}

@@ -20,8 +20,8 @@ def get_circuits_service():
     return circuits_service
 
 @router.get("")
-async def get_circuits():
-    return await get_circuits_service().get_circuits()
+async def get_circuits(year: Optional[int] = None):
+    return await get_circuits_service().get_circuits(year=year)
 
 @router.get("/{circuit_id}")
 async def get_circuit_detail(circuit_id: str):
@@ -32,8 +32,9 @@ async def get_circuit_map(circuit_id: str):
     return await get_circuits_service().get_circuit_map(circuit_id)
 
 @router.get("/{circuit_id}/sessions")
-async def get_circuit_sessions(circuit_id: str):
-    return await get_circuits_service().get_circuit_sessions(circuit_id)
+async def get_circuit_sessions(circuit_id: str, year: Optional[int] = None):
+    return await get_circuits_service().get_circuit_sessions(circuit_id, year=year)
+
 
 @router.get("/{circuit_id}/stints")
 async def get_circuit_stints(
@@ -70,3 +71,7 @@ async def get_driver_laps(circuit_id: str, session_id: str, driver_id: str):
 @router.get("/{circuit_id}/sessions/{session_id}/drivers/{driver_id}/stints")
 async def get_driver_stints(circuit_id: str, session_id: str, driver_id: str):
     return await get_circuits_service().get_driver_stints(circuit_id, session_id, driver_id)
+
+@router.get("/{circuit_id}/sessions/{session_id}/pit-stops")
+async def get_circuit_session_pit_stops(circuit_id: str, session_id: str):
+    return await get_circuits_service().get_session_pit_stops(circuit_id, session_id)

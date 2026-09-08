@@ -48,7 +48,13 @@ class StintsService:
             with sqlite3.connect(self.db_path) as conn:
                 conn.row_factory = self._dict_factory
                 cursor = conn.cursor()
-                cursor.execute("SELECT race_id, season, round, track_id, event_date, event_name FROM races ORDER BY season DESC, round DESC")
+                cursor.execute("""
+                    SELECT race_id, season, round, track_id, event_date, event_name 
+                    FROM races 
+                    ORDER BY CASE WHEN race_id IN (SELECT DISTINCT ses.race_id FROM sessions ses JOIN stints st ON ses.session_id = st.session_id WHERE st.is_valid = 1) THEN 0 
+                                  WHEN status = 'VERIFIED' THEN 1 
+                                  ELSE 2 END, season DESC, round DESC
+                """)
                 races = cursor.fetchall()
             return races
 
@@ -63,13 +69,22 @@ class StintsService:
                 conn.row_factory = self._dict_factory
                 cursor = conn.cursor()
                 if race_id:
+                    if race_id.startswith("2023_") or "2023" in race_id:
+                        raise HTTPException(status_code=404, detail="Season 2023 is unsupported.")
+                    clean_id = race_id.replace("_R", "")
+                    cursor.execute("SELECT 1 FROM races WHERE race_id = ? OR race_id = ?", (race_id, clean_id))
+                    if not cursor.fetchone():
+                        cursor.execute("SELECT 1 FROM sessions WHERE session_id = ? OR session_id = ?", (race_id, f"{clean_id}_R"))
+                        if not cursor.fetchone():
+                            raise HTTPException(status_code=404, detail=f"Race/Session '{race_id}' not found")
+
                     cursor.execute("""
                         SELECT s.stint_id, s.session_id, s.driver_id, s.compound, s.start_lap, s.end_lap, s.tyre_age_start
                         FROM stints s
-                        JOIN sessions ses ON s.session_id = ses.session_id
-                        WHERE (ses.race_id = ? OR ses.race_id = ?) AND s.is_valid = 1
+                        LEFT JOIN sessions ses ON s.session_id = ses.session_id
+                        WHERE (ses.race_id = ? OR ses.race_id = ? OR ses.session_id = ? OR s.session_id = ? OR s.session_id = ?) AND s.is_valid = 1
                         ORDER BY s.start_lap ASC
-                    """, (race_id, race_id.replace("_R", "")))
+                    """, (race_id, clean_id, race_id, f"{clean_id}_R", race_id))
                 else:
                     cursor.execute("""
                         SELECT s.stint_id, s.session_id, s.driver_id, s.compound, s.start_lap, s.end_lap, s.tyre_age_start
@@ -88,12 +103,12 @@ class StintsService:
 
     async def compare_stints(self, stint_a: str, stint_b: str) -> Dict[str, Any]:
         self._ensure_data_loaded()
-        if stint_a not in self.app_data["stint_feature_means"]:
-            raise HTTPException(status_code=404, detail=f"Stint {stint_a} not found")
-        if stint_b not in self.app_data["stint_feature_means"]:
-            raise HTTPException(status_code=404, detail=f"Stint {stint_b} not found")
+        if stint_a not in self.app_data.get("stint_feature_means", {}):
+            raise HTTPException(status_code=404, detail=f"Stint '{stint_a}' not found in real telemetry dataset")
+        if stint_b not in self.app_data.get("stint_feature_means", {}):
+            raise HTTPException(status_code=404, detail=f"Stint '{stint_b}' not found in real telemetry dataset")
 
-        stage3_version = self.app_data["active_models"].get(3, "v4_tcn_stage3_2026-09-07")
+        stage3_version = self.app_data.get("active_models", {}).get(3, "v4_tcn_stage3_2026-09-07")
         cache_key = CacheKeys.stints_compare(stint_a, stint_b, stage3_version)
 
         async def _compute():

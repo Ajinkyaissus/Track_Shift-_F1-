@@ -26,6 +26,8 @@ from api.services import (
 from api.routers import (
     circuits_router,
     set_circuits_service,
+    seasons_router,
+    set_seasons_circuits_service,
     stints_router,
     set_stint_services,
     signatures_router,
@@ -199,6 +201,7 @@ async def lifespan(app: FastAPI):
     signatures_svc = SignaturesService(DB_PATH, app_data)
 
     set_circuits_service(circuits_svc)
+    set_seasons_circuits_service(circuits_svc)
     set_stint_services(stints_svc, tyre_debt_svc, counterfactual_svc)
     set_signatures_service(signatures_svc)
 
@@ -224,10 +227,12 @@ app.add_middleware(
 )
 
 # Attach Modular Routers
+app.include_router(seasons_router)
 app.include_router(circuits_router)
 app.include_router(stints_router)
 app.include_router(signatures_router)
 app.include_router(admin_router)
+
 
 
 @app.get("/ping")
@@ -302,6 +307,15 @@ async def get_driver_stints_global(session_id: str, driver_id: str):
     circuit_id = '_'.join(parts[1:-1]).lower() if len(parts) > 2 else "circuit"
     circuits_svc = CircuitsService(DB_PATH, app_data)
     return await circuits_svc.get_driver_stints(circuit_id, session_id, driver_id)
+
+
+@app.get("/sessions/{session_id}/pit-stops")
+@app.get("/api/sessions/{session_id}/pit-stops")
+async def get_session_pit_stops_global(session_id: str):
+    parts = session_id.split('_')
+    circuit_id = '_'.join(parts[1:-1]).lower() if len(parts) > 2 else "circuit"
+    circuits_svc = CircuitsService(DB_PATH, app_data)
+    return await circuits_svc.get_session_pit_stops(circuit_id, session_id)
 
 
 @app.websocket("/ws/stints/{stint_id}/live")

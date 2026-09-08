@@ -240,8 +240,12 @@ class BehavioralModelWrapper:
         stint_sequence: (N_laps, N_features) or (N_features, N_laps)
         Returns: 1D numpy array of shape (embedding_dim,)
         """
+        stint_sequence = np.asarray(stint_sequence)
+        stint_sequence = np.squeeze(stint_sequence)
         if stint_sequence.ndim == 1:
-            stint_sequence = stint_sequence.reshape(1, -1)
+            stint_sequence = stint_sequence.reshape(len(BEHAVIORAL_FEATURES), -1)
+        elif stint_sequence.ndim > 2:
+            stint_sequence = stint_sequence.reshape(len(BEHAVIORAL_FEATURES), -1)
         
         # Ensure shape is (num_features, seq_len)
         if stint_sequence.shape[0] == len(BEHAVIORAL_FEATURES):
@@ -269,7 +273,8 @@ class BehavioralModelWrapper:
         linear_loss_recovery: float,
         stint_length: int = 20,
         deg_per_lap: float = 0.1,
-        bootstrap_ci: Optional[Tuple[float, float]] = None
+        bootstrap_ci: Optional[Tuple[float, float]] = None,
+        delta_pct: Optional[float] = None
     ) -> Dict[str, Union[float, List[float], bool, str]]:
         """
         Calculates physically bounded hypothetical tyre life sensitivity:
@@ -309,13 +314,18 @@ class BehavioralModelWrapper:
         ci_lower = max(-max_physical_laps, ci_lower)
         ci_upper = min(max_physical_laps, ci_upper)
 
+        is_saturated = bool(
+            abs(linear_recovered_laps) > (max_physical_laps * 0.70) or
+            (delta_pct is not None and abs(delta_pct) >= 40.0)
+        )
+
         return {
             "linear_recovered_laps": round(float(linear_recovered_laps), 3),
             "recovered_laps": round(float(recovered_laps), 2),
             "ci_95": [round(float(ci_lower), 2), round(float(ci_upper), 2)],
             "uncertainty_margin": ci_margin,
             "uncertainty_method": ci_method,
-            "is_saturated": abs(linear_recovered_laps) > (max_physical_laps * 0.75),
+            "is_saturated": is_saturated,
             "max_physical_bound": round(float(max_physical_laps), 2),
             "nature_of_estimate": "model_based_observational_sensitivity"
         }

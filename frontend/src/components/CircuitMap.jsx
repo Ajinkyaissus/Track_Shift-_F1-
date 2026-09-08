@@ -1,4 +1,6 @@
 import { useMemo, useState, useRef, useEffect, useCallback } from 'react';
+import { useCircuit } from '../context/CircuitContext';
+import { computeDriverLabelLayout, buildTrackObstacles } from '../utils/mapCollisionEngine';
 
 /**
  * TrackShift Professional Multilayer F1 Telemetry Map System
@@ -6,9 +8,10 @@ import { useMemo, useState, useRef, useEffect, useCallback } from 'react';
  * - Authoritative Reference Centerline: Real FastF1 GPS geometry
  * - Visual Track Corridor: Substantial asphalt corridor, runoff envelope, edges & borders
  * - Visual Hierarchy: Runoff -> Outer Border -> Asphalt -> Edge Lines -> Reference Line ->
- *                     Sectors -> DRS -> Curbs -> Start/Finish -> Corners -> Trails -> Cars -> Overlays
+ *                     Sectors -> DRS -> Curbs -> Start/Finish -> Corners -> Trails -> Cars -> Labels -> Overlays
  * - Proportionate Scaling: Proportions calibrated to circuit bounding box (85-90% viewport fill)
  * - Directional Cars: Real session drivers with heading angles and telemetry
+ * - Intelligent Collision-Free Driver Labels with Dynamic Leader Connector Lines
  */
 export default function CircuitMap({
   mapData,
@@ -22,9 +25,17 @@ export default function CircuitMap({
   onSelectDriver = null,
   weatherData = null
 }) {
+  const {
+    sessionPitStops,
+    pitStopDisplayMode,
+    setPitStopDisplayMode,
+    pitDriverFilter,
+    setPitDriverFilter
+  } = useCircuit();
   // Visual layer & telemetry overlay modes
   const [activeOverlay, setActiveOverlay] = useState('normal'); // 'normal' | 'speed' | 'brake' | 'throttle' | 'tyre_debt'
-  const [labelMode, setLabelMode] = useState('all'); // 'all' | 'selected' | 'none'
+  const [carDisplayMode, setCarDisplayMode] = useState('all'); // 'all' | 'selected' | 'none'
+  const [labelMode, setLabelMode] = useState('auto'); // 'auto' | 'all' | 'selected' | 'none'
   const [showCurbs, setShowCurbs] = useState(true);
   const [showDRS, setShowDRS] = useState(true);
   const [showSectors, setShowSectors] = useState(true);
@@ -36,6 +47,7 @@ export default function CircuitMap({
   // Hover states
   const [hoveredCorner, setHoveredCorner] = useState(null);
   const [hoveredDriver, setHoveredDriver] = useState(null);
+  const [hoveredPitStop, setHoveredPitStop] = useState(null);
 
   // SVG Container ref
   const svgContainerRef = useRef(null);
@@ -272,9 +284,74 @@ export default function CircuitMap({
       corners: mappedCorners,
       curbSegments,
       sfGate,
-      pitPathD
+      pitPathD,
+      getPointAndNormalAtPct
     };
   }, [mapData]);
+
+  // =========================================================================
+  // 1b. ALL-DRIVER PIT STOP EVENTS COMPUTATION & MAP POSITIONING
+  // =========================================================================
+  const mappedPitStops = useMemo(() => {
+    if (!sessionPitStops || !sessionPitStops.drivers || !circuitGeometry) return [];
+    if (pitStopDisplayMode === 'OFF') return [];
+
+    const { sfGate, scales } = circuitGeometry;
+    const pitCenter = sfGate || { x: 0, y: 0, nx: 0, ny: 1, dx: 1, dy: 0 };
+
+    let activeDrivers = sessionPitStops.drivers.filter(d => d.pit_stop_count > 0);
+    if (pitStopDisplayMode === 'SELECTED') {
+      activeDrivers = activeDrivers.filter(d => d.driver_id === selectedDriver);
+    } else if (pitDriverFilter && pitDriverFilter !== 'ALL') {
+      activeDrivers = activeDrivers.filter(d => d.driver_id === pitDriverFilter);
+    }
+
+    const events = [];
+    const totalCount = Math.max(1, activeDrivers.length);
+
+    activeDrivers.forEach((drv, drvIdx) => {
+      const dId = drv.driver_id;
+      const dCol = drv.team_color || '#E10600';
+      const stops = drv.pit_stops || [];
+
+      stops.forEach((ps, sIdx) => {
+        // Stagger positions along the pit corridor
+        const staggerX = (drvIdx - totalCount / 2) * (scales.carRadius * 3.2);
+        const staggerY = (sIdx) * (scales.carRadius * 1.8);
+        const normalDist = scales.asphaltWidth * 2.0 + staggerY;
+
+        const posX = pitCenter.x + pitCenter.nx * normalDist + pitCenter.dx * staggerX;
+        const posY = pitCenter.y + pitCenter.ny * normalDist + pitCenter.dy * staggerX;
+        const isActiveInReplay = replayLap === ps.lap;
+
+        events.push({
+          key: `pit-${dId}-${ps.stop_number}-${ps.lap}`,
+          driver_id: dId,
+          driver_name: drv.full_name || dId,
+          team: drv.team,
+          team_color: dCol,
+          stop_number: ps.stop_number,
+          lap: ps.lap,
+          duration: ps.duration,
+          lane_duration: ps.lane_duration,
+          compound_before: ps.compound_before,
+          compound_after: ps.compound_after,
+          tyre_age_before: ps.tyre_age_before,
+          tyre_age_after: ps.tyre_age_after,
+          position_before: ps.position_before,
+          position_after: ps.position_after,
+          position_delta: ps.position_delta,
+          pit_entry_time: ps.pit_entry_time,
+          pit_exit_time: ps.pit_exit_time,
+          x: posX,
+          y: posY,
+          isActiveInReplay
+        });
+      });
+    });
+
+    return events;
+  }, [sessionPitStops, pitStopDisplayMode, pitDriverFilter, selectedDriver, circuitGeometry, replayLap]);
 
   // =========================================================================
   // 2. DYNAMIC TELEMETRY CARS, HEADINGS, TRAILS & ANALYTICS
@@ -414,7 +491,51 @@ export default function CircuitMap({
       inDRSZone: inDRS,
       selectedCarPos: primaryCar ? { x: primaryCar.x, y: primaryCar.y } : null
     };
-  }, [circuitGeometry, drivers, selectedDriver, comparisonDriver, replayProgress, replayLap, showTrails, labelMode]);
+  }, [circuitGeometry, drivers, selectedDriver, comparisonDriver, replayProgress, replayLap, showTrails]);
+
+  // =========================================================================
+  // 2b. STATIC & DYNAMIC TRACK OBSTACLES FOR COLLISION ENGINE
+  // =========================================================================
+  const trackObstacles = useMemo(() => {
+    if (!circuitGeometry) return [];
+    return buildTrackObstacles({
+      corners: circuitGeometry.corners,
+      drsZones: circuitGeometry.drsZones,
+      sectors: circuitGeometry.sectors,
+      sfGate: circuitGeometry.sfGate,
+      pitStops: mappedPitStops,
+      scales: circuitGeometry.scales
+    });
+  }, [circuitGeometry, mappedPitStops]);
+
+  // =========================================================================
+  // 2c. INTELLIGENT COLLISION-FREE DRIVER LABEL LAYOUT & LEADER LINES
+  // =========================================================================
+  const { labels: positionedLabels, clusters } = useMemo(() => {
+    if (!circuitGeometry || !driverPositions.length) {
+      return { labels: [], clusters: [] };
+    }
+    return computeDriverLabelLayout({
+      driverPositions,
+      obstacles: trackObstacles,
+      selectedDriver,
+      comparisonDriver,
+      hoveredDriver,
+      labelMode,
+      carDisplayMode,
+      zoomLevel,
+      scales: circuitGeometry.scales
+    });
+  }, [circuitGeometry, driverPositions, trackObstacles, selectedDriver, comparisonDriver, hoveredDriver, labelMode, carDisplayMode, zoomLevel]);
+
+  // Filter cars based on carDisplayMode
+  const visibleCars = useMemo(() => {
+    if (carDisplayMode === 'none') return [];
+    if (carDisplayMode === 'selected') {
+      return driverPositions.filter(drv => drv.isPrimary || drv.isCompare);
+    }
+    return driverPositions;
+  }, [driverPositions, carDisplayMode]);
 
   // =========================================================================
   // 3. CAMERA & VIEWPORT ENGINE (FIT TO TRACK & FOLLOW DRIVER)
@@ -482,13 +603,6 @@ export default function CircuitMap({
     pitPathD,
     referenceCenterline
   } = circuitGeometry;
-
-  // Filter cars based on labelMode
-  const visibleCars = driverPositions.filter(drv => {
-    if (labelMode === 'none') return false;
-    if (labelMode === 'selected') return drv.isPrimary || drv.isCompare;
-    return true; // 'all'
-  });
 
   return (
     <div className="circuit-map-wrapper" ref={svgContainerRef}>
@@ -588,12 +702,14 @@ export default function CircuitMap({
             Sectors
           </button>
           <button
-            className={`tool-toggle-btn ${showDRS ? 'active' : ''}`}
-            onClick={() => setShowDRS(!showDRS)}
-            title="Toggle DRS Zones"
+            className={`tool-toggle-btn ${showDRS && drsZones.length > 0 ? 'active' : ''}`}
+            onClick={() => drsZones.length > 0 && setShowDRS(!showDRS)}
+            title={drsZones.length > 0 ? "Toggle DRS Zones" : "DRS Zones Unavailable for this Circuit"}
+            style={{ opacity: drsZones.length > 0 ? 1 : 0.5, cursor: drsZones.length > 0 ? 'pointer' : 'not-allowed' }}
           >
-            DRS
+            {drsZones.length > 0 ? "DRS" : "DRS [UNAVAILABLE]"}
           </button>
+
           <button
             className={`tool-toggle-btn ${showTrails ? 'active' : ''}`}
             onClick={() => setShowTrails(!showTrails)}
@@ -610,23 +726,107 @@ export default function CircuitMap({
           </button>
         </div>
 
-        <div className="toolbar-group">
+        {/* Pit Stop Layer Modes & Driver Filter */}
+        <div className="toolbar-group pit-stop-controls">
+          <span className="pit-ctrl-label">PIT STOPS:</span>
           <div className="segmented-control">
             <button 
-              className={`seg-btn ${labelMode === 'selected' ? 'active' : ''}`}
-              onClick={() => setLabelMode('selected')}
+              className={`seg-btn ${pitStopDisplayMode === 'ALL' ? 'active' : ''}`}
+              onClick={() => setPitStopDisplayMode('ALL')}
+              title="Show All Driver Pit Stops"
+            >
+              All Drivers
+            </button>
+            <button 
+              className={`seg-btn ${pitStopDisplayMode === 'SELECTED' ? 'active' : ''}`}
+              onClick={() => setPitStopDisplayMode('SELECTED')}
+              title="Show Selected Driver Pit Stops"
             >
               Selected
             </button>
             <button 
-              className={`seg-btn ${labelMode === 'all' ? 'active' : ''}`}
-              onClick={() => setLabelMode('all')}
+              className={`seg-btn ${pitStopDisplayMode === 'OFF' ? 'active' : ''}`}
+              onClick={() => setPitStopDisplayMode('OFF')}
+              title="Hide Pit Stop Markers"
+            >
+              Off
+            </button>
+          </div>
+
+          {pitStopDisplayMode !== 'OFF' && sessionPitStops?.drivers && (
+            <select
+              className="pit-driver-filter-select"
+              value={pitDriverFilter || 'ALL'}
+              onChange={(e) => setPitDriverFilter(e.target.value)}
+              title="Filter Pit Stops by Driver"
+            >
+              <option value="ALL">ALL DRIVERS ({sessionPitStops.total_pit_stops} STOPS)</option>
+              {sessionPitStops.drivers.map(d => (
+                <option key={d.driver_id} value={d.driver_id}>
+                  {d.driver_id} ({d.pit_stop_count} stops)
+                </option>
+              ))}
+            </select>
+          )}
+        </div>
+
+        {/* Cars Visibility Control */}
+        <div className="toolbar-group">
+          <span className="toolbar-label">CARS:</span>
+          <div className="segmented-control">
+            <button 
+              className={`seg-btn ${carDisplayMode === 'all' ? 'active' : ''}`}
+              onClick={() => setCarDisplayMode('all')}
+              title="Show All Session Cars on Track"
             >
               All Cars
             </button>
             <button 
+              className={`seg-btn ${carDisplayMode === 'selected' ? 'active' : ''}`}
+              onClick={() => setCarDisplayMode('selected')}
+              title="Show Only Selected & Comparison Cars"
+            >
+              Selected
+            </button>
+            <button 
+              className={`seg-btn ${carDisplayMode === 'none' ? 'active' : ''}`}
+              onClick={() => setCarDisplayMode('none')}
+              title="Hide Car Markers"
+            >
+              None
+            </button>
+          </div>
+        </div>
+
+        {/* Labels Collision Avoidance Control */}
+        <div className="toolbar-group">
+          <span className="toolbar-label">LABELS:</span>
+          <div className="segmented-control">
+            <button 
+              className={`seg-btn ${labelMode === 'auto' ? 'active' : ''}`}
+              onClick={() => setLabelMode('auto')}
+              title="Intelligent Priority & Collision Avoidance"
+            >
+              Auto
+            </button>
+            <button 
+              className={`seg-btn ${labelMode === 'all' ? 'active' : ''}`}
+              onClick={() => setLabelMode('all')}
+              title="Display All Driver Labels with Leader Lines"
+            >
+              All
+            </button>
+            <button 
+              className={`seg-btn ${labelMode === 'selected' ? 'active' : ''}`}
+              onClick={() => setLabelMode('selected')}
+              title="Show Only Selected Driver Labels"
+            >
+              Selected
+            </button>
+            <button 
               className={`seg-btn ${labelMode === 'none' ? 'active' : ''}`}
               onClick={() => setLabelMode('none')}
+              title="Hide All Driver Labels"
             >
               None
             </button>
@@ -876,6 +1076,89 @@ export default function CircuitMap({
             </g>
           )}
 
+          {/* ================= LAYER 10b: ALL-DRIVER PIT STOP MARKERS ================= */}
+          {mappedPitStops.length > 0 && (
+            <g className="pit-stops-layer">
+              {mappedPitStops.map((ps) => {
+                const isSelected = ps.driver_id === selectedDriver;
+                const rSize = scales.carRadius * (ps.isActiveInReplay ? 1.35 : 1.1);
+
+                return (
+                  <g
+                    key={ps.key}
+                    transform={`translate(${ps.x}, ${ps.y})`}
+                    onClick={() => onSelectDriver && onSelectDriver(ps.driver_id)}
+                    onMouseEnter={() => setHoveredPitStop(ps)}
+                    onMouseLeave={() => setHoveredPitStop(null)}
+                    style={{ cursor: 'pointer' }}
+                    className={`pit-marker-group ${ps.isActiveInReplay ? 'active-replay-pit' : ''} ${isSelected ? 'selected-driver-pit' : ''}`}
+                  >
+                    {/* Active In-Replay Glowing Pulse Halo */}
+                    {ps.isActiveInReplay && (
+                      <circle
+                        r={rSize * 2.2}
+                        fill="rgba(255, 184, 0, 0.25)"
+                        stroke="#FFB800"
+                        strokeWidth={scales.refLineWidth * 1.5}
+                      >
+                        <animate attributeName="r" values={`${rSize * 1.5};${rSize * 2.5};${rSize * 1.5}`} dur="1.0s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0.9;0.2;0.9" dur="1.0s" repeatCount="indefinite" />
+                      </circle>
+                    )}
+
+                    {/* Outer Border Marker */}
+                    <circle
+                      r={rSize}
+                      fill="#0C0D16"
+                      stroke={ps.team_color}
+                      strokeWidth={isSelected || ps.isActiveInReplay ? scales.refLineWidth * 2.5 : scales.refLineWidth * 1.5}
+                    />
+
+                    {/* Pit Stop Icon / Stop Dot */}
+                    <circle
+                      r={rSize * 0.45}
+                      fill={ps.isActiveInReplay ? "#FFB800" : ps.team_color}
+                    />
+
+                    {/* Distinct Driver Identity Tag Badge */}
+                    <g transform={`translate(0, ${-rSize * 1.6})`} className="pit-driver-badge">
+                      <rect
+                        x={-scales.asphaltWidth * 1.3}
+                        y={-scales.cornerFontSize * 1.3}
+                        width={scales.asphaltWidth * 2.6}
+                        height={scales.cornerFontSize * 2.4}
+                        rx="4"
+                        fill="#0A0B14"
+                        stroke={ps.team_color}
+                        strokeWidth={scales.refLineWidth * 1.2}
+                      />
+                      <text
+                        textAnchor="middle"
+                        dominantBaseline="central"
+                        fill="#FFFFFF"
+                        fontSize={scales.cornerFontSize * 0.95}
+                        fontWeight="900"
+                        y={-scales.cornerFontSize * 0.25}
+                      >
+                        {ps.driver_id} #{ps.stop_number}
+                      </text>
+                      <text
+                        textAnchor="middle"
+                        dominantBaseline="central"
+                        fill="#A0A5BD"
+                        fontSize={scales.cornerFontSize * 0.72}
+                        fontWeight="700"
+                        y={scales.cornerFontSize * 0.6}
+                      >
+                        L{ps.lap} · {ps.duration}s
+                      </text>
+                    </g>
+                  </g>
+                );
+              })}
+            </g>
+          )}
+
           {/* ================= LAYER 11: CHECKERED START / FINISH GATE ================= */}
           {sfGate && (
             <g className="start-finish-group">
@@ -1046,12 +1329,11 @@ export default function CircuitMap({
             );
           })}
 
-          {/* ================= LAYER 15: DIRECTIONAL TELEMETRY CARS (ALL DRIVERS) ================= */}
+          {/* ================= LAYER 15: DIRECTIONAL TELEMETRY CARS (EXACT GPS POSITIONS) ================= */}
           {visibleCars.map((drv) => {
             const isPrimary = drv.isPrimary;
             const isCompare = drv.isCompare;
             const markerColor = isPrimary ? '#E10600' : isCompare ? '#00D2BE' : (drv.team_color || '#787A8E');
-            const shouldShowLabel = labelMode === 'all' || (labelMode === 'selected' && (isPrimary || isCompare));
 
             const arrowLen = isPrimary ? scales.carArrowLen * 1.25 : scales.carArrowLen;
             const arrowW = isPrimary ? scales.carArrowLen * 0.65 : scales.carArrowLen * 0.5;
@@ -1083,40 +1365,190 @@ export default function CircuitMap({
                   <polygon
                     points={`${arrowLen * 0.8},0 ${-arrowLen * 0.5},${-arrowW * 0.6} ${-arrowLen * 0.2},0 ${-arrowLen * 0.5},${arrowW * 0.6}`}
                     fill={markerColor}
-                    stroke={isPrimary || isCompare ? "#FFFFFF" : "rgba(255,255,255,0.7)"}
+                    stroke={isPrimary || isCompare ? "#FFFFFF" : "rgba(255,255,255,0.75)"}
                     strokeWidth={isPrimary ? scales.refLineWidth * 1.8 : scales.refLineWidth}
                   />
                   <circle r={isPrimary ? scales.carRadius * 0.4 : scales.carRadius * 0.3} fill="#0A0A10" />
                 </g>
-
-                {/* Driver Tag Badge (Abbreviation + Position) */}
-                {shouldShowLabel && (
-                  <g transform={`translate(0, ${-arrowLen * 1.3})`} className="driver-tag-badge">
-                    <rect
-                      x={-scales.asphaltWidth * 0.85}
-                      y={-scales.cornerFontSize * 1.1}
-                      width={scales.asphaltWidth * 1.7}
-                      height={scales.cornerFontSize * 1.8}
-                      rx="3"
-                      fill="#0A0A12"
-                      stroke={markerColor}
-                      strokeWidth={isPrimary ? scales.refLineWidth * 1.6 : scales.refLineWidth}
-                    />
-                    <text
-                      textAnchor="middle"
-                      dominantBaseline="central"
-                      fill="#FFFFFF"
-                      fontSize={scales.cornerFontSize}
-                      fontWeight="800"
-                      y="-1"
-                    >
-                      {drv.driver_id}
-                    </text>
-                  </g>
-                )}
               </g>
             );
           })}
+
+          {/* ================= LAYER 16: INTELLIGENT DRIVER LABELS & DYNAMIC LEADER LINES ================= */}
+          <g className="driver-labels-layer">
+            {/* 16a. Dynamic Leader / Connector Lines */}
+            {positionedLabels.map((lbl) => {
+              if (!lbl.needsLeader) return null;
+              const ldr = lbl.leader;
+              const leaderColor = lbl.isSelected ? '#E10600' : lbl.isCompare ? '#00D2BE' : (lbl.drv.team_color || '#8E92A4');
+
+              return (
+                <g key={`leader-${lbl.driver_id}`} className="driver-leader-group">
+                  {/* Subtle connector line terminating at exact car telemetry position */}
+                  <line
+                    x1={ldr.startX}
+                    y1={ldr.startY}
+                    x2={ldr.endX}
+                    y2={ldr.endY}
+                    stroke={leaderColor}
+                    strokeWidth={lbl.isSelected ? scales.refLineWidth * 1.6 : scales.refLineWidth * 1.1}
+                    strokeDasharray={lbl.isSelected ? "none" : "3 2"}
+                    strokeOpacity={lbl.isSelected ? "0.9" : "0.65"}
+                  />
+                  {/* Small termination dot at car marker */}
+                  <circle
+                    cx={ldr.endX}
+                    cy={ldr.endY}
+                    r={scales.refLineWidth * 1.5}
+                    fill={leaderColor}
+                    opacity="0.85"
+                  />
+                </g>
+              );
+            })}
+
+            {/* 16b. Collision-Avoidant Placed Driver Labels */}
+            {positionedLabels.map((lbl) => {
+              const drv = lbl.drv;
+              const isSelected = lbl.isSelected;
+              const isCompare = lbl.isCompare;
+              const isHovered = lbl.isHovered;
+              const badgeColor = isSelected ? '#E10600' : isCompare ? '#00D2BE' : (drv.team_color || '#787A8E');
+
+              const halfW = lbl.width / 2;
+              const halfH = lbl.height / 2;
+
+              return (
+                <g
+                  key={`label-${drv.driver_id}`}
+                  transform={`translate(${lbl.labelX}, ${lbl.labelY})`}
+                  onClick={() => onSelectDriver && onSelectDriver(drv.driver_id)}
+                  onMouseEnter={() => setHoveredDriver(drv)}
+                  onMouseLeave={() => setHoveredDriver(null)}
+                  style={{ cursor: 'pointer' }}
+                  className={`driver-map-label ${isSelected ? 'selected' : isCompare ? 'compare' : 'standard'} ${isHovered ? 'hovered' : ''}`}
+                >
+                  {isSelected ? (
+                    /* Detailed High-Priority Selected Driver Card */
+                    <g className="selected-driver-card">
+                      {/* Background card with glassmorphic dark container & team border */}
+                      <rect
+                        x={-halfW}
+                        y={-halfH}
+                        width={lbl.width}
+                        height={lbl.height}
+                        rx="4"
+                        fill="#0A0B14"
+                        fillOpacity="0.95"
+                        stroke="#E10600"
+                        strokeWidth={scales.refLineWidth * 1.8}
+                      />
+                      {/* Left team accent bar */}
+                      <rect
+                        x={-halfW}
+                        y={-halfH}
+                        width={scales.refLineWidth * 3.5}
+                        height={lbl.height}
+                        rx="2"
+                        fill={drv.team_color || '#E10600'}
+                      />
+                      {/* Top row: Code + Position */}
+                      <text
+                        x={-halfW + scales.refLineWidth * 6}
+                        y={-halfH + scales.cornerFontSize * 1.1}
+                        fill="#FFFFFF"
+                        fontSize={scales.cornerFontSize * 1.1}
+                        fontWeight="900"
+                        dominantBaseline="central"
+                      >
+                        {drv.driver_id}
+                      </text>
+                      <text
+                        x={halfW - scales.refLineWidth * 4}
+                        y={-halfH + scales.cornerFontSize * 1.1}
+                        fill="#FFB800"
+                        fontSize={scales.cornerFontSize * 0.95}
+                        fontWeight="800"
+                        textAnchor="end"
+                        dominantBaseline="central"
+                      >
+                        P{drv.position}
+                      </text>
+                      {/* Bottom row: Compound + Tyre Debt */}
+                      <text
+                        x={-halfW + scales.refLineWidth * 6}
+                        y={halfH - scales.cornerFontSize * 0.9}
+                        fill="#A0A5BD"
+                        fontSize={scales.cornerFontSize * 0.75}
+                        fontWeight="700"
+                        dominantBaseline="central"
+                      >
+                        {drv.compound || 'HARD'}
+                      </text>
+                      <text
+                        x={halfW - scales.refLineWidth * 4}
+                        y={halfH - scales.cornerFontSize * 0.9}
+                        fill={drv.cumulative_debt > 0 ? '#E10600' : '#00D2BE'}
+                        fontSize={scales.cornerFontSize * 0.75}
+                        fontWeight="800"
+                        textAnchor="end"
+                        dominantBaseline="central"
+                      >
+                        {drv.cumulative_debt > 0 ? `+${drv.cumulative_debt.toFixed(1)}s` : `${(drv.cumulative_debt || 0).toFixed(1)}s`}
+                      </text>
+                    </g>
+                  ) : (
+                    /* Sleek Compact Driver Pill */
+                    <g className="compact-driver-pill">
+                      <rect
+                        x={-halfW}
+                        y={-halfH}
+                        width={lbl.width}
+                        height={lbl.height}
+                        rx="3"
+                        fill="#0B0C15"
+                        fillOpacity="0.92"
+                        stroke={badgeColor}
+                        strokeWidth={isCompare ? scales.refLineWidth * 1.5 : scales.refLineWidth * 1.1}
+                      />
+                      {/* Left team dot indicator */}
+                      <circle
+                        cx={-halfW + scales.cornerFontSize * 0.7}
+                        cy={0}
+                        r={scales.cornerFontSize * 0.35}
+                        fill={drv.team_color || '#8E92A4'}
+                      />
+                      {/* Driver abbreviation code */}
+                      <text
+                        x={-halfW + scales.cornerFontSize * 1.3}
+                        y={0}
+                        fill="#FFFFFF"
+                        fontSize={scales.cornerFontSize * 0.9}
+                        fontWeight="800"
+                        dominantBaseline="central"
+                      >
+                        {drv.driver_id}
+                      </text>
+                      {/* Position badge (visible at zoom or on compare) */}
+                      {(zoomLevel > 1.2 || isCompare || drv.position <= 3) && (
+                        <text
+                          x={halfW - scales.cornerFontSize * 0.5}
+                          y={0}
+                          fill={drv.position === 1 ? '#FFB800' : '#8E91A8'}
+                          fontSize={scales.cornerFontSize * 0.75}
+                          fontWeight="700"
+                          textAnchor="end"
+                          dominantBaseline="central"
+                        >
+                          P{drv.position}
+                        </text>
+                      )}
+                    </g>
+                  )}
+                </g>
+              );
+            })}
+          </g>
         </svg>
 
         {/* 4. HOVERED DRIVER DETAILED CARD */}
@@ -1146,6 +1578,58 @@ export default function CircuitMap({
                   {hoveredDriver.cumulative_debt > 0 ? `+${hoveredDriver.cumulative_debt.toFixed(2)}s` : `${hoveredDriver.cumulative_debt.toFixed(2)}s`}
                 </strong></span>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* 4b. HOVERED PIT STOP DETAILED CARD */}
+        {hoveredPitStop && (
+          <div className="pit-stop-map-tooltip">
+            <div className="pit-tooltip-header" style={{ borderLeftColor: hoveredPitStop.team_color }}>
+              <div className="pit-tooltip-title-row">
+                <span className="pit-tooltip-driver" style={{ color: hoveredPitStop.team_color }}>
+                  {hoveredPitStop.driver_id}
+                </span>
+                <span className="pit-tooltip-badge">PIT STOP #{hoveredPitStop.stop_number}</span>
+                <span className="pit-tooltip-lap">LAP {hoveredPitStop.lap}</span>
+              </div>
+              <span className="pit-tooltip-team">{hoveredPitStop.team}</span>
+            </div>
+
+            <div className="pit-tooltip-body">
+              <div className="pit-tooltip-stat">
+                <span className="stat-lbl">Stop Duration:</span>
+                <strong className="stat-val highlight">{hoveredPitStop.duration} s</strong>
+              </div>
+              {hoveredPitStop.lane_duration && (
+                <div className="pit-tooltip-stat">
+                  <span className="stat-lbl">Lane Transit:</span>
+                  <strong className="stat-val">{hoveredPitStop.lane_duration} s</strong>
+                </div>
+              )}
+              <div className="pit-tooltip-stat">
+                <span className="stat-lbl">Compound Change:</span>
+                <strong className="stat-val tyre-trans">
+                  {hoveredPitStop.compound_before} → {hoveredPitStop.compound_after}
+                </strong>
+              </div>
+              <div className="pit-tooltip-stat">
+                <span className="stat-lbl">Tyre Life:</span>
+                <strong className="stat-val">
+                  Age {hoveredPitStop.tyre_age_before}L → {hoveredPitStop.tyre_age_after}L
+                </strong>
+              </div>
+              {hoveredPitStop.position_before !== null && hoveredPitStop.position_after !== null && (
+                <div className="pit-tooltip-stat position-stat">
+                  <span className="stat-lbl">POSITION CHANGE ACROSS PIT STOP:</span>
+                  <strong className="stat-val">
+                    P{hoveredPitStop.position_before} → P{hoveredPitStop.position_after}
+                    <span className={`pos-delta-tag ${hoveredPitStop.position_delta > 0 ? 'gained' : hoveredPitStop.position_delta < 0 ? 'lost' : 'even'}`}>
+                      ({hoveredPitStop.position_delta > 0 ? `+${hoveredPitStop.position_delta}` : hoveredPitStop.position_delta})
+                    </span>
+                  </strong>
+                </div>
+              )}
             </div>
           </div>
         )}

@@ -9,18 +9,21 @@ export default function SessionSelectScreen() {
     selectSession, 
     selectCircuit, 
     loadingStage, 
-    error 
+    error,
+    selectedSeason
   } = useCircuit();
 
   const country = circuitDetail?.country || getCountryName(circuitDetail?.country_code);
 
   return (
     <div className="session-select-container">
-      {/* Navigation Breadcrumb with prominent ← WORLD button */}
+      {/* Navigation Breadcrumb with prominent ← WORLD button and season */}
       <div className="breadcrumb-bar">
         <button className="world-nav-btn" onClick={() => selectCircuit(null)} title="Return to Global F1 World View">
           🌍 WORLD
         </button>
+        <span className="breadcrumb-separator">/</span>
+        <span className="breadcrumb-country" style={{ color: 'var(--accent-red)', fontWeight: 800 }}>{selectedSeason}</span>
         <span className="breadcrumb-separator">/</span>
         <div className="breadcrumb-country-badge">
           <CountryFlag code={circuitDetail?.country_code} size="sm" />
@@ -42,14 +45,15 @@ export default function SessionSelectScreen() {
           <div className="flag-title-row">
             <CountryFlag code={circuitDetail?.country_code} size="xl" />
             <div>
-              <div className="circuit-country-tag">{country?.toUpperCase()}</div>
+              <div className="circuit-country-tag">{country?.toUpperCase()} • {selectedSeason} SEASON</div>
               <h1 className="circuit-main-title">{circuitDetail?.name || selectedCircuit}</h1>
               <span className="circuit-sub-location">
-                📍 {circuitDetail?.location}, {country} ({circuitDetail?.lat?.toFixed(2)}°N, {circuitDetail?.lon?.toFixed(2)}°E)
+                📍 {circuitDetail?.location}, {country} ({selectedSeason})
               </span>
             </div>
           </div>
         </div>
+
 
         <div className="header-stats">
           <div className="stat-box">

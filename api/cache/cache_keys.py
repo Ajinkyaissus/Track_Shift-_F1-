@@ -92,12 +92,25 @@ class CacheKeys:
         return f"signatures:list:{model_version}"
 
     @staticmethod
-    def session_drivers_analytics(circuit_id: str, session_id: str, model_version: str, data_version: str = DATA_VERSION) -> str:
-        return f"circuit:{circuit_id}:session:{session_id}:drivers_analytics:{model_version}:{data_version}"
+    def telemetry(season: int | str, circuit: str, session: str, driver: str, data_version: str = DATA_VERSION) -> str:
+        return f"telemetry:{season}:{circuit}:{session}:{driver}:{data_version}"
 
     @staticmethod
-    def driver_analytics(circuit_id: str, session_id: str, driver_id: str, model_version: str, data_version: str = DATA_VERSION) -> str:
-        return f"circuit:{circuit_id}:session:{session_id}:driver:{driver_id}:analytics:{model_version}:{data_version}"
+    def session_weather(session_id: str, data_version: str = DATA_VERSION) -> str:
+        return f"session:{session_id}:weather:{data_version}"
+
+    @staticmethod
+    def session_track_status(session_id: str, data_version: str = DATA_VERSION) -> str:
+        return f"session:{session_id}:track_status:{data_version}"
+
+    @staticmethod
+    def session_trackshift(session_id: str, model_version: str, data_version: str = DATA_VERSION) -> str:
+        return f"session:{session_id}:trackshift:{model_version}:{data_version}"
+
+    @staticmethod
+    def circuit_comparison(circuit_id: str, seasons: str, data_version: str = DATA_VERSION) -> str:
+        return f"circuit:{circuit_id}:comparison:{seasons}:{data_version}"
+
 
     @staticmethod
     def driver_laps(circuit_id: str, session_id: str, driver_id: str, data_version: str = DATA_VERSION) -> str:
@@ -106,3 +119,15 @@ class CacheKeys:
     @staticmethod
     def driver_stints(circuit_id: str, session_id: str, driver_id: str, data_version: str = DATA_VERSION) -> str:
         return f"circuit:{circuit_id}:session:{session_id}:driver:{driver_id}:stints:{data_version}"
+
+    @staticmethod
+    def session_pit_stops(circuit_id: str, session_id: str, data_version: str = DATA_VERSION) -> str:
+        return f"circuit:{circuit_id}:session:{session_id}:pit_stops:{data_version}"
+
+    @staticmethod
+    def session_drivers_analytics(circuit_id: str, session_id: str, model_version: str, data_version: str = DATA_VERSION) -> str:
+        return f"circuit:{circuit_id}:session:{session_id}:analytics:{model_version}:{data_version}"
+
+    @staticmethod
+    def driver_analytics(circuit_id: str, session_id: str, driver_id: str, model_version: str, data_version: str = DATA_VERSION) -> str:
+        return f"circuit:{circuit_id}:session:{session_id}:driver:{driver_id}:analytics:{model_version}:{data_version}"

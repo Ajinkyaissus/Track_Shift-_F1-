@@ -137,6 +137,7 @@ class ModelRegistry:
         """
         Gets or generates deterministic behavioral embedding for a given stint.
         Uses real stint telemetry sequences exclusively.
+        Raises ValueError if real telemetry sequence is unavailable or insufficient (< 4 laps).
         """
         if stint_id in self._stint_embeddings:
             return self._stint_embeddings[stint_id]
@@ -145,7 +146,15 @@ class ModelRegistry:
             if stint_id in self._stint_telemetry:
                 sequence_data = self._stint_telemetry[stint_id]
             else:
-                raise ValueError(f"Insufficient telemetry sequence observations for stint '{stint_id}' to generate TCN embedding.")
+                raise ValueError(f"Insufficient telemetry sequence observations for stint '{stint_id}'")
+
+        if sequence_data is None:
+            raise ValueError(f"Insufficient telemetry sequence observations for stint '{stint_id}'")
+
+        seq_arr = np.asarray(sequence_data)
+        seq_len = seq_arr.shape[0] if seq_arr.ndim == 2 and seq_arr.shape[1] == len(BEHAVIORAL_FEATURES) else (seq_arr.shape[1] if seq_arr.ndim == 2 else 0)
+        if seq_len < 4 and seq_arr.size < (len(BEHAVIORAL_FEATURES) * 4):
+            raise ValueError(f"Insufficient telemetry sequence length ({seq_len} < 4 laps) for stint '{stint_id}'")
 
         if self.behavioral_model is not None:
             emb = self.behavioral_model.generate_embedding(sequence_data)

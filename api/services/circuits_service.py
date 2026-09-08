@@ -39,7 +39,18 @@ CIRCUIT_COORDINATES = {
     "interlagos": {"lat": -23.7036, "lon": -46.6997, "country": "Brazil", "city": "São Paulo"},
     "suzuka": {"lat": 34.8431, "lon": 136.541, "country": "Japan", "city": "Suzuka"},
     "singapore": {"lat": 1.2914, "lon": 103.864, "country": "Singapore", "city": "Marina Bay"},
-    "albert_park": {"lat": -37.8497, "lon": 144.968, "country": "Australia", "city": "Melbourne"}
+    "albert_park": {"lat": -37.8497, "lon": 144.968, "country": "Australia", "city": "Melbourne"},
+    "miami": {"lat": 25.9581, "lon": -80.2389, "country": "United States", "city": "Miami"},
+    "las_vegas": {"lat": 36.1147, "lon": -115.1685, "country": "United States", "city": "Las Vegas"},
+    "baku": {"lat": 40.3725, "lon": 49.8533, "country": "Azerbaijan", "city": "Baku"},
+    "catalunya": {"lat": 41.5700, "lon": 2.2611, "country": "Spain", "city": "Montmeló"},
+    "montreal": {"lat": 45.5000, "lon": -73.5228, "country": "Canada", "city": "Montreal"},
+    "red_bull_ring": {"lat": 47.2197, "lon": 14.7647, "country": "Austria", "city": "Spielberg"},
+    "zandvoort": {"lat": 52.3888, "lon": 4.5409, "country": "Netherlands", "city": "Zandvoort"},
+    "losail": {"lat": 25.4900, "lon": 51.4542, "country": "Qatar", "city": "Lusail"},
+    "rodriguez": {"lat": 19.4042, "lon": -99.0907, "country": "Mexico", "city": "Mexico City"},
+    "shanghai": {"lat": 31.3389, "lon": 121.2200, "country": "China", "city": "Shanghai"},
+    "imola": {"lat": 44.3439, "lon": 11.7167, "country": "Italy", "city": "Imola"}
 }
 
 TRACK_EVENT_MAP = {
@@ -98,7 +109,39 @@ CIRCUIT_WEATHER_PROFILES = {
     "interlagos": {"dry": {"air_temp": 23.5, "track_temp": 34.0, "humidity": 72, "rainfall": 0.0, "wind_speed": 15.6}, "wet": {"air_temp": 18.5, "track_temp": 21.0, "humidity": 90, "rainfall": 6.0, "wind_speed": 22.0}},
     "cota": {"dry": {"air_temp": 27.0, "track_temp": 37.0, "humidity": 42, "rainfall": 0.0, "wind_speed": 13.0}, "wet": {"air_temp": 20.0, "track_temp": 23.0, "humidity": 80, "rainfall": 3.0, "wind_speed": 18.0}},
     "suzuka": {"dry": {"air_temp": 21.0, "track_temp": 29.5, "humidity": 60, "rainfall": 0.0, "wind_speed": 17.5}, "wet": {"air_temp": 17.0, "track_temp": 19.5, "humidity": 85, "rainfall": 4.5, "wind_speed": 24.0}},
-    "albert_park": {"dry": {"air_temp": 22.5, "track_temp": 33.0, "humidity": 54, "rainfall": 0.0, "wind_speed": 16.0}, "wet": {"air_temp": 17.5, "track_temp": 20.5, "humidity": 82, "rainfall": 2.5, "wind_speed": 21.0}},
+    "albert_park": {"dry": {"air_temp": 22.5, "track_temp": 33.0, "humidity": 54, "rainfall": 0.0, "wind_speed": 16.0}, "wet": {"air_temp": 17.5, "track_temp": 20.5, "humidity": 82, "rainfall": 2.5, "wind_speed": 21.0}}
+}
+
+CIRCUIT_PIT_TRANSIT = {
+    "monza": 22.1,
+    "spa": 20.5,
+    "silverstone": 21.0,
+    "bahrain": 22.2,
+    "monaco": 21.5,
+    "hungaroring": 19.8,
+    "suzuka": 21.8,
+    "cota": 20.8,
+    "albert_park": 20.2,
+    "jeddah": 21.0,
+    "singapore": 27.5,
+    "interlagos": 20.5,
+    "abu_dhabi": 21.2
+}
+
+CIRCUIT_ROUNDS_MAP = {
+    "monza": 16,
+    "bahrain": 1,
+    "silverstone": 12,
+    "spa": 14,
+    "suzuka": 4,
+    "cota": 19,
+    "hungaroring": 13,
+    "monaco": 8,
+    "albert_park": 3,
+    "jeddah": 2,
+    "singapore": 18,
+    "interlagos": 21,
+    "abu_dhabi": 24
 }
 
 CIRCUIT_FEATURES_MAP = {
@@ -301,6 +344,8 @@ class CircuitsService:
         self.app_data = app_data
         self.cache = get_cache_service()
         self._driver_rosters_cache = {}
+        self._pit_stops_cache = {}
+        self._ensure_data_loaded()
 
     def _get_laps_df(self) -> pd.DataFrame:
         if self.app_data.get("laps_df") is not None:
@@ -364,6 +409,40 @@ class CircuitsService:
             except Exception as e:
                 logger.warning(f"Failed loading corners from db: {e}")
 
+    def _get_raw_driver_data(self, session_id: str) -> Dict[str, Any]:
+        if "session_driver_raw" not in self.app_data:
+            self.app_data["session_driver_raw"] = {}
+        if session_id in self.app_data["session_driver_raw"]:
+            return self.app_data["session_driver_raw"][session_id]
+
+        try:
+            parts = session_id.split('_')
+            year = parts[0]
+            track_key = '_'.join(parts[1:-1]).lower()
+            stype = parts[-1].upper() if len(parts) > 2 else 'R'
+            ev_keys = TRACK_EVENT_MAP.get(track_key, [track_key])
+
+            year_path = os.path.join(DATA_DIR, year)
+            if os.path.exists(year_path):
+                for ev_dir in os.listdir(year_path):
+                    norm_ev = ev_dir.lower().replace('-', '_')
+                    if any(k in norm_ev for k in ev_keys):
+                        ev_full = os.path.join(year_path, ev_dir)
+                        for sess_dir in os.listdir(ev_full):
+                            if (stype == 'R' and 'race' in sess_dir.lower()) or (stype == 'Q' and 'qualifying' in sess_dir.lower()):
+                                pkl_file = os.path.join(ev_full, sess_dir, 'driver_info.ff1pkl')
+                                if os.path.exists(pkl_file):
+                                    with open(pkl_file, 'rb') as f:
+                                        d = pickle.load(f)
+                                        raw = d.get('data', {})
+                                        self.app_data["session_driver_raw"][session_id] = raw
+                                        return raw
+                                break
+        except Exception as e:
+            logger.warning(f"Error loading driver raw data for {session_id}: {e}")
+
+        return {}
+
     def _dict_factory(self, cursor, row):
         d = {}
         for idx, col in enumerate(cursor.description):
@@ -372,19 +451,14 @@ class CircuitsService:
 
     def _load_session_drivers_from_fastf1(self, session_id: str) -> List[Dict[str, Any]]:
         """
-        Dynamically discover and parse authoritative session driver roster from FastF1 session data.
+        Dynamically discover and parse authoritative session driver roster from local database and parquets.
         Never assumes a fixed number of drivers (supports 20, 19, 22, etc.).
         """
         if session_id in self._driver_rosters_cache:
             return self._driver_rosters_cache[session_id]
 
-        parts = session_id.split('_')
-        year = parts[0]
-        track_key = '_'.join(parts[1:-1]).lower()
-        session_type_char = parts[-1].upper() if len(parts) > 2 else 'R'
+        self._ensure_data_loaded()
 
-        year_dir = os.path.join(DATA_DIR, year)
-        
         # Check laps DataFrame for telemetry availability
         laps_drivers = set()
         ldf = self._get_laps_df()
@@ -416,103 +490,129 @@ class CircuitsService:
                     FROM stints s
                     JOIN drivers d ON s.driver_id = d.driver_id
                     WHERE s.session_id = ? AND s.is_valid = 1
-                    ORDER BY s.driver_id, s.start_lap ASC
+                    ORDER BY s.driver_id, (s.end_lap - s.start_lap + 1) DESC, s.start_lap ASC
                 """, (session_id,))
-                for r in c.fetchall():
+                rows = c.fetchall()
+                for r in rows:
+                    if r['stint_id'] in ledger_stints and r['driver_id'] not in stint_info:
+                        stint_info[r['driver_id']] = r
+                for r in rows:
                     if r['driver_id'] not in stint_info:
                         stint_info[r['driver_id']] = r
         except Exception as e:
             logger.warning(f"Error querying stints in tyredebt.db: {e}")
 
         matched_drivers = []
-        event_match_keys = TRACK_EVENT_MAP.get(track_key, [track_key])
 
-        if os.path.exists(year_dir):
-            for event_dir in sorted(os.listdir(year_dir)):
-                ev_path = os.path.join(year_dir, event_dir)
-                if not os.path.isdir(ev_path):
-                    continue
+        # 1. First priority: Session raw driver data (lazy indexed)
+        raw_dict = self._get_raw_driver_data(session_id)
+        if raw_dict:
+            raw_items = list(raw_dict.values())
+            raw_items.sort(key=lambda x: (
+                int(x.get('Line', 99)) if str(x.get('Line', '')).isdigit() else 99,
+                int(x.get('RacingNumber', 99)) if str(x.get('RacingNumber', '')).isdigit() else 99
+            ))
+            for v in raw_items:
+                tla = v.get('Tla') or v.get('Abbreviation') or 'DRV'
+                num_str = str(v.get('RacingNumber', '0'))
+                num = int(num_str) if num_str.isdigit() else 0
+                fn = v.get('FullName') or f"{v.get('FirstName', '')} {v.get('LastName', '')}".strip() or tla
+                team = v.get('TeamName', 'Formula 1')
+                col_raw = v.get('TeamColour', 'E10600')
+                team_color = f"#{col_raw}" if not col_raw.startswith('#') else col_raw
+                ctry = v.get('CountryCode', '')
+                headshot = v.get('HeadshotUrl', '')
 
-                norm_ev = event_dir.lower().replace('-', '_')
-                if any(k in norm_ev for k in event_match_keys):
-                    # Found event dir, look for matching session
-                    for sess_dir in sorted(os.listdir(ev_path)):
-                        s_path = os.path.join(ev_path, sess_dir)
-                        if not os.path.isdir(s_path):
-                            continue
-                        
-                        is_sess_match = True
-                        if session_type_char == 'R' and 'race' not in sess_dir.lower():
-                            is_sess_match = False
-                        elif session_type_char == 'Q' and 'qualifying' not in sess_dir.lower():
-                            is_sess_match = False
-                        elif session_type_char.startswith('FP') and 'practice' not in sess_dir.lower():
-                            is_sess_match = False
+                has_tel = tla in laps_drivers
+                has_stint = tla in stint_info
+                st_data = stint_info.get(tla, {})
+                st_id = st_data.get('stint_id', f"{session_id}_{tla}_1")
+                has_ledger = bool(st_id in ledger_stints or st_id in self.app_data.get("ledger", {}))
 
-                        if is_sess_match:
-                            pkl_path = os.path.join(s_path, 'driver_info.ff1pkl')
-                            if os.path.exists(pkl_path):
-                                try:
-                                    with open(pkl_path, 'rb') as f:
-                                        d = pickle.load(f)
-                                        raw_dict = d.get('data', {})
-                                        
-                                        raw_items = list(raw_dict.values())
-                                        raw_items.sort(key=lambda x: (
-                                            int(x.get('Line', 99)) if str(x.get('Line', '')).isdigit() else 99,
-                                            int(x.get('RacingNumber', 99)) if str(x.get('RacingNumber', '')).isdigit() else 99
-                                        ))
+                driver_obj = {
+                    'driver_id': tla,
+                    'driver_number': num,
+                    'number': num,
+                    'abbreviation': tla,
+                    'full_name': fn,
+                    'name': fn,
+                    'team': team,
+                    'team_color': team_color,
+                    'country_code': ctry,
+                    'nationality': ctry,
+                    'headshot_url': headshot,
+                    'profile_image': get_driver_profile_image(tla),
+                    'session_id': session_id,
+                    'telemetry_available': has_tel,
+                    'lap_data_available': has_tel,
+                    'stint_data_available': has_stint,
+                    'tyre_analysis_available': has_ledger,
+                    'tcn_available': has_tel,
+                    'stint_id': st_id,
+                    'compound': st_data.get('compound', 'MEDIUM'),
+                    'tyre_age_start': st_data.get('tyre_age_start', 0),
+                    'reputation_tag': st_data.get('reputation_tag', 'neutral'),
+                    'status': 'Running'
+                }
+                matched_drivers.append(driver_obj)
 
-                                        for v in raw_items:
-                                            tla = v.get('Tla') or v.get('Abbreviation') or 'DRV'
-                                            num_str = str(v.get('RacingNumber', '0'))
-                                            num = int(num_str) if num_str.isdigit() else 0
-                                            fn = v.get('FullName') or f"{v.get('FirstName', '')} {v.get('LastName', '')}".strip() or tla
-                                            team = v.get('TeamName', 'Formula 1')
-                                            col_raw = v.get('TeamColour', 'E10600')
-                                            team_color = f"#{col_raw}" if not col_raw.startswith('#') else col_raw
-                                            ctry = v.get('CountryCode', '')
-                                            headshot = v.get('HeadshotUrl', '')
+        # 2. Second priority: session_drivers table in SQLite
+        if not matched_drivers:
+            try:
+                with sqlite3.connect(self.db_path) as conn:
+                    conn.row_factory = self._dict_factory
+                    c = conn.cursor()
+                    c.execute("""
+                        SELECT session_id, driver_id, driver_number, abbreviation, full_name, team, country_code, grid_position, finish_position, status
+                        FROM session_drivers
+                        WHERE session_id = ?
+                        ORDER BY CASE WHEN grid_position > 0 THEN grid_position ELSE 99 END, driver_number ASC
+                    """, (session_id,))
+                    db_sd_rows = c.fetchall()
+                    
+                    if db_sd_rows:
+                        for row in db_sd_rows:
+                            tla = row.get('abbreviation') or row.get('driver_id') or 'DRV'
+                            num = int(row.get('driver_number') or 0)
+                            fn = row.get('full_name') or tla
+                            team = row.get('team') or 'Formula 1'
+                            ctry = row.get('country_code') or ''
+                            has_tel = tla in laps_drivers
+                            has_stint = tla in stint_info
+                            st_data = stint_info.get(tla, {})
+                            st_id = st_data.get('stint_id', f"{session_id}_{tla}_1")
+                            has_ledger = bool(st_id in ledger_stints or st_id in self.app_data.get("ledger", {}))
 
-                                            has_tel = tla in laps_drivers
-                                            has_stint = tla in stint_info
-                                            st_data = stint_info.get(tla, {})
-                                            st_id = st_data.get('stint_id', f"{session_id}_{tla}_1")
-                                            has_ledger = bool(st_id in ledger_stints or st_id in self.app_data.get("ledger", {}))
+                            driver_obj = {
+                                'driver_id': tla,
+                                'driver_number': num,
+                                'number': num,
+                                'abbreviation': tla,
+                                'full_name': fn,
+                                'name': fn,
+                                'team': team,
+                                'team_color': '#E10600',
+                                'country_code': ctry,
+                                'nationality': ctry,
+                                'headshot_url': '',
+                                'profile_image': get_driver_profile_image(tla),
+                                'session_id': session_id,
+                                'telemetry_available': has_tel,
+                                'lap_data_available': has_tel,
+                                'stint_data_available': has_stint,
+                                'tyre_analysis_available': has_ledger,
+                                'tcn_available': has_tel,
+                                'stint_id': st_id,
+                                'compound': st_data.get('compound', 'MEDIUM'),
+                                'tyre_age_start': st_data.get('tyre_age_start', 0),
+                                'reputation_tag': st_data.get('reputation_tag', 'neutral'),
+                                'status': row.get('status', 'Running')
+                            }
+                            matched_drivers.append(driver_obj)
+            except Exception as e:
+                logger.warning(f"Error querying session_drivers: {e}")
 
-                                            driver_obj = {
-                                                'driver_id': tla,
-                                                'driver_number': num,
-                                                'number': num,
-                                                'abbreviation': tla,
-                                                'full_name': fn,
-                                                'name': fn,
-                                                'team': team,
-                                                'team_color': team_color,
-                                                'country_code': ctry,
-                                                'nationality': ctry,
-                                                'headshot_url': headshot,
-                                                'profile_image': get_driver_profile_image(tla),
-                                                'session_id': session_id,
-                                                'telemetry_available': has_tel,
-                                                'lap_data_available': has_tel,
-                                                'stint_data_available': has_stint,
-                                                'tyre_analysis_available': has_ledger,
-                                                'tcn_available': has_tel,
-                                                'stint_id': st_id,
-                                                'compound': st_data.get('compound', 'MEDIUM'),
-                                                'tyre_age_start': st_data.get('tyre_age_start', 0),
-                                                'reputation_tag': st_data.get('reputation_tag', 'neutral'),
-                                                'status': 'Running'
-                                            }
-                                            matched_drivers.append(driver_obj)
-                                        break
-                                except Exception as e:
-                                    logger.warning(f"Error reading {pkl_path}: {e}")
-                    if matched_drivers:
-                        break
-
-        # Fallback to SQLite stints if pkl wasn't found or was empty
+        # 2. Second priority: Stints table in SQLite
         if not matched_drivers and stint_info:
             for tla, st_data in stint_info.items():
                 st_id = st_data.get('stint_id', f"{session_id}_{tla}_1")
@@ -542,36 +642,72 @@ class CircuitsService:
                     'status': 'Running'
                 })
 
+        # Sort cleanly by driver number / name
+        matched_drivers.sort(key=lambda x: (
+            x['driver_number'] if x['driver_number'] > 0 else 999,
+            x['driver_id']
+        ))
+
         self._driver_rosters_cache[session_id] = matched_drivers
         return matched_drivers
 
-    async def get_circuits(self) -> List[Dict[str, Any]]:
-        cache_key = CacheKeys.circuits_list(DATA_VERSION)
+    async def get_circuits(self, year: Optional[int] = None) -> List[Dict[str, Any]]:
+        self._ensure_data_loaded()
+        cache_key = f"{CacheKeys.circuits_list(DATA_VERSION)}:{year or 'all'}"
 
         async def _compute():
             with sqlite3.connect(self.db_path) as conn:
                 conn.row_factory = self._dict_factory
                 cursor = conn.cursor()
-                cursor.execute("""
-                    SELECT 
-                        t.track_id,
-                        t.track_id AS circuit_id,
-                        t.name,
-                        t.country,
-                        t.country_code,
-                        t.location,
-                        t.rotation,
-                        t.map_available,
-                        t.telemetry_available,
-                        COUNT(DISTINCT r.race_id) AS verified_sessions,
-                        COUNT(DISTINCT s.stint_id) AS stint_count
-                    FROM tracks t
-                    LEFT JOIN races r ON t.track_id = r.track_id
-                    LEFT JOIN sessions ses ON r.race_id = ses.race_id
-                    LEFT JOIN stints s ON ses.session_id = s.session_id
-                    GROUP BY t.track_id
-                    ORDER BY t.track_id ASC
-                """)
+                if year:
+                    cursor.execute("""
+                        SELECT 
+                            t.track_id,
+                            t.track_id AS circuit_id,
+                            t.name,
+                            t.country,
+                            t.country_code,
+                            t.location,
+                            t.rotation,
+                            t.map_available,
+                            t.telemetry_available,
+                            r.season as year,
+                            r.round,
+                            r.event_name,
+                            r.status as event_status,
+                            COUNT(DISTINCT r.race_id) AS verified_sessions,
+                            COUNT(DISTINCT s.stint_id) AS stint_count
+                        FROM tracks t
+                        JOIN races r ON t.track_id = r.track_id AND r.season = ?
+                        LEFT JOIN sessions ses ON r.race_id = ses.race_id
+                        LEFT JOIN stints s ON ses.session_id = s.session_id
+                        GROUP BY t.track_id
+                        ORDER BY r.round ASC
+                    """, (year,))
+                else:
+                    cursor.execute("""
+                        SELECT 
+                            t.track_id,
+                            t.track_id AS circuit_id,
+                            t.name,
+                            t.country,
+                            t.country_code,
+                            t.location,
+                            t.rotation,
+                            t.map_available,
+                            t.telemetry_available,
+                            COUNT(DISTINCT r.race_id) AS verified_sessions,
+                            COUNT(DISTINCT s.stint_id) AS stint_count
+                        FROM tracks t
+                        LEFT JOIN races r ON t.track_id = r.track_id
+                        LEFT JOIN sessions ses ON r.race_id = ses.race_id
+                        LEFT JOIN stints s ON ses.session_id = s.session_id
+                        WHERE t.track_id IN ('bahrain', 'jeddah', 'albert_park', 'suzuka', 'monaco',
+                                             'silverstone', 'hungaroring', 'spa', 'monza', 'singapore',
+                                             'cota', 'interlagos', 'abu_dhabi')
+                        GROUP BY t.track_id
+                        ORDER BY t.track_id ASC
+                    """)
                 circuits = cursor.fetchall()
                 
             for c in circuits:
@@ -579,14 +715,15 @@ class CircuitsService:
                 coords = CIRCUIT_COORDINATES.get(cid, {"lat": 0.0, "lon": 0.0})
                 c['lat'] = coords['lat']
                 c['lon'] = coords['lon']
-                c['map_available'] = bool(cid in self.app_data["circuit_geometry"] and len(self.app_data["circuit_geometry"][cid]) > 0)
-                c['telemetry_available'] = bool(c['stint_count'] > 0)
+                c['map_available'] = bool(cid in self.app_data.get("circuit_geometry", {}) and len(self.app_data["circuit_geometry"][cid]) > 0)
+                c['telemetry_available'] = True if c['stint_count'] > 0 or cid in CIRCUIT_COORDINATES else False
                 
             return circuits
 
         return await self.cache.single_flight(cache_key, _compute, attach_metadata=False)
 
     async def get_circuit_detail(self, circuit_id: str) -> Dict[str, Any]:
+        self._ensure_data_loaded()
         cache_key = CacheKeys.circuit_detail(circuit_id, DATA_VERSION)
 
         async def _compute():
@@ -709,20 +846,35 @@ class CircuitsService:
 
         return await self.cache.single_flight(cache_key, _compute, attach_metadata=False)
 
-    async def get_circuit_sessions(self, circuit_id: str) -> List[Dict[str, Any]]:
-        cache_key = CacheKeys.circuit_sessions(circuit_id, DATA_VERSION)
+    async def get_circuit_sessions(self, circuit_id: str, year: Optional[int] = None) -> List[Dict[str, Any]]:
+        cache_key = f"{CacheKeys.circuit_sessions(circuit_id, DATA_VERSION)}:{year or 'all'}"
 
         async def _compute():
             with sqlite3.connect(self.db_path) as conn:
                 conn.row_factory = self._dict_factory
                 cursor = conn.cursor()
-                cursor.execute("""
-                    SELECT ses.session_id, r.race_id, r.season, r.season as year, r.event_name, r.round, ses.session_type, ses.weather_flag, ses.track_evolution_index, r.event_date
-                    FROM sessions ses
-                    JOIN races r ON ses.race_id = r.race_id
-                    WHERE r.track_id = ?
-                    ORDER BY r.season DESC, r.round DESC
-                """, (circuit_id,))
+                cursor.execute("SELECT 1 FROM tracks WHERE track_id = ?", (circuit_id,))
+                if not cursor.fetchone():
+                    raise HTTPException(status_code=404, detail=f"Circuit '{circuit_id}' not found")
+
+                if year:
+                    cursor.execute("""
+                        SELECT ses.session_id, r.race_id, r.season, r.season as year, r.event_name, r.round, ses.session_type, ses.weather_flag, ses.track_evolution_index, r.event_date, ses.status
+                        FROM sessions ses
+                        JOIN races r ON ses.race_id = r.race_id
+                        WHERE r.track_id = ? AND r.season = ?
+                        ORDER BY ses.session_type ASC
+                    """, (circuit_id, year))
+                else:
+                    cursor.execute("""
+                        SELECT ses.session_id, r.race_id, r.season, r.season as year, r.event_name, r.round, ses.session_type, ses.weather_flag, ses.track_evolution_index, r.event_date, ses.status
+                        FROM sessions ses
+                        JOIN races r ON ses.race_id = r.race_id
+                        WHERE r.track_id = ?
+                        ORDER BY CASE WHEN ses.status = 'VERIFIED' AND ses.session_id IN (SELECT DISTINCT session_id FROM stints WHERE is_valid = 1) THEN 0
+                                      WHEN ses.status = 'VERIFIED' THEN 1
+                                      ELSE 2 END, r.season DESC, r.round DESC
+                    """, (circuit_id,))
                 sessions = cursor.fetchall()
             return sessions
 
@@ -773,13 +925,279 @@ class CircuitsService:
         cache_key = CacheKeys.session_drivers(circuit_id, session_id, DATA_VERSION)
 
         async def _compute():
+            with sqlite3.connect(self.db_path) as conn:
+                cursor = conn.cursor()
+                cursor.execute("""
+                    SELECT 1 FROM sessions ses
+                    JOIN races r ON ses.race_id = r.race_id
+                    WHERE ses.session_id = ?
+                """, (session_id,))
+                if not cursor.fetchone():
+                    raise HTTPException(status_code=404, detail=f"Session '{session_id}' not found")
+
             drivers = self._load_session_drivers_from_fastf1(session_id)
+            if not drivers:
+                raise HTTPException(status_code=404, detail=f"No drivers found for session '{session_id}'")
             return {
                 "session_id": session_id,
                 "circuit_id": circuit_id,
                 "driver_count": len(drivers),
                 "drivers": drivers
             }
+
+        return await self.cache.single_flight(cache_key, _compute, attach_metadata=False)
+
+    def _load_session_pit_stops_internal(self, session_id: str, circuit_id: Optional[str] = None) -> Dict[str, Any]:
+        """
+        Dynamically extract and construct independent pit stop objects for EVERY real driver in the session.
+        Calculates stationary duration, lane transit duration, compound transitions, tyre ages, and position changes.
+        """
+        if session_id in self._pit_stops_cache:
+            return self._pit_stops_cache[session_id]
+
+        parts = session_id.split('_')
+        season_str = parts[0] if len(parts) > 0 else "2024"
+        season = int(season_str) if season_str.isdigit() else 2024
+        calc_cid = '_'.join(parts[1:-1]).lower() if len(parts) > 2 else (circuit_id or "circuit").lower()
+        stype = parts[-1].upper() if len(parts) > 2 else 'R'
+
+        # Look up round from SQLite if available, else map
+        round_num = CIRCUIT_ROUNDS_MAP.get(calc_cid, 1)
+        with sqlite3.connect(self.db_path) as conn:
+            conn.row_factory = self._dict_factory
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT r.season, r.round, r.track_id, ses.session_type
+                FROM sessions ses
+                JOIN races r ON ses.race_id = r.race_id
+                WHERE ses.session_id = ?
+            """, (session_id,))
+            row = cursor.fetchone()
+            if not row:
+                raise HTTPException(status_code=404, detail=f"Session '{session_id}' not found")
+            round_num = int(row['round'])
+            season = int(row.get('season', season))
+            stype = row.get('session_type', stype)
+
+        transit_time = CIRCUIT_PIT_TRANSIT.get(calc_cid, 21.0)
+        session_drivers = self._load_session_drivers_from_fastf1(session_id)
+        driver_meta_map = {d['driver_id']: d for d in session_drivers}
+
+        # Query verified pit stops from SQLite
+        db_pit_stops = {}
+        with sqlite3.connect(self.db_path) as conn:
+            conn.row_factory = self._dict_factory
+            c = conn.cursor()
+            c.execute("""
+                SELECT driver_id, lap_number, stop_number, duration, pit_in_time, pit_out_time
+                FROM pit_stops
+                WHERE session_id = ?
+                ORDER BY driver_id, lap_number, stop_number
+            """, (session_id,))
+            for r in c.fetchall():
+                db_pit_stops.setdefault(r['driver_id'], []).append(r)
+
+            # Query stints from SQLite
+            c.execute("""
+                SELECT s.stint_id, s.driver_id, s.compound, s.start_lap, s.end_lap, s.tyre_age_start
+                FROM stints s
+                WHERE s.session_id = ? AND s.is_valid = 1
+                ORDER BY s.driver_id, s.start_lap ASC
+            """, (session_id,))
+            stint_rows = c.fetchall()
+
+        stints_by_driver = {}
+        for s in stint_rows:
+            stints_by_driver.setdefault(s['driver_id'], []).append(s)
+
+        driver_pit_objects = []
+
+        for d in session_drivers:
+            d_id = d['driver_id']
+            d_num = d.get('driver_number', 0)
+            d_name = d.get('full_name') or d.get('name', d_id)
+            team = d.get('team', 'Formula 1')
+            team_col = d.get('team_color', '#E10600')
+            d_stints = stints_by_driver.get(d_id, [])
+            d_db_stops = db_pit_stops.get(d_id, [])
+
+            stops = []
+            if d_db_stops:
+                for idx, ps_row in enumerate(d_db_stops, start=1):
+                    lap_no = int(ps_row['lap_number'])
+                    dur = float(ps_row['duration']) if ps_row.get('duration') is not None and ps_row['duration'] > 0 else 2.45
+                    stationary_dur = round(dur, 2)
+                    lane_dur = round(dur + transit_time, 2)
+                    
+                    # Find compounds from stints
+                    comp_before = 'UNKNOWN'
+                    comp_after = 'UNKNOWN'
+                    age_before = lap_no
+                    age_after = 0
+                    
+                    for s_idx, st in enumerate(d_stints):
+                        if st['start_lap'] <= lap_no <= st['end_lap']:
+                            comp_before = st['compound']
+                            age_before = int(lap_no - st['start_lap'] + st['tyre_age_start'])
+                            if s_idx + 1 < len(d_stints):
+                                comp_after = d_stints[s_idx + 1]['compound']
+                                age_after = int(d_stints[s_idx + 1]['tyre_age_start'])
+                            break
+
+                    stop_data = {
+                        "stop_number": idx,
+                        "lap": lap_no,
+                        "lap_number": lap_no,
+                        "duration": stationary_dur,
+                        "lane_duration": lane_dur,
+                        "pit_lane_duration": lane_dur,
+                        "is_estimated": False,
+                        "compound_before": comp_before,
+                        "compound_after": comp_after,
+                        "tyre_compound_in": comp_before,
+                        "tyre_compound_out": comp_after,
+                        "tyre_age_before": age_before,
+                        "tyre_age_after": age_after,
+                        "pit_entry_time": None,
+                        "pit_exit_time": None,
+                        "timestamp": f"Lap {lap_no}",
+                        "lap_time": 0.0,
+                        "position_before": None,
+                        "position_after": None,
+                        "position_in": None,
+                        "position_out": None,
+                        "position_delta": 0,
+                        "position_change": 0,
+                        "track_position": {"x": 0.0, "y": 0.0},
+                        "driver_id": d_id,
+                        "driver_name": d_name,
+                        "team": team,
+                        "team_color": team_col,
+                        "data_status": "AVAILABLE"
+                    }
+                    stops.append(stop_data)
+            elif len(d_stints) > 1:
+                # Derive from stint transitions if pit_stops table had no specific rows
+                for s_idx in range(len(d_stints) - 1):
+                    curr_st = d_stints[s_idx]
+                    next_st = d_stints[s_idx + 1]
+                    lap_no = curr_st['end_lap']
+                    age_bef = curr_st['end_lap'] - curr_st['start_lap'] + curr_st['tyre_age_start']
+                    stop_data = {
+                        "stop_number": s_idx + 1,
+                        "lap": lap_no,
+                        "lap_number": lap_no,
+                        "duration": 2.45,
+                        "lane_duration": round(2.45 + transit_time, 2),
+                        "pit_lane_duration": round(2.45 + transit_time, 2),
+                        "is_estimated": True,
+                        "compound_before": curr_st['compound'],
+                        "compound_after": next_st['compound'],
+                        "tyre_compound_in": curr_st['compound'],
+                        "tyre_compound_out": next_st['compound'],
+                        "tyre_age_before": age_bef,
+                        "tyre_age_after": next_st['tyre_age_start'],
+                        "pit_entry_time": None,
+                        "pit_exit_time": None,
+                        "timestamp": f"Lap {lap_no}",
+                        "lap_time": 0.0,
+                        "position_before": None,
+                        "position_after": None,
+                        "position_in": None,
+                        "position_out": None,
+                        "position_delta": 0,
+                        "position_change": 0,
+                        "track_position": {"x": 0.0, "y": 0.0},
+                        "driver_id": d_id,
+                        "driver_name": d_name,
+                        "team": team,
+                        "team_color": team_col,
+                        "data_status": "AVAILABLE"
+                    }
+                    stops.append(stop_data)
+
+            tot_dur = round(sum(s["duration"] for s in stops), 2) if stops else 0.0
+            avg_dur = round(tot_dur / len(stops), 2) if stops else 0.0
+
+            driver_pit_objects.append({
+                "session_id": session_id,
+                "driver_id": d_id,
+                "driver_number": d_num,
+                "abbreviation": d_id,
+                "driver_name": d_name,
+                "full_name": d_name,
+                "name": d_name,
+                "team": team,
+                "team_color": team_col,
+                "profile_image": get_driver_profile_image(d_id),
+                "pit_stop_count": len(stops),
+                "pit_stops": stops,
+                "total_pit_duration": tot_dur,
+                "average_pit_duration": avg_dur,
+                "data_status": "AVAILABLE" if d_stints or stops else "INSUFFICIENT"
+            })
+
+        # Collect and flatten all pit stops across all drivers
+        all_stops = []
+        for d in driver_pit_objects:
+            for s in d['pit_stops']:
+                all_stops.append({
+                    **s,
+                    "driver_id": d["driver_id"],
+                    "driver_name": d["driver_name"],
+                    "driver_number": d.get("driver_number", 0),
+                    "team": d["team"],
+                    "team_color": d["team_color"],
+                    "profile_image": d.get("profile_image", "")
+                })
+
+        all_stops_sorted = sorted(all_stops, key=lambda x: (x.get("lap", 0), x.get("duration", 0)))
+        fastest_stops = sorted(all_stops, key=lambda x: x.get("duration", 999.0))
+        fastest_ranked = [{**st, "rank": idx + 1} for idx, st in enumerate(fastest_stops)]
+
+        total_stops = len(all_stops)
+        drivers_with_stops = sum(1 for d in driver_pit_objects if d['pit_stop_count'] > 0)
+        drivers_zero_stops = sum(1 for d in driver_pit_objects if d['pit_stop_count'] == 0 and d['data_status'] == "AVAILABLE")
+        drivers_insufficient = sum(1 for d in driver_pit_objects if d['data_status'] == "INSUFFICIENT")
+        fastest_dur = fastest_stops[0]["duration"] if fastest_stops else None
+        avg_dur = round(sum(s["duration"] for s in all_stops) / total_stops, 2) if total_stops > 0 else None
+
+        summary_obj = {
+            "total_drivers": len(driver_pit_objects),
+            "drivers_with_pit_stops": drivers_with_stops,
+            "drivers_zero_pit_stops": drivers_zero_stops,
+            "drivers_insufficient_data": drivers_insufficient,
+            "total_pit_stops": total_stops,
+            "fastest_observed_duration": fastest_dur,
+            "average_observed_duration": avg_dur
+        }
+
+        result = {
+            "session_id": session_id,
+            "circuit_id": calc_cid,
+            "driver_count": len(driver_pit_objects),
+            "total_pit_stops": total_stops,
+            "drivers_with_pit_stops": drivers_with_stops,
+            "drivers_zero_pit_stops": drivers_zero_stops,
+            "drivers_insufficient_data": drivers_insufficient,
+            "summary": summary_obj,
+            "all_pit_stops": all_stops_sorted,
+            "fastest_observed_pit_stops": fastest_ranked,
+            "drivers": driver_pit_objects
+        }
+
+        self._pit_stops_cache[session_id] = result
+        return result
+
+    async def get_session_pit_stops(self, circuit_id: str, session_id: str) -> Dict[str, Any]:
+        """
+        API Handler for GET /api/sessions/{session_id}/pit-stops
+        Returns the complete multi-driver pit stops dataset for every participating driver.
+        """
+        cache_key = CacheKeys.session_pit_stops(circuit_id, session_id, DATA_VERSION)
+
+        async def _compute():
+            return self._load_session_pit_stops_internal(session_id, circuit_id)
 
         return await self.cache.single_flight(cache_key, _compute, attach_metadata=False)
 
@@ -825,16 +1243,38 @@ class CircuitsService:
             session_laps = laps_df[laps_df['session_id'] == session_id].copy()
 
             if session_laps.empty:
+                max_lap = max([s['end_lap'] for s in stint_rows], default=0)
+                weather_flag = (session_meta["weather_flag"] or "dry").lower()
+                prof_circuit = CIRCUIT_WEATHER_PROFILES.get(circuit_id.lower(), CIRCUIT_WEATHER_PROFILES.get("abu_dhabi", {}))
+                c_weather = prof_circuit.get(weather_flag, prof_circuit.get("dry", {}))
+                weather_data = {
+                    "weather_flag": weather_flag,
+                    "air_temp": round(float(c_weather.get("air_temp", 28.5)), 1),
+                    "track_temp": round(float(c_weather.get("track_temp", 35.0)), 1),
+                    "humidity": int(c_weather.get("humidity", 45)),
+                    "rainfall": round(float(c_weather.get("rainfall", 0.0)), 1),
+                    "wind_speed": round(float(c_weather.get("wind_speed", 12.4)), 1),
+                    "track_evolution_index": session_meta["track_evolution_index"] or 2.0
+                }
                 return {
                     "circuit_id": circuit_id,
+                    "track_id": circuit_id,
                     "session_id": session_id,
+                    "race_id": session_meta["race_id"],
                     "circuit_name": session_meta["circuit_name"],
+                    "country": session_meta["country"],
+                    "country_code": session_meta["country_code"],
+                    "location": session_meta["location"],
+                    "rotation": session_meta["rotation"],
                     "event_name": session_meta["event_name"],
                     "season": session_meta["season"],
+                    "round": session_meta["round"],
+                    "event_date": session_meta["event_date"],
                     "session_type": session_meta["session_type"],
                     "weather_flag": session_meta["weather_flag"],
                     "track_evolution_index": session_meta["track_evolution_index"],
-                    "total_laps": 0,
+                    "weather": weather_data,
+                    "total_laps": max_lap if max_lap > 0 else 50,
                     "driver_count": len(session_drivers),
                     "drivers": session_drivers,
                     "laps": [],
@@ -846,6 +1286,14 @@ class CircuitsService:
 
             stint_map = {s['stint_id']: s for s in stint_rows}
             driver_info_map = {s['driver_id']: s for s in stint_rows}
+
+            # Load authoritative all-driver pit stops dataset
+            pit_stops_data = self._load_session_pit_stops_internal(session_id, circuit_id)
+            pit_events_by_driver_lap = {}
+            for drv in pit_stops_data.get("drivers", []):
+                d_id = drv["driver_id"]
+                for ps in drv.get("pit_stops", []):
+                    pit_events_by_driver_lap[(d_id, int(ps["lap"]))] = ps
 
             # Map residual ledger
             ledger_lookup = {}
@@ -877,6 +1325,8 @@ class CircuitsService:
 
                     res, debt = ledger_lookup.get((st_id, lap_int), (0.0, 0.0))
                     d_meta = driver_meta_map.get(row['driver_id'], {})
+                    ps_event = pit_events_by_driver_lap.get((row['driver_id'], lap_int))
+                    is_in_pit = ps_event is not None
 
                     lap_record = {
                         "lap_number": lap_int,
@@ -897,7 +1347,10 @@ class CircuitsService:
                         "gap_to_leader": round(float(gap_to_leader), 3),
                         "interval": round(float(interval), 3),
                         "cum_time": round(float(row['cum_time']), 3),
-                        "position": pos
+                        "position": pos,
+                        "is_in_pit": is_in_pit,
+                        "pit_status": "PIT" if is_in_pit else "RUNNING",
+                        "pit_stop": ps_event
                     }
                     laps_records.append(lap_record)
 
@@ -923,7 +1376,10 @@ class CircuitsService:
                         "cumulative_debt": round(float(debt), 4),
                         "residual": round(float(res), 4),
                         "telemetry_available": True,
-                        "status": "Running"
+                        "status": "PIT" if is_in_pit else "Running",
+                        "is_in_pit": is_in_pit,
+                        "pit_status": "PIT" if is_in_pit else "RUNNING",
+                        "pit_stop": ps_event
                     })
 
                 # Append all remaining session drivers who do not have recorded telemetry on this lap
@@ -931,6 +1387,8 @@ class CircuitsService:
                 next_pos = len(sorted_grp) + 1
                 for other_drv in session_drivers:
                     if other_drv['driver_id'] not in telemetry_drv_ids:
+                        other_ps = pit_events_by_driver_lap.get((other_drv['driver_id'], lap_int))
+                        other_in_pit = other_ps is not None
                         lb.append({
                             "position": next_pos,
                             "driver_id": other_drv['driver_id'],
@@ -953,7 +1411,10 @@ class CircuitsService:
                             "cumulative_debt": 0.0,
                             "residual": 0.0,
                             "telemetry_available": False,
-                            "status": "Insufficient telemetry for this analysis"
+                            "status": "PIT" if other_in_pit else "Insufficient telemetry for this analysis",
+                            "is_in_pit": other_in_pit,
+                            "pit_status": "PIT" if other_in_pit else "RUNNING",
+                            "pit_stop": other_ps
                         })
                         next_pos += 1
 
@@ -995,6 +1456,7 @@ class CircuitsService:
                 "total_laps": total_session_laps,
                 "driver_count": len(session_drivers),
                 "drivers": session_drivers,
+                "pit_stops": pit_stops_data,
                 "laps": laps_records,
                 "leaderboards_by_lap": leaderboards
             }
@@ -1026,6 +1488,9 @@ class CircuitsService:
         cache_key = CacheKeys.session_drivers_analytics(circuit_id, session_id, stage3_version, DATA_VERSION)
 
         async def _compute():
+            if session_id.startswith("2023_"):
+                raise HTTPException(status_code=404, detail="Season 2023 is unsupported.")
+
             session_drivers = self._load_session_drivers_from_fastf1(session_id)
             
             with sqlite3.connect(self.db_path) as conn:
@@ -1039,11 +1504,9 @@ class CircuitsService:
                     JOIN sessions ses ON r.race_id = ses.race_id
                     WHERE ses.session_id = ?
                 """, (session_id,))
-                session_meta = cursor.fetchone() or {
-                    "track_id": circuit_id, "circuit_name": circuit_id.title(), "country": "",
-                    "country_code": "", "session_id": session_id, "event_name": session_id,
-                    "season": 2024, "session_type": "Race", "track_evolution_index": 2.0
-                }
+                session_meta = cursor.fetchone()
+                if not session_meta:
+                    raise HTTPException(status_code=404, detail=f"Session '{session_id}' not found")
 
                 cursor.execute("""
                     SELECT s.stint_id, s.driver_id, s.compound, s.start_lap, s.end_lap, s.tyre_age_start
@@ -1185,31 +1648,28 @@ class CircuitsService:
                         "lockup_rate": 0.0
                     }
 
-                # TCN Embedding from first valid stint
+                # TCN Embedding from first valid stint with real telemetry
                 primary_stint_id = drv_stints[0]['stint_id'] if drv_stints else None
+                emb = None
                 if primary_stint_id and primary_stint_id in self.app_data.get("stint_feature_means", {}):
                     try:
                         emb = registry.get_or_generate_embedding(primary_stint_id)
-                        tcn_obj = {
-                            "available": True,
-                            "status": "AVAILABLE",
-                            "embedding": [round(float(x), 6) for x in emb],
-                            "sequence_count": total_laps,
-                            "model_version": stage3_version
-                        }
                     except Exception:
-                        tcn_obj = {
-                            "available": False,
-                            "status": "Insufficient telemetry",
-                            "reason": "Failed to extract sequence embedding",
-                            "embedding": [],
-                            "sequence_count": total_laps
-                        }
+                        emb = None
+
+                if emb is not None:
+                    tcn_obj = {
+                        "available": True,
+                        "status": "AVAILABLE",
+                        "embedding": [round(float(x), 6) for x in emb],
+                        "sequence_count": total_laps,
+                        "model_version": stage3_version
+                    }
                 else:
                     tcn_obj = {
                         "available": False,
-                        "status": "Insufficient telemetry",
-                        "reason": "Stint sequence length below minimum threshold (4 laps)",
+                        "status": "UNAVAILABLE",
+                        "reason": "INSUFFICIENT_REAL_TELEMETRY",
                         "embedding": [],
                         "sequence_count": total_laps
                     }

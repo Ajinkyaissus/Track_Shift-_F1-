@@ -33,10 +33,10 @@ class CounterfactualService:
                 detail=f"Adjustment delta {delta_pct}% exceeds supported domain range [-100.0%, +100.0%]."
             )
         
-        if stint_id not in self.app_data["stint_feature_means"]:
-            raise HTTPException(status_code=404, detail="Stint features not found")
+        if stint_id not in self.app_data.get("stint_feature_means", {}):
+            raise HTTPException(status_code=404, detail=f"Stint features '{stint_id}' not found in real telemetry dataset")
             
-        stage3_version = self.app_data["active_models"].get(3)
+        stage3_version = self.app_data.get("active_models", {}).get(3) or self.registry.get_stage_version(3)
         if not stage3_version:
             raise HTTPException(status_code=500, detail="No active stage 3 model")
             
@@ -68,7 +68,8 @@ class CounterfactualService:
                 linear_loss_recovery=seconds_debt_recovered,
                 stint_length=stint_len,
                 deg_per_lap=deg_per_lap,
-                bootstrap_ci=bootstrap_ci
+                bootstrap_ci=bootstrap_ci,
+                delta_pct=delta_pct
             )
             
             latency_ms = int((time.perf_counter() - start_time) * 1000)

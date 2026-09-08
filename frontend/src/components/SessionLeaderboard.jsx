@@ -257,6 +257,11 @@ export default function SessionLeaderboard() {
                             )}
                             <strong className="driver-code-text">{row.driver_id}</strong>
                             <CountryFlag code={row.country_code || row.nationality} size="sm" />
+                            {(row.is_in_pit || row.pit_status === 'PIT') && (
+                              <span className="pit-live-badge" title={`In Pit Stop on Lap ${replayLap}`}>
+                                PIT
+                              </span>
+                            )}
                           </div>
                           <span className="driver-team-sub" title={row.full_name}>
                             {row.team?.split(' ')[0] || ''}
@@ -267,7 +272,11 @@ export default function SessionLeaderboard() {
 
                     {/* Gap to Leader */}
                     <td className="cell-gap">
-                      {row.position === 1 && hasTel ? (
+                      {(row.is_in_pit || row.pit_status === 'PIT') ? (
+                        <span className="pit-in-lane-tag">
+                          PIT {row.pit_stop?.duration ? `(${row.pit_stop.duration}s)` : ''}
+                        </span>
+                      ) : row.position === 1 && hasTel ? (
                         <span className="leader-tag">LEADER</span>
                       ) : hasTel ? (
                         `+${(row.gap_to_leader || 0).toFixed(3)}s`

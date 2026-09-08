@@ -20,7 +20,12 @@ def init_db():
     conn.commit()
     return conn
 
-def ingest_data(seasons=[2022, 2023, 2024, 2025], limit_races=None, target_round=None):
+SUPPORTED_SEASONS = [2024, 2025]
+
+def ingest_data(seasons=[2024, 2025], limit_races=None, target_round=None):
+    for s in seasons:
+        if s not in SUPPORTED_SEASONS:
+            raise ValueError(f"Unsupported season: {s}. Supported seasons: {SUPPORTED_SEASONS}")
     fastf1.Cache.enable_cache(DATA_DIR)
     conn = init_db()
     cursor = conn.cursor()
@@ -234,13 +239,13 @@ def save_stint(cursor, session_id, driver, compound, stint_num, laps_data):
 if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description="Ingest F1 telemetry data.")
-    parser.add_argument("--season", type=int, help="Specific season to ingest (e.g., 2023)")
+    parser.add_argument("--season", type=int, choices=[2024, 2025], help="Specific season to ingest (2024 or 2025)")
     parser.add_argument("--round", type=int, help="Specific round to ingest (e.g., 1)")
     parser.add_argument("--limit", type=int, help="Limit number of races to ingest")
     
     args = parser.parse_args()
     
-    seasons = [args.season] if args.season else [2022, 2023, 2024, 2025]
+    seasons = [args.season] if args.season else [2024, 2025]
     
     print(f"Starting data ingestion for seasons: {seasons}...")
     ingest_data(seasons=seasons, limit_races=args.limit, target_round=args.round)

@@ -1,0 +1,1 @@
+{"stint_id": "2024_interlagos_R_LEC_2", "model_version": "v3_stage1_2026-09-07", "total_debt_seconds": 10.2112, "series": [{"lap_number": 26.0, "residual": -1.6731117664759536, "cumulative_debt": -1.6731117664759536}, {"lap_number": 29.0, "residual": 11.884289593179654, "cumulative_debt": 10.2111778267037}]}

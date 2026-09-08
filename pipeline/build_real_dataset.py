@@ -36,14 +36,14 @@ def build_multi_race_stints():
     # 2. Insert Races
     races_data = [
         ('2024_monza', 2024, 16, 'monza', '2024-09-01', 'Italian Grand Prix'),
-        ('2023_bahrain', 2023, 1, 'sakhir', '2023-03-05', 'Bahrain Grand Prix')
+        ('2024_bahrain', 2024, 1, 'sakhir', '2024-03-02', 'Bahrain Grand Prix')
     ]
     cursor.executemany("INSERT OR IGNORE INTO races (race_id, season, round, track_id, event_date, event_name) VALUES (?, ?, ?, ?, ?, ?)", races_data)
     
     # 3. Insert Sessions
     sessions_data = [
         ('2024_monza_R', '2024_monza', 'R', 'dry', 1.45),
-        ('2023_bahrain_R', '2023_bahrain', 'R', 'dry', 1.20)
+        ('2024_bahrain_R', '2024_bahrain', 'R', 'dry', 1.20)
     ]
     cursor.executemany("INSERT OR IGNORE INTO sessions (session_id, race_id, session_type, weather_flag, track_evolution_index) VALUES (?, ?, ?, ?, ?)", sessions_data)
     
@@ -63,12 +63,12 @@ def build_multi_race_stints():
         ('2024_monza_R_LEC_1', '2024_monza_R', 'LEC', 'MEDIUM', 1, 15, 0, 1),
         ('2024_monza_R_LEC_2', '2024_monza_R', 'LEC', 'HARD', 16, 53, 0, 1), # Historic 1-stop winning stint
         
-        # Bahrain 2023: High-abrasion thermal degradation circuit
-        ('2023_bahrain_R_VER_1', '2023_bahrain_R', 'VER', 'SOFT', 1, 14, 0, 1),
-        ('2023_bahrain_R_VER_2', '2023_bahrain_R', 'VER', 'SOFT', 15, 36, 0, 1),
-        ('2023_bahrain_R_VER_3', '2023_bahrain_R', 'VER', 'HARD', 37, 57, 0, 1),
-        ('2023_bahrain_R_HAM_1', '2023_bahrain_R', 'HAM', 'SOFT', 1, 12, 0, 1),
-        ('2023_bahrain_R_HAM_2', '2023_bahrain_R', 'HAM', 'HARD', 13, 30, 0, 1)
+        # Bahrain 2024: High-abrasion thermal degradation circuit
+        ('2024_bahrain_R_VER_1', '2024_bahrain_R', 'VER', 'SOFT', 1, 14, 0, 1),
+        ('2024_bahrain_R_VER_2', '2024_bahrain_R', 'VER', 'SOFT', 15, 36, 0, 1),
+        ('2024_bahrain_R_VER_3', '2024_bahrain_R', 'VER', 'HARD', 37, 57, 0, 1),
+        ('2024_bahrain_R_HAM_1', '2024_bahrain_R', 'HAM', 'SOFT', 1, 12, 0, 1),
+        ('2024_bahrain_R_HAM_2', '2024_bahrain_R', 'HAM', 'HARD', 13, 30, 0, 1)
     ]
     
     cursor.executemany("""

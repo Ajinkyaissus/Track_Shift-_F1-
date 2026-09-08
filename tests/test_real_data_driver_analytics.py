@@ -111,7 +111,8 @@ def test_missing_telemetry_honest_unavailable_status():
     bot = next((d for d in drivers if d["driver"]["id"] == "BOT"), None)
     if bot:
         assert bot["tcn"]["available"] is False
-        assert "Insufficient telemetry" in bot["tcn"]["status"]
+        assert bot["tcn"]["status"] == "UNAVAILABLE"
+        assert bot["tcn"]["reason"] == "INSUFFICIENT_REAL_TELEMETRY"
         assert bot["baseline"]["available"] is False
         assert bot["baseline"]["status"] == "UNAVAILABLE"
         assert bot["data_quality"]["telemetry"] == "unavailable"

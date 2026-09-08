@@ -10,25 +10,54 @@ export function setOfflineMode(offline) {
 
 let consecutiveGlobalFailures = 0;
 
-async function fetchWithFallback(endpoint, offlineFile) {
-  if (isOfflineMode) {
-    return fetchOffline(offlineFile);
+// High-speed In-Memory Client Cache & Single-Flight Request Deduplicator
+const clientCache = new Map();
+const inFlightRequests = new Map();
+
+export function clearClientCache() {
+  clientCache.clear();
+}
+
+async function fetchWithFallback(endpoint, offlineFile, useCache = true) {
+  const cacheKey = endpoint;
+  if (useCache && clientCache.has(cacheKey)) {
+    return clientCache.get(cacheKey);
   }
 
-  try {
-    const res = await fetch(`${API_BASE}${endpoint}`);
-    if (!res.ok) throw new Error(`API response not ok: ${res.status}`);
-    const data = await res.json();
-    consecutiveGlobalFailures = 0;
-    return data;
-  } catch {
-    consecutiveGlobalFailures++;
-    if (consecutiveGlobalFailures >= 3) {
-      console.warn(`[TyreDebt] ${consecutiveGlobalFailures} consecutive failures. Switching to offline mode.`);
-      setOfflineMode(true);
-    }
-    return fetchOffline(offlineFile);
+  if (inFlightRequests.has(cacheKey)) {
+    return inFlightRequests.get(cacheKey);
   }
+
+  const fetchPromise = (async () => {
+    if (isOfflineMode) {
+      const data = await fetchOffline(offlineFile);
+      if (useCache) clientCache.set(cacheKey, data);
+      return data;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}${endpoint}`);
+      if (!res.ok) throw new Error(`API response not ok: ${res.status}`);
+      const data = await res.json();
+      consecutiveGlobalFailures = 0;
+      if (useCache) clientCache.set(cacheKey, data);
+      return data;
+    } catch {
+      consecutiveGlobalFailures++;
+      if (consecutiveGlobalFailures >= 3) {
+        console.warn(`[TyreDebt] ${consecutiveGlobalFailures} consecutive failures. Switching to offline mode.`);
+        setOfflineMode(true);
+      }
+      const fallbackData = await fetchOffline(offlineFile);
+      if (useCache) clientCache.set(cacheKey, fallbackData);
+      return fallbackData;
+    } finally {
+      inFlightRequests.delete(cacheKey);
+    }
+  })();
+
+  inFlightRequests.set(cacheKey, fetchPromise);
+  return fetchPromise;
 }
 
 async function fetchOffline(offlineFile) {
@@ -37,9 +66,40 @@ async function fetchOffline(offlineFile) {
   return res.json();
 }
 
+/**
+ * Background pre-fetcher for all circuit maps and metadata.
+ * Warms up in-memory cache on startup so all map views open instantly.
+ */
+export function prefetchCircuitsData(circuitsList) {
+  if (!Array.isArray(circuitsList) || circuitsList.length === 0) return;
+  circuitsList.forEach(circuit => {
+    const trackId = circuit.track_id || circuit.circuit_id;
+    if (trackId) {
+      // Fire-and-forget background cache warming
+      getCircuitMap(trackId).catch(() => {});
+      getCircuit(trackId).catch(() => {});
+      getCircuitSessions(trackId, circuit.year || 2024).catch(() => {});
+    }
+  });
+}
+
+// Multi-Season Endpoints
+export async function getSeasons() {
+  return fetchWithFallback("/api/seasons", "seasons.json");
+}
+
+export async function getSeasonEvents(year) {
+  return fetchWithFallback(`/api/seasons/${year}/events`, `season_${year}_events.json`);
+}
+
+export async function getEventSessions(eventId) {
+  return fetchWithFallback(`/api/events/${eventId}/sessions`, `event_${eventId}_sessions.json`);
+}
+
 // Multi-Circuit Endpoints
-export async function getCircuits() {
-  return fetchWithFallback("/circuits", "circuits.json");
+export async function getCircuits(year = null) {
+  const url = year ? `/circuits?year=${year}` : "/circuits";
+  return fetchWithFallback(url, "circuits.json");
 }
 
 export async function getCircuit(circuitId) {
@@ -50,12 +110,34 @@ export async function getCircuitMap(circuitId) {
   return fetchWithFallback(`/circuits/${circuitId}/map`, `circuit_${circuitId}_map.json`);
 }
 
-export async function getCircuitSessions(circuitId) {
-  return fetchWithFallback(`/circuits/${circuitId}/sessions`, `circuit_${circuitId}_sessions.json`);
+export async function getCircuitSessions(circuitId, year = null) {
+  const url = year ? `/circuits/${circuitId}/sessions?year=${year}` : `/circuits/${circuitId}/sessions`;
+  return fetchWithFallback(url, `circuit_${circuitId}_sessions.json`);
 }
 
 export async function getSessionTelemetry(circuitId, sessionId) {
   return fetchWithFallback(`/circuits/${circuitId}/sessions/${sessionId}/telemetry`, `session_${sessionId}_telemetry.json`);
+}
+
+export async function getSessionWeather(sessionId) {
+  return fetchWithFallback(`/api/sessions/${sessionId}/weather`, `session_${sessionId}_weather.json`);
+}
+
+export async function getSessionTrackStatus(sessionId) {
+  return fetchWithFallback(`/api/sessions/${sessionId}/track-status`, `session_${sessionId}_track_status.json`);
+}
+
+export async function getSessionTrackShift(sessionId) {
+  return fetchWithFallback(`/api/sessions/${sessionId}/trackshift`, `session_${sessionId}_trackshift.json`);
+}
+
+export async function getCircuitComparison(circuitId, seasons = "2024,2025") {
+  return fetchWithFallback(`/api/circuits/${circuitId}/comparison?seasons=${seasons}`, `circuit_${circuitId}_comparison.json`);
+}
+
+
+export async function getSessionPitStops(circuitId, sessionId) {
+  return fetchWithFallback(`/api/sessions/${sessionId}/pit-stops`, `session_${sessionId}_pit_stops.json`);
 }
 
 export async function getSessionDrivers(circuitId, sessionId) {

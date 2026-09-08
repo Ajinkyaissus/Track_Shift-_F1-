@@ -1,13 +1,15 @@
-import { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { 
   getCircuits, 
   getCircuit, 
   getCircuitMap, 
   getCircuitSessions, 
   getSessionTelemetry, 
+  getSessionPitStops,
   getAttribution, 
   getLedger,
-  getSignatures 
+  getSignatures,
+  prefetchCircuitsData
 } from '../api';
 
 const CircuitContext = createContext(null);
@@ -30,7 +32,11 @@ export function CircuitProvider({ children }) {
     return hash;
   });
 
-  // Master Circuit Registry (13 verified circuits)
+  // Master Season Registry & Active Season Selection
+  const availableSeasons = [2025, 2024];
+  const [selectedSeason, setSelectedSeason] = useState(2024);
+
+  // Master Circuit Registry (Season-aware)
   const [circuits, setCircuits] = useState([]);
   const [circuitsLoading, setCircuitsLoading] = useState(true);
 
@@ -42,6 +48,9 @@ export function CircuitProvider({ children }) {
   
   const [selectedSession, setSelectedSession] = useState(null); // session_id string
   const [sessionTelemetry, setSessionTelemetry] = useState(null);
+  const [sessionPitStops, setSessionPitStops] = useState(null);
+  const [pitStopDisplayMode, setPitStopDisplayMode] = useState('ALL'); // 'ALL' | 'SELECTED' | 'OFF'
+  const [pitDriverFilter, setPitDriverFilter] = useState('ALL'); // 'ALL' | driver_id
   
   const [selectedDriver, setSelectedDriver] = useState(null); // driver_id string (e.g. "VER")
   const [comparisonDriver, setComparisonDriver] = useState(null); // driver_id string for VS mode
@@ -84,27 +93,63 @@ export function CircuitProvider({ children }) {
     setCurrentRoute(path);
   }, []);
 
-  // 1. Initial Load: Fetch 13 Verified Circuits & Driver Signatures
+  // 1. Initial Load & Season Change: Fetch Circuits for Selected Season
   useEffect(() => {
     setCircuitsLoading(true);
-    getCircuits()
+    getCircuits(selectedSeason)
       .then(data => {
-        setCircuits(data || []);
+        const list = data || [];
+        setCircuits(list);
         setCircuitsLoading(false);
+        if (list.length > 0) {
+          prefetchCircuitsData(list);
+        }
       })
       .catch(err => {
-        console.error("Circuits registry fetch error:", err);
-        setError("Failed to load verified circuits registry.");
+        console.error(`Circuits fetch error for season ${selectedSeason}:`, err);
+        setError(`Failed to load circuits for season ${selectedSeason}.`);
         setCircuitsLoading(false);
       });
 
     getSignatures()
       .then(sigs => setDriverSignatures(sigs || []))
       .catch(err => console.warn("Signatures fetch:", err));
-  }, []);
+  }, [selectedSeason]);
+
+  // Season Switcher Function: Clears all stale circuit, session, and driver data immediately
+  const selectSeason = useCallback((season) => {
+    const numSeason = Number(season);
+    if (numSeason === selectedSeason) return;
+
+    setSelectedSeason(numSeason);
+    setSelectedCircuit(null);
+    setCircuitDetail(null);
+    setCircuitMapData(null);
+    setAvailableSessions([]);
+    setSelectedSession(null);
+    setSessionTelemetry(null);
+    setSessionPitStops(null);
+    setPitDriverFilter('ALL');
+    setSelectedDriver(null);
+    setComparisonDriver(null);
+    setSelectedStint(null);
+    setStintLedger(null);
+    setStintAttribution(null);
+    setReplayLap(1);
+    setReplayProgress(0);
+    setIsPlaying(false);
+    setError(null);
+    navigateTo('/circuits');
+  }, [selectedSeason, navigateTo]);
+
+
+  // Request Sequence IDs for race-condition cancellation
+  const circuitReqSeqRef = useRef(0);
+  const sessionReqSeqRef = useRef(0);
 
   // 2. Select Circuit: Cleanly unmount prior data and load new circuit geometry & sessions
   const selectCircuit = useCallback(async (circuitId) => {
+    const currentSeq = ++circuitReqSeqRef.current;
     if (!circuitId) {
       setSelectedCircuit(null);
       setCircuitDetail(null);
@@ -112,6 +157,8 @@ export function CircuitProvider({ children }) {
       setAvailableSessions([]);
       setSelectedSession(null);
       setSessionTelemetry(null);
+      setSessionPitStops(null);
+      setPitDriverFilter('ALL');
       setSelectedDriver(null);
       setComparisonDriver(null);
       setSelectedStint(null);
@@ -131,6 +178,8 @@ export function CircuitProvider({ children }) {
     setAvailableSessions([]);
     setSelectedSession(null);
     setSessionTelemetry(null);
+    setSessionPitStops(null);
+    setPitDriverFilter('ALL');
     setSelectedDriver(null);
     setComparisonDriver(null);
     setSelectedStint(null);
@@ -149,25 +198,28 @@ export function CircuitProvider({ children }) {
       const [detail, map, sess] = await Promise.all([
         getCircuit(circuitId),
         getCircuitMap(circuitId).catch(() => null),
-        getCircuitSessions(circuitId).catch(() => [])
+        getCircuitSessions(circuitId, selectedSeason).catch(() => [])
       ]);
+
+      if (currentSeq !== circuitReqSeqRef.current) return; // Discard stale request
 
       setCircuitDetail(detail);
       setCircuitMapData(map);
       setAvailableSessions(sess || []);
       setLoadingStage(null);
-
-      // If exactly 1 session exists, or when navigating directly, session can be chosen
     } catch (err) {
+      if (currentSeq !== circuitReqSeqRef.current) return;
       console.error(`Error loading circuit ${circuitId}:`, err);
       setError(`Telemetry unavailable for circuit '${circuitId}'.`);
       setLoadingStage(null);
     }
-  }, [navigateTo]);
+  }, [selectedSeason, navigateTo]);
+
 
   // 3. Select Session: Load session telemetry, laps, drivers, stints
   const selectSession = useCallback(async (circuitId, sessionId) => {
     if (!circuitId || !sessionId) return;
+    const currentSeq = ++sessionReqSeqRef.current;
 
     setSelectedCircuit(circuitId);
     setSelectedSession(sessionId);
@@ -176,6 +228,8 @@ export function CircuitProvider({ children }) {
     setSelectedStint(null);
     setStintLedger(null);
     setStintAttribution(null);
+    setSessionPitStops(null);
+    setPitDriverFilter('ALL');
     setReplayLap(1);
     setReplayProgress(0);
     setIsPlaying(false);
@@ -189,11 +243,16 @@ export function CircuitProvider({ children }) {
       let map = circuitMapData;
       if (!map || map.circuit_id !== circuitId) {
         map = await getCircuitMap(circuitId).catch(() => null);
-        setCircuitMapData(map);
+        if (currentSeq === sessionReqSeqRef.current) {
+          setCircuitMapData(map);
+        }
       }
 
       const telemetryData = await getSessionTelemetry(circuitId, sessionId);
+      if (currentSeq !== sessionReqSeqRef.current) return; // Discard stale request
+
       setSessionTelemetry(telemetryData);
+      setSessionPitStops(telemetryData?.pit_stops || null);
 
       // Auto-select first driver if available
       if (telemetryData.drivers && telemetryData.drivers.length > 0) {
@@ -204,8 +263,12 @@ export function CircuitProvider({ children }) {
 
         // Load stint ledger and attribution
         if (firstDriver.stint_id) {
-          getLedger(firstDriver.stint_id).then(setStintLedger).catch(() => setStintLedger(null));
-          getAttribution(firstDriver.stint_id).then(setStintAttribution).catch(() => setStintAttribution(null));
+          getLedger(firstDriver.stint_id).then(d => {
+            if (currentSeq === sessionReqSeqRef.current) setStintLedger(d);
+          }).catch(() => {});
+          getAttribution(firstDriver.stint_id).then(d => {
+            if (currentSeq === sessionReqSeqRef.current) setStintAttribution(d);
+          }).catch(() => {});
         }
 
         // Set comparison driver to second driver if available
@@ -216,6 +279,7 @@ export function CircuitProvider({ children }) {
 
       setLoadingStage(null);
     } catch (err) {
+      if (currentSeq !== sessionReqSeqRef.current) return;
       console.error(`Error loading session ${sessionId}:`, err);
       setError(`Telemetry unavailable for this session.`);
       setLoadingStage(null);
@@ -367,14 +431,18 @@ export function CircuitProvider({ children }) {
   }, [sessionTelemetry, comparisonDriver, replayLap]);
 
   const contextValue = {
-    // Navigation
+    // Navigation & Season
     currentRoute,
     navigateTo,
+    availableSeasons,
+    selectedSeason,
+    selectSeason,
 
     // Circuit Data
     circuits,
     circuitsLoading,
     selectedCircuit,
+
     circuitDetail,
     circuitMapData,
     availableSessions,
@@ -383,6 +451,11 @@ export function CircuitProvider({ children }) {
     // Session Data
     selectedSession,
     sessionTelemetry,
+    sessionPitStops,
+    pitStopDisplayMode,
+    setPitStopDisplayMode,
+    pitDriverFilter,
+    setPitDriverFilter,
     selectSession,
 
     // Drivers & Stints

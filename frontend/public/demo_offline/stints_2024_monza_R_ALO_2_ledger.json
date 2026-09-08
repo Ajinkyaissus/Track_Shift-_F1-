@@ -1,0 +1,1 @@
+{"stint_id": "2024_monza_R_ALO_2", "model_version": "v3_stage1_2026-09-07", "total_debt_seconds": -0.4219, "series": [{"lap_number": 13.0, "residual": 0.029959033089260845, "cumulative_debt": 0.029959033089260845}, {"lap_number": 14.0, "residual": -0.4518107342269593, "cumulative_debt": -0.42185170113769843}]}
