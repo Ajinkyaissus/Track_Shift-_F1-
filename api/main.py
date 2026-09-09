@@ -21,7 +21,9 @@ from api.services import (
     StintsService,
     TyreDebtService,
     CounterfactualService,
-    SignaturesService
+    SignaturesService,
+    DegradationService,
+    RaceIntelligenceService
 )
 from api.routers import (
     circuits_router,
@@ -32,6 +34,10 @@ from api.routers import (
     set_stint_services,
     signatures_router,
     set_signatures_service,
+    degradation_router,
+    set_degradation_service,
+    race_intelligence_router,
+    set_race_intelligence_service,
     admin_router
 )
 
@@ -199,11 +205,15 @@ async def lifespan(app: FastAPI):
     tyre_debt_svc = TyreDebtService(DB_PATH, app_data)
     counterfactual_svc = CounterfactualService(app_data)
     signatures_svc = SignaturesService(DB_PATH, app_data)
+    degradation_svc = DegradationService(DB_PATH, app_data)
+    race_intel_svc = RaceIntelligenceService(DB_PATH, app_data)
 
     set_circuits_service(circuits_svc)
     set_seasons_circuits_service(circuits_svc)
     set_stint_services(stints_svc, tyre_debt_svc, counterfactual_svc)
     set_signatures_service(signatures_svc)
+    set_degradation_service(degradation_svc)
+    set_race_intelligence_service(race_intel_svc)
 
     yield
 
@@ -231,7 +241,10 @@ app.include_router(seasons_router)
 app.include_router(circuits_router)
 app.include_router(stints_router)
 app.include_router(signatures_router)
+app.include_router(degradation_router)
+app.include_router(race_intelligence_router)
 app.include_router(admin_router)
+
 
 
 

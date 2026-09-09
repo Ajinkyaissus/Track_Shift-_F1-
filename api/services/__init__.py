@@ -8,6 +8,8 @@ from api.services.stints_service import StintsService
 from api.services.tyre_debt_service import TyreDebtService
 from api.services.counterfactual_service import CounterfactualService, CounterfactualRequest
 from api.services.signatures_service import SignaturesService, SignatureTransferRequest
+from api.services.degradation_service import DegradationService
+from api.services.race_intelligence_service import RaceIntelligenceService
 
 __all__ = [
     "CircuitsService",
@@ -16,5 +18,8 @@ __all__ = [
     "CounterfactualService",
     "CounterfactualRequest",
     "SignaturesService",
-    "SignatureTransferRequest"
+    "SignatureTransferRequest",
+    "DegradationService",
+    "RaceIntelligenceService"
 ]
+

@@ -13,10 +13,21 @@ const CIRCUIT_SPECS = {
   jeddah: { length: "6.174 km", turns: 27, drsZones: 3, firstGp: "2021", grandPrix: "Saudi Arabian Grand Prix", date: "Mar 2024" },
   abu_dhabi: { length: "5.281 km", turns: 16, drsZones: 2, firstGp: "2009", grandPrix: "Abu Dhabi Grand Prix", date: "Dec 2024" },
   cota: { length: "5.513 km", turns: 20, drsZones: 2, firstGp: "2012", grandPrix: "United States Grand Prix", date: "Oct 2024" },
+  miami: { length: "5.412 km", turns: 19, drsZones: 3, firstGp: "2022", grandPrix: "Miami Grand Prix", date: "May 2024" },
+  las_vegas: { length: "6.201 km", turns: 17, drsZones: 2, firstGp: "2023", grandPrix: "Las Vegas Grand Prix", date: "Nov 2024" },
   interlagos: { length: "4.309 km", turns: 15, drsZones: 2, firstGp: "1973", grandPrix: "São Paulo Grand Prix", date: "Nov 2024" },
   suzuka: { length: "5.807 km", turns: 18, drsZones: 1, firstGp: "1987", grandPrix: "Japanese Grand Prix", date: "Apr 2024" },
   singapore: { length: "4.940 km", turns: 19, drsZones: 4, firstGp: "2008", grandPrix: "Singapore Grand Prix", date: "Sep 2024" },
-  albert_park: { length: "5.278 km", turns: 14, drsZones: 4, firstGp: "1996", grandPrix: "Australian Grand Prix", date: "Mar 2024" }
+  albert_park: { length: "5.278 km", turns: 14, drsZones: 4, firstGp: "1996", grandPrix: "Australian Grand Prix", date: "Mar 2024" },
+  baku: { length: "6.003 km", turns: 20, drsZones: 2, firstGp: "2016", grandPrix: "Azerbaijan Grand Prix", date: "Sep 2024" },
+  catalunya: { length: "4.657 km", turns: 14, drsZones: 2, firstGp: "1991", grandPrix: "Spanish Grand Prix", date: "Jun 2024" },
+  montreal: { length: "4.361 km", turns: 14, drsZones: 2, firstGp: "1978", grandPrix: "Canadian Grand Prix", date: "Jun 2024" },
+  red_bull_ring: { length: "4.318 km", turns: 10, drsZones: 3, firstGp: "1970", grandPrix: "Austrian Grand Prix", date: "Jun 2024" },
+  zandvoort: { length: "4.259 km", turns: 14, drsZones: 2, firstGp: "1952", grandPrix: "Dutch Grand Prix", date: "Aug 2024" },
+  losail: { length: "5.419 km", turns: 16, drsZones: 1, firstGp: "2021", grandPrix: "Qatar Grand Prix", date: "Dec 2024" },
+  rodriguez: { length: "4.304 km", turns: 17, drsZones: 3, firstGp: "1963", grandPrix: "Mexico City Grand Prix", date: "Oct 2024" },
+  shanghai: { length: "5.451 km", turns: 16, drsZones: 2, firstGp: "2004", grandPrix: "Chinese Grand Prix", date: "Apr 2024" },
+  imola: { length: "4.909 km", turns: 19, drsZones: 1, firstGp: "1980", grandPrix: "Emilia Romagna Grand Prix", date: "May 2024" }
 };
 
 // Earth Radius in 3D Units

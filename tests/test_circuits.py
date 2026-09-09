@@ -15,7 +15,7 @@ def test_get_circuits_list():
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data, list)
-    assert len(data) == 13
+    assert len(data) >= 24
     
     circuit_ids = [c["track_id"] for c in data]
     for cid in TARGET_CIRCUITS:

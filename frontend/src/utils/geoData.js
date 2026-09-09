@@ -114,6 +114,30 @@ export const F1_CIRCUIT_GEO = [
     turns: 20
   },
   {
+    circuit_id: "miami",
+    name: "Miami International Autodrome",
+    country: "United States",
+    country_code: "US",
+    flag: "🇺🇸",
+    location: "Miami, Florida",
+    lat: 25.9581,
+    lon: -80.2389,
+    length_km: 5.412,
+    turns: 19
+  },
+  {
+    circuit_id: "las_vegas",
+    name: "Las Vegas Strip Circuit",
+    country: "United States",
+    country_code: "US",
+    flag: "🇺🇸",
+    location: "Las Vegas, Nevada",
+    lat: 36.1147,
+    lon: -115.1685,
+    length_km: 6.201,
+    turns: 17
+  },
+  {
     circuit_id: "interlagos",
     name: "Autódromo José Carlos Pace",
     country: "Brazil",
@@ -160,6 +184,114 @@ export const F1_CIRCUIT_GEO = [
     lon: 144.968,
     length_km: 5.278,
     turns: 14
+  },
+  {
+    circuit_id: "baku",
+    name: "Baku City Circuit",
+    country: "Azerbaijan",
+    country_code: "AZ",
+    flag: "🇦🇿",
+    location: "Baku",
+    lat: 40.3725,
+    lon: 49.8533,
+    length_km: 6.003,
+    turns: 20
+  },
+  {
+    circuit_id: "catalunya",
+    name: "Circuit de Barcelona-Catalunya",
+    country: "Spain",
+    country_code: "ES",
+    flag: "🇪🇸",
+    location: "Montmeló",
+    lat: 41.5700,
+    lon: 2.2611,
+    length_km: 4.657,
+    turns: 14
+  },
+  {
+    circuit_id: "montreal",
+    name: "Circuit Gilles Villeneuve",
+    country: "Canada",
+    country_code: "CA",
+    flag: "🇨🇦",
+    location: "Montreal",
+    lat: 45.5000,
+    lon: -73.5228,
+    length_km: 4.361,
+    turns: 14
+  },
+  {
+    circuit_id: "red_bull_ring",
+    name: "Red Bull Ring",
+    country: "Austria",
+    country_code: "AT",
+    flag: "🇦🇹",
+    location: "Spielberg",
+    lat: 47.2197,
+    lon: 14.7647,
+    length_km: 4.318,
+    turns: 10
+  },
+  {
+    circuit_id: "zandvoort",
+    name: "Circuit Zandvoort",
+    country: "Netherlands",
+    country_code: "NL",
+    flag: "🇳🇱",
+    location: "Zandvoort",
+    lat: 52.3888,
+    lon: 4.5409,
+    length_km: 4.259,
+    turns: 14
+  },
+  {
+    circuit_id: "losail",
+    name: "Lusail International Circuit",
+    country: "Qatar",
+    country_code: "QA",
+    flag: "🇶🇦",
+    location: "Lusail",
+    lat: 25.4900,
+    lon: 51.4542,
+    length_km: 5.419,
+    turns: 16
+  },
+  {
+    circuit_id: "rodriguez",
+    name: "Autódromo Hermanos Rodríguez",
+    country: "Mexico",
+    country_code: "MX",
+    flag: "🇲🇽",
+    location: "Mexico City",
+    lat: 19.4042,
+    lon: -99.0907,
+    length_km: 4.304,
+    turns: 17
+  },
+  {
+    circuit_id: "shanghai",
+    name: "Shanghai International Circuit",
+    country: "China",
+    country_code: "CN",
+    flag: "🇨🇳",
+    location: "Shanghai",
+    lat: 31.3389,
+    lon: 121.2200,
+    length_km: 5.451,
+    turns: 16
+  },
+  {
+    circuit_id: "imola",
+    name: "Autodromo Enzo e Dino Ferrari",
+    country: "Italy",
+    country_code: "IT",
+    flag: "🇮🇹",
+    location: "Imola",
+    lat: 44.3439,
+    lon: 11.7167,
+    length_km: 4.909,
+    turns: 19
   }
 ];
 

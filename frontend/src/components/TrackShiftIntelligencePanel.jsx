@@ -3,6 +3,8 @@ import { useCircuit } from '../context/CircuitContext';
 import { computeCounterfactual, computeSignatureTransfer } from '../api';
 import { CountryFlag } from '../utils/countryFlags';
 import PitStopAnalyticsPanel from './PitStopAnalyticsPanel';
+import CleanDegradationView from './CleanDegradationView';
+import RacePredictionValidationPanel from './RacePredictionValidationPanel';
 import { 
   BarChart, 
   Bar, 
@@ -27,14 +29,21 @@ function formatFeatureName(feature) {
 
 export default function TrackShiftIntelligencePanel() {
   const {
+    selectedSession,
     sessionTelemetry,
     selectedDriver,
     selectedStint,
+    selectedCompound,
+    setSelectedCompound,
     stintLedger,
     stintAttribution,
     driverSignatures,
+    sessionDegradationData,
     currentDriverLapTelemetry
   } = useCircuit();
+
+  const [panelSection, setPanelSection] = useState('DEGRADATION'); // 'DEGRADATION' | 'VALIDATION' | 'BEHAVIORAL' | 'PIT_STOPS'
+
 
   const driverMeta = useMemo(() => {
     return sessionTelemetry?.drivers?.find(d => d.driver_id === selectedDriver) || {
@@ -149,8 +158,33 @@ export default function TrackShiftIntelligencePanel() {
 
   return (
     <div className="intelligence-panel-wrapper">
-      {/* 0. All-Driver Pit Stop Analytics System */}
-      <PitStopAnalyticsPanel />
+      {/* 0. INTELLIGENCE HUB TOP SECTION SELECTOR */}
+      <div className="intelligence-hub-nav">
+        <button
+          className={`hub-nav-btn ${panelSection === 'DEGRADATION' ? 'active' : ''}`}
+          onClick={() => setPanelSection('DEGRADATION')}
+        >
+          📈 Clean Degradation Signal
+        </button>
+        <button
+          className={`hub-nav-btn ${panelSection === 'VALIDATION' ? 'active' : ''}`}
+          onClick={() => setPanelSection('VALIDATION')}
+        >
+          🏁 Pre-Race Prediction & Validation
+        </button>
+        <button
+          className={`hub-nav-btn ${panelSection === 'BEHAVIORAL' ? 'active' : ''}`}
+          onClick={() => setPanelSection('BEHAVIORAL')}
+        >
+          ⚡ TCN Behavioral & Sensitivity
+        </button>
+        <button
+          className={`hub-nav-btn ${panelSection === 'PIT_STOPS' ? 'active' : ''}`}
+          onClick={() => setPanelSection('PIT_STOPS')}
+        >
+          ⛽ Pit Stop Analytics
+        </button>
+      </div>
 
       {/* 1. Large Driver Photo & Broadcast Identity Header */}
       <div className="analytics-driver-header-card" style={{ borderLeft: `5px solid ${driverMeta.team_color || '#E10600'}` }}>
@@ -185,44 +219,72 @@ export default function TrackShiftIntelligencePanel() {
         </div>
       </div>
 
-      {/* 2. Intelligence Section Title */}
-      <div className="intelligence-header-row">
-        <div>
-          <span className="panel-tag">DEEP LEARNING + HYBRID ML</span>
-          <h2 className="intelligence-title">TRACKSHIFT ANALYTICS</h2>
-        </div>
-        <div className="model-version-pills">
-          <span className="version-pill stage1-pill">Stage 1: Baseline HistGradientBoosting</span>
-          <span className="version-pill stage3-pill">Stage 3: {stage3Version}</span>
-        </div>
-      </div>
+      {/* SECTION 1: CLEAN DEGRADATION INTELLIGENCE */}
+      {panelSection === 'DEGRADATION' && (
+        <CleanDegradationView
+          degradationData={sessionDegradationData}
+          selectedDriver={selectedDriver}
+          selectedCompound={selectedCompound}
+          onCompoundChange={setSelectedCompound}
+        />
+      )}
 
-      <div className="intelligence-grid">
-        {/* 1. Tyre Debt Ledger Summary */}
-        <div className="intelligence-card">
-          <div className="card-top-row">
-            <h3 className="card-sub-title">Stage 2: Tyre Debt Ledger</h3>
-            <span className="badge-dim">FastF1 Residuals</span>
+      {/* SECTION 2: RACE PREDICTION & VALIDATION */}
+      {panelSection === 'VALIDATION' && (
+        <RacePredictionValidationPanel
+          sessionId={selectedSession}
+          selectedDriver={selectedDriver}
+          selectedCompound={selectedCompound}
+          availableDrivers={sessionTelemetry?.drivers || []}
+        />
+      )}
+
+      {/* SECTION 3: PIT STOP ANALYTICS */}
+      {panelSection === 'PIT_STOPS' && (
+        <PitStopAnalyticsPanel />
+      )}
+
+      {/* SECTION 4: TCN BEHAVIORAL & OBSERVATIONAL SENSITIVITY */}
+      {panelSection === 'BEHAVIORAL' && (
+        <>
+          <div className="intelligence-header-row">
+            <div>
+              <span className="panel-tag">DEEP LEARNING + HYBRID ML</span>
+              <h2 className="intelligence-title">BEHAVIORAL & SENSITIVITY</h2>
+            </div>
+            <div className="model-version-pills">
+              <span className="version-pill stage1-pill">Stage 1: Baseline HistGradientBoosting</span>
+              <span className="version-pill stage3-pill">Stage 3: {stage3Version}</span>
+            </div>
           </div>
-          <p className="card-desc">
-            Accumulated performance deviation against fuel-corrected baseline degradation profile from <code>data/residual_ledger.parquet</code>.
-          </p>
 
-          <div className="debt-highlight-box">
-            <div className="debt-stat">
-              <span className="d-label">TOTAL ACCUMULATED DEBT</span>
-              <div className={`d-val ${totalDebtSec > 0 ? 'debt-pos' : 'credit-pos'}`}>
-                {totalDebtSec > 0 ? `+${totalDebtSec.toFixed(3)}s` : `${totalDebtSec.toFixed(3)}s`}
+          <div className="intelligence-grid">
+            {/* 1. Tyre Debt Ledger Summary */}
+            <div className="intelligence-card">
+              <div className="card-top-row">
+                <h3 className="card-sub-title">Cumulative Estimated Tyre Debt</h3>
+                <span className="badge-dim">FastF1 Residuals</span>
+              </div>
+              <p className="card-desc">
+                Accumulated performance deviation against fuel-corrected baseline degradation profile from <code>data/residual_ledger.parquet</code>.
+              </p>
+
+              <div className="debt-highlight-box">
+                <div className="debt-stat">
+                  <span className="d-label">TOTAL ACCUMULATED DEBT</span>
+                  <div className={`d-val ${totalDebtSec > 0 ? 'debt-pos' : 'credit-pos'}`}>
+                    {totalDebtSec > 0 ? `+${totalDebtSec.toFixed(3)}s` : `${totalDebtSec.toFixed(3)}s`}
+                  </div>
+                </div>
+                <div className="debt-stat">
+                  <span className="d-label">ACTIVE STINT</span>
+                  <div className="d-stint-code">{selectedStint || '2024_GP_STINT'}</div>
+                </div>
               </div>
             </div>
-            <div className="debt-stat">
-              <span className="d-label">ACTIVE STINT</span>
-              <div className="d-stint-code">{selectedStint || '2024_GP_STINT'}</div>
-            </div>
-          </div>
-        </div>
 
-        {/* 2. Stage 3 TCN Behavioral State */}
+            {/* 2. Stage 3 TCN Behavioral State */}
+
         <div className="intelligence-card">
           <div className="card-top-row">
             <h3 className="card-sub-title">Stage 3: TCN Behavioral State</h3>
@@ -437,6 +499,9 @@ export default function TrackShiftIntelligencePanel() {
           )}
         </div>
       </div>
-    </div>
+    </>
+  )}
+</div>
+
   );
 }

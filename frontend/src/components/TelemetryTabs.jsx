@@ -1,5 +1,8 @@
 import { useMemo } from 'react';
 import { useCircuit, TELEMETRY_TABS } from '../context/CircuitContext';
+import CleanDegradationView from './CleanDegradationView';
+import RacePredictionValidationPanel from './RacePredictionValidationPanel';
+import RaceIntelligencePanel from './RaceIntelligencePanel';
 import { 
   LineChart, 
   Line, 
@@ -16,14 +19,19 @@ import {
 
 export default function TelemetryTabs() {
   const {
+    selectedSession,
     sessionTelemetry,
     selectedDriver,
     comparisonDriver,
+    selectedCompound,
+    setSelectedCompound,
+    sessionDegradationData,
     activeTelemetryTab,
     setActiveTelemetryTab,
     replayLap,
     stintLedger
   } = useCircuit();
+
 
   // Prepare chart series data up to current replay lap
   const { chartData, driverAInfo, driverBInfo } = useMemo(() => {
@@ -114,7 +122,23 @@ export default function TelemetryTabs() {
 
       {/* Tab Content Display */}
       <div className="tab-chart-body">
-        {chartData.length === 0 ? (
+        {activeTelemetryTab === 'RACE INTELLIGENCE' ? (
+          <RaceIntelligencePanel />
+        ) : activeTelemetryTab === 'CLEAN DEG' ? (
+          <CleanDegradationView
+            degradationData={sessionDegradationData}
+            selectedDriver={selectedDriver}
+            selectedCompound={selectedCompound}
+            onCompoundChange={setSelectedCompound}
+          />
+        ) : activeTelemetryTab === 'VALIDATION' ? (
+          <RacePredictionValidationPanel
+            sessionId={selectedSession}
+            selectedDriver={selectedDriver}
+            selectedCompound={selectedCompound}
+            availableDrivers={sessionTelemetry?.drivers || []}
+          />
+        ) : chartData.length === 0 ? (
           <div className="empty-chart-state">
             <div className="empty-chart-text">
               <span className="notice-pill">INSUFFICIENT TELEMETRY</span>
@@ -128,6 +152,7 @@ export default function TelemetryTabs() {
             <ResponsiveContainer width="100%" height="100%">
               {activeTelemetryTab === 'SPEED' && (
                 <LineChart data={chartData}>
+
                   <CartesianGrid strokeDasharray="3 3" stroke="#222232" />
                   <XAxis dataKey="lap_number" stroke="#777788" label={{ value: 'Lap Number', position: 'insideBottom', offset: -5, fill: '#666' }} />
                   <YAxis stroke="#777788" domain={['auto', 'auto']} unit=" km/h" />

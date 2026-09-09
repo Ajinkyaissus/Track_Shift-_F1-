@@ -308,3 +308,85 @@ export async function invalidateStintCache(stintId) {
     return { stint_id: stintId, invalidated_keys_count: 0 };
   }
 }
+
+// TrackShift Theme Alignment: Tyre Degradation, Prediction & Validation APIs
+export async function getSessionDegradation(sessionId, driverId = null, compound = null, stintId = null) {
+  let url = `/api/sessions/${sessionId}/degradation?`;
+  const params = [];
+  if (driverId) params.push(`driver_id=${encodeURIComponent(driverId)}`);
+  if (compound && compound !== 'ALL') params.push(`compound=${encodeURIComponent(compound)}`);
+  if (stintId) params.push(`stint_id=${encodeURIComponent(stintId)}`);
+  url += params.join('&');
+  return fetchWithFallback(url, `session_${sessionId}_degradation.json`);
+}
+
+export async function getSessionPrediction(sessionId, driverId = null, compound = null) {
+  let url = `/api/sessions/${sessionId}/prediction?`;
+  const params = [];
+  if (driverId) params.push(`driver_id=${encodeURIComponent(driverId)}`);
+  if (compound && compound !== 'ALL') params.push(`compound=${encodeURIComponent(compound)}`);
+  url += params.join('&');
+  return fetchWithFallback(url, `session_${sessionId}_prediction.json`);
+}
+
+export async function getSessionValidation(sessionId, practiceSessionId = null, driverId = null, compound = null) {
+  let url = `/api/sessions/${sessionId}/validation?`;
+  const params = [];
+  if (practiceSessionId) params.push(`practice_session_id=${encodeURIComponent(practiceSessionId)}`);
+  if (driverId) params.push(`driver_id=${encodeURIComponent(driverId)}`);
+  if (compound && compound !== 'ALL') params.push(`compound=${encodeURIComponent(compound)}`);
+  url += params.join('&');
+  return fetchWithFallback(url, `session_${sessionId}_validation.json`);
+}
+
+export async function getEventPracticeRaceValidation(eventId, practiceSessionType = "FP2", driverId = null, compound = null) {
+  let url = `/api/events/${eventId}/practice-race-validation?practice_session_type=${encodeURIComponent(practiceSessionType)}&`;
+  const params = [];
+  if (driverId) params.push(`driver_id=${encodeURIComponent(driverId)}`);
+  if (compound && compound !== 'ALL') params.push(`compound=${encodeURIComponent(compound)}`);
+  url += params.join('&');
+  return fetchWithFallback(url, `event_${eventId}_validation.json`);
+}
+
+export async function compareDriversDegradation(sessionId, driverA, driverB, compound = null) {
+  let url = `/api/sessions/${sessionId}/degradation/compare-drivers?driver_a=${encodeURIComponent(driverA)}&driver_b=${encodeURIComponent(driverB)}`;
+  if (compound && compound !== 'ALL') url += `&compound=${encodeURIComponent(compound)}`;
+  return fetchWithFallback(url, `compare_drivers_${sessionId}_${driverA}_${driverB}.json`);
+}
+
+export async function compareCompoundsDegradation(sessionId, driverId = null) {
+  let url = `/api/sessions/${sessionId}/degradation/compare-compounds?`;
+  if (driverId) url += `driver_id=${encodeURIComponent(driverId)}`;
+  return fetchWithFallback(url, `compare_compounds_${sessionId}.json`);
+}
+
+// Universal Race Intelligence APIs
+export async function getRaceIntelligence(sessionId, driverId = null, replayLap = null, temporalMode = "AUTO") {
+  let url = `/api/sessions/${sessionId}/race-intelligence?`;
+  const params = [];
+  if (driverId) params.push(`driver_id=${encodeURIComponent(driverId)}`);
+  if (replayLap !== null && replayLap !== undefined) params.push(`replay_lap=${encodeURIComponent(replayLap)}`);
+  if (temporalMode && temporalMode !== "AUTO") params.push(`temporal_mode=${encodeURIComponent(temporalMode)}`);
+  url += params.join('&');
+  return fetchWithFallback(url, `race_intelligence_${sessionId}.json`);
+}
+
+export async function getRaceIntelligenceDrivers(sessionId) {
+  return fetchWithFallback(`/api/sessions/${sessionId}/race-intelligence/drivers`, `race_intelligence_drivers_${sessionId}.json`);
+}
+
+export async function getRaceIntelligenceStrategy(sessionId, driverA, driverB) {
+  const url = `/api/sessions/${sessionId}/race-intelligence/strategy?driver_a=${encodeURIComponent(driverA)}&driver_b=${encodeURIComponent(driverB)}`;
+  return fetchWithFallback(url, `race_intelligence_strategy_${sessionId}_${driverA}_${driverB}.json`);
+}
+
+export async function getRaceIntelligenceValidation(sessionId) {
+  return fetchWithFallback(`/api/sessions/${sessionId}/race-intelligence/validation`, `race_intelligence_validation_${sessionId}.json`);
+}
+
+export async function getDriverRaceIntelligence(sessionId, driverId, replayLap = null) {
+  let url = `/api/sessions/${sessionId}/race-intelligence/${driverId}`;
+  if (replayLap !== null && replayLap !== undefined) url += `?replay_lap=${encodeURIComponent(replayLap)}`;
+  return fetchWithFallback(url, `race_intelligence_${sessionId}_${driverId}.json`);
+}
+

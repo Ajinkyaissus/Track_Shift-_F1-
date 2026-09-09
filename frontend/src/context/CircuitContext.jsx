@@ -6,6 +6,8 @@ import {
   getCircuitSessions, 
   getSessionTelemetry, 
   getSessionPitStops,
+  getSessionDegradation,
+  getRaceIntelligence,
   getAttribution, 
   getLedger,
   getSignatures,
@@ -15,15 +17,18 @@ import {
 const CircuitContext = createContext(null);
 
 export const TELEMETRY_TABS = [
+  'RACE INTELLIGENCE',
   'SPEED',
-  'THROTTLE',
-  'BRAKE',
-  'GEAR',
-  'DELTA',
+  'CLEAN DEG',
   'TYRE DEBT',
+  'VALIDATION',
+  'BRAKE',
+  'THROTTLE',
+  'DELTA',
   'BEHAVIOUR',
   'TCN'
 ];
+
 
 export function CircuitProvider({ children }) {
   // Navigation & Route states
@@ -64,6 +69,10 @@ export function CircuitProvider({ children }) {
   const [stintLedger, setStintLedger] = useState(null);
   const [stintAttribution, setStintAttribution] = useState(null);
   const [driverSignatures, setDriverSignatures] = useState([]);
+  const [sessionDegradationData, setSessionDegradationData] = useState(null);
+  const [raceIntelligenceData, setRaceIntelligenceData] = useState(null);
+  const [raceIntelligenceLoading, setRaceIntelligenceLoading] = useState(false);
+
 
   // Replay Engine State
   const [replayLap, setReplayLap] = useState(1);
@@ -71,8 +80,8 @@ export function CircuitProvider({ children }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(1); // 1, 2, 4, 8
 
-  // Telemetry Tab
-  const [activeTelemetryTab, setActiveTelemetryTab] = useState('SPEED');
+  // Telemetry Tab - Primary default is RACE INTELLIGENCE
+  const [activeTelemetryTab, setActiveTelemetryTab] = useState('RACE INTELLIGENCE');
 
   // Loading & Error States across dependency stages
   const [loadingStage, setLoadingStage] = useState(null); // 'circuits' | 'circuit' | 'session' | 'stint' | null
@@ -277,7 +286,25 @@ export function CircuitProvider({ children }) {
         }
       }
 
+      // Fetch clean degradation & contextual factors for the session
+      getSessionDegradation(sessionId).then(d => {
+        if (currentSeq === sessionReqSeqRef.current) setSessionDegradationData(d);
+      }).catch(() => {});
+
+      // Fetch Universal Race Intelligence
+      setRaceIntelligenceLoading(true);
+      getRaceIntelligence(sessionId, null, 1).then(d => {
+        if (currentSeq === sessionReqSeqRef.current) {
+          setRaceIntelligenceData(d);
+          setRaceIntelligenceLoading(false);
+        }
+      }).catch(err => {
+        console.warn("Race intelligence fetch error:", err);
+        if (currentSeq === sessionReqSeqRef.current) setRaceIntelligenceLoading(false);
+      });
+
       setLoadingStage(null);
+
     } catch (err) {
       if (currentSeq !== sessionReqSeqRef.current) return;
       console.error(`Error loading session ${sessionId}:`, err);
@@ -475,6 +502,11 @@ export function CircuitProvider({ children }) {
     stintLedger,
     stintAttribution,
     driverSignatures,
+    sessionDegradationData,
+    setSessionDegradationData,
+    raceIntelligenceData,
+    setRaceIntelligenceData,
+    raceIntelligenceLoading,
 
     // Replay State & Controls
     replayLap,
