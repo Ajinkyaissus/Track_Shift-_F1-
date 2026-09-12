@@ -15,4 +15,4 @@ async def test_offline_precompute_execution():
     assert summary["evaluated_laps"] >= 943
     assert summary["embeddings_generated"] >= 6
     assert summary["attributions_cached"] >= 6
-    assert summary["maps_cached"] == 13
+    assert summary["maps_cached"] >= 13

@@ -1,0 +1,55 @@
+{
+  "status": "VALIDATED",
+  "baseline_action": "PIT",
+  "perturbation_levels": [
+    "-50%",
+    "-25%",
+    "-10%",
+    "+10%",
+    "+25%",
+    "+50%"
+  ],
+  "parameter_sensitivity": {
+    "race_time_advantage_weight": {
+      "base_value": 1.2,
+      "switch_count_across_6_perturbations": 0,
+      "stability_status": "HIGH_STABILITY"
+    },
+    "position_gain_weight": {
+      "base_value": 2.5,
+      "switch_count_across_6_perturbations": 0,
+      "stability_status": "HIGH_STABILITY"
+    },
+    "win_prob_gain_weight": {
+      "base_value": 15.0,
+      "switch_count_across_6_perturbations": 0,
+      "stability_status": "HIGH_STABILITY"
+    },
+    "podium_prob_gain_weight": {
+      "base_value": 8.0,
+      "switch_count_across_6_perturbations": 0,
+      "stability_status": "HIGH_STABILITY"
+    },
+    "tyre_debt_cost_weight": {
+      "base_value": 0.6,
+      "switch_count_across_6_perturbations": 0,
+      "stability_status": "HIGH_STABILITY"
+    },
+    "cliff_risk_penalty_weight": {
+      "base_value": 3.0,
+      "switch_count_across_6_perturbations": 0,
+      "stability_status": "HIGH_STABILITY"
+    },
+    "competitor_threat_penalty_weight": {
+      "base_value": 2.5,
+      "switch_count_across_6_perturbations": 0,
+      "stability_status": "HIGH_STABILITY"
+    },
+    "uncertainty_discount_weight": {
+      "base_value": 0.5,
+      "switch_count_across_6_perturbations": 0,
+      "stability_status": "HIGH_STABILITY"
+    }
+  },
+  "overall_stability_verdict": "STABLE_DECISION_CORRIDOR"
+}

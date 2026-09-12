@@ -1,0 +1,7 @@
+{
+  "stints_evaluated": 203,
+  "mean_behavior_drift": 3.9915,
+  "std_behavior_drift": 0.9672,
+  "spearman_rho_with_stint_degradation_slope": -0.0519,
+  "drift_signal_verified": false
+}

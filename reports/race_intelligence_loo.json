@@ -1,0 +1,207 @@
+{
+  "evaluated_events_count": 23,
+  "winner_accuracy_distribution": {
+    "mean": 56.52,
+    "median": 50.0,
+    "p10": 10.0,
+    "p25": 50.0,
+    "p75": 75.0,
+    "p90": 100.0,
+    "worst_event": "abu_dhabi",
+    "best_event": "albert_park"
+  },
+  "finish_mae_distribution": {
+    "mean": 1.91,
+    "median": 1.61,
+    "p10": 0.74,
+    "p25": 1.12,
+    "p75": 2.08,
+    "p90": 3.7
+  },
+  "event_records": [
+    {
+      "circuit": "abu_dhabi",
+      "races_count": 2,
+      "winner_accuracy_pct": 0.0,
+      "expected_finish_mae": 2.05,
+      "log_loss": 2.4321,
+      "ece": 0.1223
+    },
+    {
+      "circuit": "albert_park",
+      "races_count": 2,
+      "winner_accuracy_pct": 100.0,
+      "expected_finish_mae": 1.39,
+      "log_loss": 1.5589,
+      "ece": 0.777
+    },
+    {
+      "circuit": "bahrain",
+      "races_count": 2,
+      "winner_accuracy_pct": 50.0,
+      "expected_finish_mae": 0.7,
+      "log_loss": 2.0998,
+      "ece": 0.3306
+    },
+    {
+      "circuit": "baku",
+      "races_count": 2,
+      "winner_accuracy_pct": 50.0,
+      "expected_finish_mae": 1.84,
+      "log_loss": 2.6535,
+      "ece": 0.3344
+    },
+    {
+      "circuit": "cota",
+      "races_count": 2,
+      "winner_accuracy_pct": 50.0,
+      "expected_finish_mae": 3.58,
+      "log_loss": 2.6007,
+      "ece": 0.3717
+    },
+    {
+      "circuit": "hungaroring",
+      "races_count": 2,
+      "winner_accuracy_pct": 50.0,
+      "expected_finish_mae": 0.46,
+      "log_loss": 1.789,
+      "ece": 0.3306
+    },
+    {
+      "circuit": "imola",
+      "races_count": 2,
+      "winner_accuracy_pct": 100.0,
+      "expected_finish_mae": 1.9,
+      "log_loss": 1.7842,
+      "ece": 0.8317
+    },
+    {
+      "circuit": "interlagos",
+      "races_count": 2,
+      "winner_accuracy_pct": 50.0,
+      "expected_finish_mae": 1.09,
+      "log_loss": 1.9512,
+      "ece": 0.344
+    },
+    {
+      "circuit": "jeddah",
+      "races_count": 2,
+      "winner_accuracy_pct": 0.0,
+      "expected_finish_mae": 5.06,
+      "log_loss": 2.4719,
+      "ece": 0.1401
+    },
+    {
+      "circuit": "las_vegas",
+      "races_count": 2,
+      "winner_accuracy_pct": 100.0,
+      "expected_finish_mae": 2.11,
+      "log_loss": 1.7498,
+      "ece": 0.825
+    },
+    {
+      "circuit": "losail",
+      "races_count": 2,
+      "winner_accuracy_pct": 100.0,
+      "expected_finish_mae": 1.61,
+      "log_loss": 1.7318,
+      "ece": 0.8224
+    },
+    {
+      "circuit": "miami",
+      "races_count": 1,
+      "winner_accuracy_pct": 0.0,
+      "expected_finish_mae": 1.05,
+      "log_loss": 1.9341,
+      "ece": 0.1485
+    },
+    {
+      "circuit": "monaco",
+      "races_count": 2,
+      "winner_accuracy_pct": 50.0,
+      "expected_finish_mae": 2.0,
+      "log_loss": 2.0077,
+      "ece": 0.4543
+    },
+    {
+      "circuit": "montreal",
+      "races_count": 2,
+      "winner_accuracy_pct": 50.0,
+      "expected_finish_mae": 1.15,
+      "log_loss": 1.7521,
+      "ece": 0.3231
+    },
+    {
+      "circuit": "monza",
+      "races_count": 2,
+      "winner_accuracy_pct": 100.0,
+      "expected_finish_mae": 0.54,
+      "log_loss": 1.6989,
+      "ece": 0.8162
+    },
+    {
+      "circuit": "red_bull_ring",
+      "races_count": 2,
+      "winner_accuracy_pct": 50.0,
+      "expected_finish_mae": 1.17,
+      "log_loss": 2.1165,
+      "ece": 0.3252
+    },
+    {
+      "circuit": "rodriguez",
+      "races_count": 2,
+      "winner_accuracy_pct": 50.0,
+      "expected_finish_mae": 1.47,
+      "log_loss": 2.0173,
+      "ece": 0.4837
+    },
+    {
+      "circuit": "shanghai",
+      "races_count": 2,
+      "winner_accuracy_pct": 50.0,
+      "expected_finish_mae": 2.65,
+      "log_loss": 2.0912,
+      "ece": 0.3545
+    },
+    {
+      "circuit": "silverstone",
+      "races_count": 2,
+      "winner_accuracy_pct": 50.0,
+      "expected_finish_mae": 4.36,
+      "log_loss": 4.2659,
+      "ece": 0.8269
+    },
+    {
+      "circuit": "singapore",
+      "races_count": 2,
+      "winner_accuracy_pct": 50.0,
+      "expected_finish_mae": 1.28,
+      "log_loss": 1.7424,
+      "ece": 0.4343
+    },
+    {
+      "circuit": "spa",
+      "races_count": 2,
+      "winner_accuracy_pct": 50.0,
+      "expected_finish_mae": 0.92,
+      "log_loss": 1.8765,
+      "ece": 0.4668
+    },
+    {
+      "circuit": "suzuka",
+      "races_count": 2,
+      "winner_accuracy_pct": 50.0,
+      "expected_finish_mae": 3.73,
+      "log_loss": 2.9437,
+      "ece": 0.5391
+    },
+    {
+      "circuit": "zandvoort",
+      "races_count": 2,
+      "winner_accuracy_pct": 100.0,
+      "expected_finish_mae": 1.79,
+      "log_loss": 1.685,
+      "ece": 0.8118
+    }
+  ]
+}

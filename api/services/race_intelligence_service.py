@@ -432,21 +432,38 @@ class RaceIntelligenceService:
             lateral_proxy = float(valid_laps['lateral_dynamics_proxy'].mean()) if 'lateral_dynamics_proxy' in valid_laps.columns and valid_laps['lateral_dynamics_proxy'].notna().any() else 0.65
             lockup_rate = float(valid_laps['lockup_flag_rate'].mean()) if 'lockup_flag_rate' in valid_laps.columns and valid_laps['lockup_flag_rate'].notna().any() else 0.04
 
-            # TCN behavioral embedding extraction
+            # TCN multi-head behavioral intelligence extraction
             tcn_embedding = None
             tcn_status = "UNAVAILABLE"
+            b_state_score = 50.0
+            b_anomaly_score = 0.0
+            b_regime = "NORMAL"
+            b_forecast = None
+            b_delta = 0.0
+            b_gov = {}
             tcn_model = self._get_tcn_model()
 
             if tcn_model is not None and len(valid_laps) >= 3:
                 try:
-                    features_seq = np.zeros((1, len(valid_laps), 5))
+                    features_seq = np.zeros((1, len(valid_laps), 5), dtype=np.float32)
                     features_seq[0, :, 0] = braking_aggression
                     features_seq[0, :, 1] = throttle_smoothness
                     features_seq[0, :, 2] = lateral_proxy
                     features_seq[0, :, 3] = kerb_usage
                     features_seq[0, :, 4] = lockup_rate
-                    emb = tcn_model.extract_embedding(features_seq)
-                    tcn_embedding = [round(float(x), 4) for x in emb[0]]
+
+                    if hasattr(tcn_model, "infer_behavioral_intelligence"):
+                        b_intel_res = tcn_model.infer_behavioral_intelligence(features_seq[0])
+                        tcn_embedding = b_intel_res.get("behavior_embedding")
+                        b_state_score = b_intel_res.get("behavior_state_score", 50.0)
+                        b_anomaly_score = b_intel_res.get("anomaly_score", 0.0)
+                        b_regime = b_intel_res.get("behavioral_regime", "NORMAL")
+                        b_forecast = b_intel_res.get("behavior_forecast")
+                        b_delta = b_intel_res.get("behavior_delta", 0.0)
+                        b_gov = b_intel_res.get("governance_status", {})
+                    else:
+                        emb = tcn_model.extract_embedding(features_seq)
+                        tcn_embedding = [round(float(x), 4) for x in emb[0]]
                     tcn_status = "AVAILABLE"
                 except Exception as e:
                     logger.debug("TCN inference error for driver %s: %s", d_id, str(e))
@@ -585,8 +602,14 @@ class RaceIntelligenceService:
                     "kerb_usage_index": round(kerb_usage, 3),
                     "lateral_dynamics_proxy": round(lateral_proxy, 3),
                     "lockup_rate_pct": round(lockup_rate * 100.0, 1),
+                    "behavior_state_score": b_state_score,
+                    "anomaly_score": b_anomaly_score,
+                    "behavioral_regime": b_regime,
+                    "behavior_forecast": b_forecast,
+                    "behavior_delta": b_delta,
                     "tcn_embedding": tcn_embedding,
-                    "tcn_status": tcn_status
+                    "tcn_status": tcn_status,
+                    "governance_status": b_gov
                 },
                 "strategy_projection": {
                     "optimal_strategy": strategy_options[0]["strategy_name"],

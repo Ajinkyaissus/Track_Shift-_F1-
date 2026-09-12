@@ -390,3 +390,78 @@ export async function getDriverRaceIntelligence(sessionId, driverId, replayLap =
   return fetchWithFallback(url, `race_intelligence_${sessionId}_${driverId}.json`);
 }
 
+// Strategic Warfare Engine APIs
+export async function getStrategicWarfare(sessionId, driverId = null, lap = null) {
+  let url = `/api/sessions/${sessionId}/strategic-warfare?`;
+  const params = [];
+  if (driverId) params.push(`driver_id=${encodeURIComponent(driverId)}`);
+  if (lap !== null && lap !== undefined) params.push(`lap=${encodeURIComponent(lap)}`);
+  url += params.join('&');
+  return fetchWithFallback(url, `strategic_warfare_${sessionId}_${driverId || 'ALL'}.json`);
+}
+
+export async function getStrategicDecision(sessionId, driverId = null, lap = null) {
+  let url = `/api/sessions/${sessionId}/strategic-warfare/decision?`;
+  const params = [];
+  if (driverId) params.push(`driver_id=${encodeURIComponent(driverId)}`);
+  if (lap !== null && lap !== undefined) params.push(`lap=${encodeURIComponent(lap)}`);
+  url += params.join('&');
+  return fetchWithFallback(url, `strategic_decision_${sessionId}.json`);
+}
+
+export async function getCompetitorRadar(sessionId, driverId = null, lap = null) {
+  let url = `/api/sessions/${sessionId}/strategic-warfare/competitor-radar?`;
+  const params = [];
+  if (driverId) params.push(`driver_id=${encodeURIComponent(driverId)}`);
+  if (lap !== null && lap !== undefined) params.push(`lap=${encodeURIComponent(lap)}`);
+  url += params.join('&');
+  return fetchWithFallback(url, `competitor_radar_${sessionId}.json`);
+}
+
+export async function getGhostCarRoi(sessionId, driverId = null, lap = null) {
+  let url = `/api/sessions/${sessionId}/strategic-warfare/ghost-car-roi?`;
+  const params = [];
+  if (driverId) params.push(`driver_id=${encodeURIComponent(driverId)}`);
+  if (lap !== null && lap !== undefined) params.push(`lap=${encodeURIComponent(lap)}`);
+  url += params.join('&');
+  return fetchWithFallback(url, `ghost_car_roi_${sessionId}.json`);
+}
+
+export async function getStrategicCheckpoints(sessionId, driverId) {
+  const url = `/api/sessions/${sessionId}/strategic-warfare/checkpoints?driver_id=${encodeURIComponent(driverId)}`;
+  return fetchWithFallback(url, `strategic_checkpoints_${sessionId}_${driverId}.json`);
+}
+
+// Confounder-Aware Tyre Intelligence APIs
+export async function getTyreProvenance() {
+  return fetchWithFallback("/api/tyre-intelligence/provenance", "tyre_provenance.json");
+}
+
+export async function getEstimatedDegradationCurve(circuitId = "silverstone", driverId = "HAM", sessionId = null, checkpointLap = null) {
+  let url = `/api/tyre-intelligence/degradation-curve?circuit_id=${encodeURIComponent(circuitId)}&driver_id=${encodeURIComponent(driverId)}`;
+  if (sessionId) url += `&session_id=${encodeURIComponent(sessionId)}`;
+  if (checkpointLap !== null && checkpointLap !== undefined) url += `&checkpoint_lap=${encodeURIComponent(checkpointLap)}`;
+  return fetchWithFallback(url, `tyre_degradation_curve_${circuitId}_${driverId}.json`);
+}
+
+export async function getConfounderAblation(datasetName = "2024_2025_Telemetry") {
+  return fetchWithFallback(`/api/tyre-intelligence/ablation?dataset_name=${encodeURIComponent(datasetName)}`, "tyre_ablation.json");
+}
+
+export async function getPostRaceValidation(circuitId = null) {
+  let url = "/api/tyre-intelligence/post-race-validation";
+  if (circuitId) url += `?circuit_id=${encodeURIComponent(circuitId)}`;
+  return fetchWithFallback(url, `post_race_validation_${circuitId || 'all'}.json`);
+}
+
+export async function getConfounderBreakdown(circuitId = "silverstone", driverId = "HAM") {
+  return fetchWithFallback(`/api/tyre-intelligence/confounder-breakdown?circuit_id=${encodeURIComponent(circuitId)}&driver_id=${encodeURIComponent(driverId)}`, `confounder_breakdown_${circuitId}_${driverId}.json`);
+}
+
+export async function getSessionTyreIntelligence(sessionId, driverId = "HAM", checkpointLap = null) {
+  let url = `/api/sessions/${sessionId}/tyre-intelligence?driver_id=${encodeURIComponent(driverId)}`;
+  if (checkpointLap !== null && checkpointLap !== undefined) url += `&checkpoint_lap=${encodeURIComponent(checkpointLap)}`;
+  return fetchWithFallback(url, `session_tyre_intelligence_${sessionId}_${driverId}.json`);
+}
+
+

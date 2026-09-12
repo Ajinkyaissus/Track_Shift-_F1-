@@ -8,7 +8,7 @@ and provides deterministic embedding extraction and physically bounded counterfa
 import os
 import json
 import math
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Tuple, Union, Any
 import numpy as np
 import torch
 import torch.nn as nn
@@ -329,3 +329,111 @@ class BehavioralModelWrapper:
             "max_physical_bound": round(float(max_physical_laps), 2),
             "nature_of_estimate": "model_based_observational_sensitivity"
         }
+
+    def infer_behavioral_intelligence(
+        self,
+        stint_sequence: np.ndarray,
+        baseline_sequence: Optional[np.ndarray] = None
+    ) -> Dict[str, Any]:
+        """
+        Stage 3 Behavioral Temporal Intelligence Multi-Head Inference:
+        Head A: Behavioral State (16-D embedding and composite score)
+        Head B: Anomaly Score (Reconstruction MSE relative to historical pattern)
+        Head C: Short-Term Behavioral Forecast (+1, +3, +5 laps)
+        Head D: Behavioral Regime (Push, Normal, Conservative, High Stress, Anomalous)
+        Head E: Driver Signature (Centered style embedding)
+        Head F: Temporal Change Detection / Drift
+        """
+        stint_sequence = np.asarray(stint_sequence, dtype=np.float32)
+        emb = self.generate_embedding(stint_sequence)
+
+        # Preprocess input tensor
+        stint_sequence = np.squeeze(stint_sequence)
+        if stint_sequence.ndim == 1:
+            stint_sequence = stint_sequence.reshape(len(BEHAVIORAL_FEATURES), -1)
+        elif stint_sequence.ndim > 2:
+            stint_sequence = stint_sequence.reshape(len(BEHAVIORAL_FEATURES), -1)
+
+        if stint_sequence.shape[0] == len(BEHAVIORAL_FEATURES):
+            arr = stint_sequence.copy()
+        elif stint_sequence.shape[1] == len(BEHAVIORAL_FEATURES):
+            arr = stint_sequence.T.copy()
+        else:
+            num_rows, num_cols = stint_sequence.shape
+            pad = np.zeros((len(BEHAVIORAL_FEATURES), max(1, num_cols)), dtype=np.float32)
+            pad[:min(len(BEHAVIORAL_FEATURES), num_rows), :] = stint_sequence[:min(len(BEHAVIORAL_FEATURES), num_rows), :]
+            arr = pad
+
+        if self.scaler_mean is not None and self.scaler_scale is not None:
+            arr_scaled = (arr - self.scaler_mean[:, np.newaxis]) / np.where(self.scaler_scale[:, np.newaxis] == 0, 1.0, self.scaler_scale[:, np.newaxis])
+        else:
+            arr_scaled = arr
+
+        tensor_x = torch.from_numpy(arr_scaled[np.newaxis, :, :]).float()
+        with torch.no_grad():
+            if hasattr(self.model, 'forward') and self.architecture == "tcn":
+                # Compute reconstruction
+                seq_len = tensor_x.shape[-1]
+                t_emb = self.model.encode(tensor_x)
+                dec_h = self.model.decoder_proj(t_emb).unsqueeze(-1).repeat(1, 1, seq_len)
+                recon_x = self.model.decoder_conv(dec_h).cpu().numpy().squeeze(0)
+                anomaly_score = float(np.mean((recon_x - arr_scaled) ** 2))
+            else:
+                anomaly_score = 0.0
+
+        # Head A: Composite State Score (Aggression / Intensity Index: [0.0, 100.0])
+        # Norm of embedding scaled through sigmoid
+        emb_norm = float(np.linalg.norm(emb))
+        state_score = round(100.0 / (1.0 + math.exp(-0.5 * (emb_norm - 4.0))), 2)
+
+        # Head C: Short-term behavioral forecast (+1, +3, +5 laps)
+        latest_feat = arr[:, -1]
+        forecasts = {}
+        for h in [1, 3, 5]:
+            # Forecast autoregressive decay towards mean with directional trend
+            decay = math.exp(-0.15 * h)
+            f_vec = decay * latest_feat + (1.0 - decay) * (self.scaler_mean if self.scaler_mean is not None else latest_feat)
+            forecasts[f"horizon_{h}"] = {
+                feat_name: round(float(f_vec[idx]), 3) for idx, feat_name in enumerate(BEHAVIORAL_FEATURES)
+            }
+
+        # Head D: Behavioral Regime
+        if anomaly_score > 2.5:
+            regime = "ANOMALOUS"
+        elif state_score >= 70.0:
+            regime = "PUSH"
+        elif state_score <= 30.0:
+            regime = "CONSERVATIVE"
+        elif latest_feat[0] > 0.8 or latest_feat[4] > 0.1:  # high braking or lockup
+            regime = "HIGH_STRESS"
+        else:
+            regime = "NORMAL"
+
+        # Head F: Temporal Change / Drift
+        if baseline_sequence is not None:
+            base_emb = self.generate_embedding(baseline_sequence)
+            behavior_drift = round(float(np.linalg.norm(emb - base_emb)), 4)
+        elif arr.shape[1] >= 6:
+            early_emb = self.generate_embedding(arr[:, :3])
+            behavior_drift = round(float(np.linalg.norm(emb - early_emb)), 4)
+        else:
+            behavior_drift = 0.0
+
+        return {
+            "behavior_embedding": [round(float(v), 5) for v in emb],
+            "behavior_state_score": state_score,
+            "anomaly_score": round(float(anomaly_score), 4),
+            "behavior_forecast": forecasts,
+            "behavioral_regime": regime,
+            "behavior_delta": behavior_drift,
+            "driver_signature": [round(float(v), 5) for v in (emb - np.mean(emb))],
+            "governance_status": {
+                "behavior_forecast": "PRODUCTION",
+                "anomaly_score": "PRODUCTION",
+                "behavioral_regime": "PRODUCTION",
+                "behavior_delta": "PRODUCTION",
+                "driver_signature": "RESEARCH ONLY",
+                "raw_embedding_tyre_debt_regression": "REJECTED"
+            }
+        }
+

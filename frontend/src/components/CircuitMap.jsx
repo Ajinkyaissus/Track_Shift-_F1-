@@ -49,8 +49,25 @@ export default function CircuitMap({
   const [hoveredDriver, setHoveredDriver] = useState(null);
   const [hoveredPitStop, setHoveredPitStop] = useState(null);
 
-  // SVG Container ref
+  // SVG Container ref & dynamic resize observation
   const svgContainerRef = useRef(null);
+  const [containerDimensions, setContainerDimensions] = useState({ width: 800, height: 600 });
+
+  useEffect(() => {
+    if (!svgContainerRef.current) return;
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        if (entry.contentRect) {
+          const { width, height } = entry.contentRect;
+          if (width > 0 && height > 0) {
+            setContainerDimensions({ width, height });
+          }
+        }
+      }
+    });
+    observer.observe(svgContainerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   // Reset zoom & pan when circuit changes
   useEffect(() => {

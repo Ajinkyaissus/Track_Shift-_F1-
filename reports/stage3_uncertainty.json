@@ -1,0 +1,10 @@
+{
+  "bootstrap_replications": 1000,
+  "resampling_unit": "event_cluster",
+  "head_c_forecast_rmse_reduction_percent": {
+    "mean": -32968968.6,
+    "ci_95_lower": -8473.56,
+    "ci_95_upper": -3.12,
+    "p_value_strictly_positive": 0.0
+  }
+}

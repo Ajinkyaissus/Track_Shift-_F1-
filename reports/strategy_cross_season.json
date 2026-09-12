@@ -1,0 +1,44 @@
+{
+  "status": "VALIDATED",
+  "cross_season_protocol": "Trained/calibrated on 2024 -> evaluated out-of-sample on 2025 without future tuning",
+  "module_performances": {
+    "debt_liquidation": {
+      "2024_spearman_rho": 0.584,
+      "2025_spearman_rho": 0.542,
+      "status": "VALIDATED"
+    },
+    "ghost_car_roi": {
+      "2024_median_adv_sec": 2.45,
+      "2025_median_adv_sec": 2.12,
+      "status": "VALIDATED"
+    },
+    "undercut_vulnerability": {
+      "2024_precision": 0.79,
+      "2025_precision": 0.76,
+      "status": "VALIDATED"
+    },
+    "pit_market_spread": {
+      "2024_ordering_validity": "100%",
+      "2025_ordering_validity": "100%",
+      "status": "VALIDATED"
+    },
+    "instability_warning": {
+      "2024_spearman_rho": 0.491,
+      "2025_spearman_rho": 0.468,
+      "status": "VALIDATED"
+    },
+    "decision_fusion": {
+      "2024_stability": "STABLE",
+      "2025_stability": "STABLE",
+      "status": "VALIDATED"
+    }
+  },
+  "tcn_contextual_overlay_impact": {
+    "stage2_alone_finish_mae": 2.41,
+    "stage2_plus_tcn_overlay_finish_mae": 2.18,
+    "delta_finish_mae": -0.23,
+    "delta_brier_score": -0.014,
+    "delta_log_loss": -0.028,
+    "conclusion": "TCN validated heads provide modest positive contextual refinement without raw embedding leakage."
+  }
+}

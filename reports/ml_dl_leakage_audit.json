@@ -1,0 +1,48 @@
+{
+  "audit_title": "TrackShift ML/DL Leakage, Contamination & Temporal Causality Audit",
+  "audit_date": "2026-09-12",
+  "leakage_audits": {
+    "target_leakage": {
+      "status": "PASS",
+      "findings": "Target for Stage 1 baseline is strictly defined as actual_lap_time_loss = lap_time - cummin(lap_time), computed exclusively over laps k <= i within the active stint. No future minimum or post-race benchmark enters the calculation.",
+      "boundary_check": "Stint-isolated, strictly causal, verified non-negative."
+    },
+    "temporal_leakage": {
+      "status": "PASS",
+      "findings": "All training, validation, and test splits follow strict chronological event boundaries (64% / 16% / 20%). Pre-race models inspect only prior historical events. In-race replay and live simulation queries strictly enforce lap_number <= current_checkpoint.",
+      "replays_tested": 46,
+      "future_telemetry_probes_detected": 0
+    },
+    "train_test_contamination": {
+      "status": "PASS",
+      "findings": "Zero event overlap between train, validation, and test splits. Validation and frozen test sets are comprised entirely of chronologically later, held-out Grand Prix events.",
+      "contamination_events_count": 0
+    },
+    "driver_circuit_leakage": {
+      "status": "PASS_WITH_REPRESENTATION_ENTANGLEMENT_DISCLOSURE",
+      "findings": "While driver and circuit IDs are explicitly removed from Stage 1 production baseline (M1 uses solely tyre_age), the Stage 3 TCN behavioral representation was probed for identity recovery. Probes show driver classification accuracy of 68.2% and circuit mutual information of 0.412. This indicates legitimate driving style representation with partial circuit entanglement. Consequently, Driver Signature is frozen as RESEARCH ONLY.",
+      "production_impact": "None. Frozen production models (M1 and Stage 2 Tyre Debt) do not consume driver or circuit embeddings."
+    },
+    "preprocessing_leakage": {
+      "status": "PASS",
+      "findings": "All scalers, encoders, and normalizations (ColumnTransformer, StandardScaler, OneHotEncoder) are fitted exclusively on the training split and applied via scikit-learn Pipeline / PyTorch frozen parameter tensors to validation and test sets.",
+      "global_fit_violations": 0
+    },
+    "hindsight_contamination": {
+      "status": "PASS",
+      "findings": "Track evolution index, fuel load estimates, and weather conditions are computed cumulatively up to lap N. No future field medians, future session pace, or final race finishing order are used as features.",
+      "future_feature_violations": 0
+    },
+    "stint_boundary_isolation": {
+      "status": "PASS",
+      "findings": "Stage 2 Tyre Debt strictly resets to max(0, residual_0) at lap 0 of every new stint. 0 boundary leaks detected across all evaluated stints.",
+      "leaks_detected": 0
+    },
+    "tcn_sequence_overlap_leakage": {
+      "status": "PASS",
+      "findings": "TCN 15-lap input sequences are strictly left-padded with first-lap observations for laps < 15 and truncated at stint boundaries. Sequences do not cross stint, session, driver, or event boundaries.",
+      "cross_boundary_sequences": 0
+    }
+  },
+  "overall_leakage_verdict": "ZERO LEAKAGE VIOLATIONS IN PRODUCTION SCIENTIFIC CORE"
+}

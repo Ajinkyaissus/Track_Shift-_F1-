@@ -1,0 +1,54 @@
+{
+  "horizon_plus_1": {
+    "observed_rho_stage2": 0.6144,
+    "observed_rho_model_h": 0.6251,
+    "delta_rho": 0.0107,
+    "ci_95": [
+      -0.0105,
+      0.029
+    ],
+    "bootstrap_p_value": 0.135,
+    "classification": "POSITIVE BUT UNCERTAIN IMPROVEMENT",
+    "n_bootstraps": 1000,
+    "dependency_level": "Stint-block bootstrap (261 unique stints)"
+  },
+  "horizon_plus_3": {
+    "observed_rho_stage2": 0.5167,
+    "observed_rho_model_h": 0.5365,
+    "delta_rho": 0.0199,
+    "ci_95": [
+      -0.001,
+      0.0409
+    ],
+    "bootstrap_p_value": 0.032,
+    "classification": "POSITIVE BUT UNCERTAIN IMPROVEMENT",
+    "n_bootstraps": 1000,
+    "dependency_level": "Stint-block bootstrap (246 unique stints)"
+  },
+  "horizon_plus_5": {
+    "observed_rho_stage2": 0.4331,
+    "observed_rho_model_h": 0.4591,
+    "delta_rho": 0.026,
+    "ci_95": [
+      -0.0021,
+      0.0556
+    ],
+    "bootstrap_p_value": 0.04,
+    "classification": "POSITIVE BUT UNCERTAIN IMPROVEMENT",
+    "n_bootstraps": 1000,
+    "dependency_level": "Stint-block bootstrap (226 unique stints)"
+  },
+  "horizon_plus_10": {
+    "observed_rho_stage2": 0.2681,
+    "observed_rho_model_h": 0.2714,
+    "delta_rho": 0.0033,
+    "ci_95": [
+      -0.0432,
+      0.0492
+    ],
+    "bootstrap_p_value": 0.427,
+    "classification": "POSITIVE BUT UNCERTAIN IMPROVEMENT",
+    "n_bootstraps": 1000,
+    "dependency_level": "Stint-block bootstrap (162 unique stints)"
+  }
+}

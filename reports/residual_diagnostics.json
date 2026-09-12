@@ -1,0 +1,17 @@
+{
+  "mean_residual": -0.2887,
+  "median_residual": -0.2525,
+  "std_residual": 0.7805,
+  "MAE": 0.5433,
+  "RMSE": 0.8321,
+  "quantiles": {
+    "p01": -2.4046,
+    "p05": -1.5648,
+    "p25": -0.5798,
+    "p50": -0.2525,
+    "p75": -0.0031,
+    "p95": 0.7067,
+    "p99": 2.1226
+  },
+  "scientific_interpretation": "Residual represents unexplained lap-performance deviation after conditioning on the Stage 1 contextual model (fuel, evolution, compound, track, and weather context). Stage 2 extracts tyre degradation debt by attributing positive persistent growth in residual."
+}

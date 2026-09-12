@@ -1,0 +1,279 @@
+{
+  "objective": "Compare M1 (Linear Tyre Age) vs M7 (Full Context HistGradientBoosting) downstream utility",
+  "axis_1_direct_stage1_prediction": {
+    "M1_Linear_TyreAge": {
+      "validation_MAE": 0.7519,
+      "validation_RMSE": 2.0095,
+      "validation_R2": 0.0279,
+      "frozen_test_MAE": 0.4437,
+      "frozen_test_RMSE": 0.6664,
+      "frozen_test_R2": 0.1398,
+      "frozen_test_MedAE": 0.3573
+    },
+    "M7_FullContext_HistGB": {
+      "validation_MAE": 0.7507,
+      "validation_RMSE": 1.9989,
+      "validation_R2": 0.0382,
+      "frozen_test_MAE": 0.5249,
+      "frozen_test_RMSE": 0.8108,
+      "frozen_test_R2": -0.2734,
+      "frozen_test_MedAE": 0.3496
+    }
+  },
+  "axis_2_stage2_downstream_utility": {
+    "future_predictive_utility": {
+      "validation": {
+        "horizon_1_laps": {
+          "horizon": 1,
+          "N_laps": 2392,
+          "M1_TyreDebt": {
+            "future_delta_deg_MAE": 0.6699,
+            "future_delta_deg_RMSE": 1.938,
+            "future_delta_deg_R2": 0.0023,
+            "future_loss_Pearson_r": 0.2583,
+            "future_loss_Spearman_rho": 0.4363
+          },
+          "M7_TyreDebt": {
+            "future_delta_deg_MAE": 0.6696,
+            "future_delta_deg_RMSE": 1.9371,
+            "future_delta_deg_R2": 0.0033,
+            "future_loss_Pearson_r": 0.2745,
+            "future_loss_Spearman_rho": 0.3829
+          },
+          "delta_R2_M7_minus_M1": 0.001,
+          "delta_Spearman_M7_minus_M1": -0.0534
+        },
+        "horizon_3_laps": {
+          "horizon": 3,
+          "N_laps": 2005,
+          "M1_TyreDebt": {
+            "future_delta_deg_MAE": 0.8951,
+            "future_delta_deg_RMSE": 2.1994,
+            "future_delta_deg_R2": 0.0008,
+            "future_loss_Pearson_r": 0.2107,
+            "future_loss_Spearman_rho": 0.2955
+          },
+          "M7_TyreDebt": {
+            "future_delta_deg_MAE": 0.8953,
+            "future_delta_deg_RMSE": 2.1991,
+            "future_delta_deg_R2": 0.0011,
+            "future_loss_Pearson_r": 0.2216,
+            "future_loss_Spearman_rho": 0.2545
+          },
+          "delta_R2_M7_minus_M1": 0.0003,
+          "delta_Spearman_M7_minus_M1": -0.041
+        },
+        "horizon_5_laps": {
+          "horizon": 5,
+          "N_laps": 1651,
+          "M1_TyreDebt": {
+            "future_delta_deg_MAE": 0.9794,
+            "future_delta_deg_RMSE": 2.3063,
+            "future_delta_deg_R2": 0.0006,
+            "future_loss_Pearson_r": 0.191,
+            "future_loss_Spearman_rho": 0.2198
+          },
+          "M7_TyreDebt": {
+            "future_delta_deg_MAE": 0.9801,
+            "future_delta_deg_RMSE": 2.3063,
+            "future_delta_deg_R2": 0.0007,
+            "future_loss_Pearson_r": 0.1995,
+            "future_loss_Spearman_rho": 0.1775
+          },
+          "delta_R2_M7_minus_M1": 0.0001,
+          "delta_Spearman_M7_minus_M1": -0.0423
+        },
+        "horizon_10_laps": {
+          "horizon": 10,
+          "N_laps": 938,
+          "M1_TyreDebt": {
+            "future_delta_deg_MAE": 1.2331,
+            "future_delta_deg_RMSE": 2.7005,
+            "future_delta_deg_R2": 0.0012,
+            "future_loss_Pearson_r": 0.144,
+            "future_loss_Spearman_rho": 0.1094
+          },
+          "M7_TyreDebt": {
+            "future_delta_deg_MAE": 1.235,
+            "future_delta_deg_RMSE": 2.7013,
+            "future_delta_deg_R2": 0.0007,
+            "future_loss_Pearson_r": 0.1456,
+            "future_loss_Spearman_rho": 0.0381
+          },
+          "delta_R2_M7_minus_M1": -0.0005,
+          "delta_Spearman_M7_minus_M1": -0.0713
+        }
+      },
+      "frozen_test": {
+        "horizon_1_laps": {
+          "horizon": 1,
+          "N_laps": 3106,
+          "M1_TyreDebt": {
+            "future_delta_deg_MAE": 0.2945,
+            "future_delta_deg_RMSE": 0.6245,
+            "future_delta_deg_R2": 0.003,
+            "future_loss_Pearson_r": 0.2919,
+            "future_loss_Spearman_rho": 0.4362
+          },
+          "M7_TyreDebt": {
+            "future_delta_deg_MAE": 0.2953,
+            "future_delta_deg_RMSE": 0.6241,
+            "future_delta_deg_R2": 0.0043,
+            "future_loss_Pearson_r": 0.2874,
+            "future_loss_Spearman_rho": 0.3029
+          },
+          "delta_R2_M7_minus_M1": 0.0013,
+          "delta_Spearman_M7_minus_M1": -0.1334
+        },
+        "horizon_3_laps": {
+          "horizon": 3,
+          "N_laps": 2590,
+          "M1_TyreDebt": {
+            "future_delta_deg_MAE": 0.3739,
+            "future_delta_deg_RMSE": 0.6914,
+            "future_delta_deg_R2": 0.0078,
+            "future_loss_Pearson_r": 0.2467,
+            "future_loss_Spearman_rho": 0.3732
+          },
+          "M7_TyreDebt": {
+            "future_delta_deg_MAE": 0.3743,
+            "future_delta_deg_RMSE": 0.6907,
+            "future_delta_deg_R2": 0.0095,
+            "future_loss_Pearson_r": 0.2418,
+            "future_loss_Spearman_rho": 0.2569
+          },
+          "delta_R2_M7_minus_M1": 0.0017,
+          "delta_Spearman_M7_minus_M1": -0.1162
+        },
+        "horizon_5_laps": {
+          "horizon": 5,
+          "N_laps": 2110,
+          "M1_TyreDebt": {
+            "future_delta_deg_MAE": 0.4336,
+            "future_delta_deg_RMSE": 0.7605,
+            "future_delta_deg_R2": 0.0072,
+            "future_loss_Pearson_r": 0.2057,
+            "future_loss_Spearman_rho": 0.3189
+          },
+          "M7_TyreDebt": {
+            "future_delta_deg_MAE": 0.4341,
+            "future_delta_deg_RMSE": 0.7595,
+            "future_delta_deg_R2": 0.0097,
+            "future_loss_Pearson_r": 0.1989,
+            "future_loss_Spearman_rho": 0.2422
+          },
+          "delta_R2_M7_minus_M1": 0.0025,
+          "delta_Spearman_M7_minus_M1": -0.0766
+        },
+        "horizon_10_laps": {
+          "horizon": 10,
+          "N_laps": 1158,
+          "M1_TyreDebt": {
+            "future_delta_deg_MAE": 0.5425,
+            "future_delta_deg_RMSE": 0.9172,
+            "future_delta_deg_R2": 0.0196,
+            "future_loss_Pearson_r": 0.0865,
+            "future_loss_Spearman_rho": 0.1757
+          },
+          "M7_TyreDebt": {
+            "future_delta_deg_MAE": 0.5427,
+            "future_delta_deg_RMSE": 0.9176,
+            "future_delta_deg_R2": 0.0186,
+            "future_loss_Pearson_r": 0.0838,
+            "future_loss_Spearman_rho": 0.1253
+          },
+          "delta_R2_M7_minus_M1": -0.001,
+          "delta_Spearman_M7_minus_M1": -0.0504
+        }
+      }
+    },
+    "stint_level_evaluation": {
+      "stints_evaluated": 134,
+      "correlation_early_debt_to_late_stint_loss": {
+        "M1_Pearson_r": 0.4293,
+        "M7_Pearson_r": 0.4297,
+        "M1_Spearman_rho": 0.3221,
+        "M7_Spearman_rho": 0.2758
+      }
+    },
+    "compound_specific_breakdown": {
+      "SOFT": {
+        "N": 394,
+        "M1_Spearman_rho": -0.1286,
+        "M7_Spearman_rho": -0.0928,
+        "M1_Pearson_r": 0.035,
+        "M7_Pearson_r": -0.0623,
+        "delta_Spearman_M7_minus_M1": 0.0358
+      },
+      "MEDIUM": {
+        "N": 1308,
+        "M1_Spearman_rho": -0.167,
+        "M7_Spearman_rho": -0.1083,
+        "M1_Pearson_r": -0.1034,
+        "M7_Pearson_r": -0.1113,
+        "delta_Spearman_M7_minus_M1": 0.0587
+      },
+      "HARD": {
+        "N": 408,
+        "M1_Spearman_rho": -0.0788,
+        "M7_Spearman_rho": -0.0987,
+        "M1_Pearson_r": -0.0927,
+        "M7_Pearson_r": -0.0902,
+        "delta_Spearman_M7_minus_M1": -0.0199
+      }
+    },
+    "tyre_age_window_breakdown": {
+      "1-5": {
+        "N": 807,
+        "M1_Spearman_rho": -0.013,
+        "M7_Spearman_rho": 0.0209,
+        "delta_Spearman_M7_minus_M1": 0.0339
+      },
+      "6-10": {
+        "N": 696,
+        "M1_Spearman_rho": -0.1553,
+        "M7_Spearman_rho": -0.1623,
+        "delta_Spearman_M7_minus_M1": -0.007
+      },
+      "11-20": {
+        "N": 827,
+        "M1_Spearman_rho": -0.1681,
+        "M7_Spearman_rho": -0.1348,
+        "delta_Spearman_M7_minus_M1": 0.0334
+      },
+      "21-30": {
+        "N": 110,
+        "M1_Spearman_rho": 0.0458,
+        "M7_Spearman_rho": 0.091,
+        "delta_Spearman_M7_minus_M1": 0.0452
+      }
+    },
+    "cross_season_downstream": {
+      "N_2025_test_laps": 4667,
+      "M1_2025_Spearman_rho_h5": -0.1449,
+      "M7_2025_Spearman_rho_h5": -0.1502,
+      "delta_Spearman_M7_minus_M1": -0.0053
+    },
+    "placebo_negative_control": {
+      "placebo_type": "Permutation Shuffled Debt within Test Partition",
+      "genuine_M1_Spearman_rho_h5": 0.3189,
+      "genuine_M7_Spearman_rho_h5": 0.2422,
+      "placebo_Spearman_rho_h5": 0.0029,
+      "placebo_Pearson_r_h5": 0.0381,
+      "placebo_defeated": true
+    },
+    "paired_bootstrap_uncertainty": {
+      "metric": "Delta Spearman rho (M7 Tyre Debt - M1 Tyre Debt) predicting +5 lap degradation",
+      "bootstrap_resamples_B": 1000,
+      "sampling_unit": "Stint-Level Cluster Resampling (Independent Stints)",
+      "mean_estimate": 0.0387,
+      "ci_95_lower": -0.0167,
+      "ci_95_upper": 0.0915,
+      "statistically_significant": false
+    }
+  },
+  "scientific_decision": {
+    "verdict": "M1 SUPERIOR",
+    "rationale": "M1 achieves both lower direct prediction error and equivalent/superior downstream utility. Stage 1 should be simplified to the linear tyre-age baseline."
+  }
+}

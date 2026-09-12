@@ -1,0 +1,24 @@
+{
+  "status": "VALIDATED",
+  "approved_nomenclature": "performance-instability warning / cliff-risk warning",
+  "stable_case_score": 0.147,
+  "stable_case_risk": "LOW",
+  "cliff_case_score": 0.712,
+  "cliff_case_risk": "HIGH",
+  "cliff_case_deterioration_window": [
+    31,
+    33
+  ],
+  "weights": {
+    "pace_variance_scale": 1.0,
+    "pace_variance_weight": 0.3,
+    "burn_rate_scale": 0.4,
+    "burn_rate_weight": 0.25,
+    "age_fraction_weight": 0.2,
+    "anomaly_score_weight": 0.15,
+    "drift_score_weight": 0.1,
+    "threshold_moderate": 0.35,
+    "threshold_high": 0.6,
+    "threshold_critical": 0.8
+  }
+}

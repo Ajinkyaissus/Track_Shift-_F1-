@@ -1,0 +1,337 @@
+{
+  "split_protocol": "64% TRAIN / 16% VALIDATION / 20% FROZEN FINAL TEST",
+  "total_event_dates": 46,
+  "counts": {
+    "train_dates": 29,
+    "val_dates": 7,
+    "test_dates": 10,
+    "train_laps": 10406,
+    "val_laps": 2598,
+    "test_laps": 3372
+  },
+  "disjointness_verified": true,
+  "events": [
+    {
+      "event_date": "2024-03-02",
+      "track_id": "bahrain",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 358
+    },
+    {
+      "event_date": "2024-03-09",
+      "track_id": "jeddah",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 151
+    },
+    {
+      "event_date": "2024-03-24",
+      "track_id": "albert_park",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 269
+    },
+    {
+      "event_date": "2024-04-07",
+      "track_id": "suzuka",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 205
+    },
+    {
+      "event_date": "2024-04-21",
+      "track_id": "shanghai",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 330
+    },
+    {
+      "event_date": "2024-05-05",
+      "track_id": "miami",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 405
+    },
+    {
+      "event_date": "2024-05-19",
+      "track_id": "imola",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 440
+    },
+    {
+      "event_date": "2024-05-26",
+      "track_id": "monaco",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 539
+    },
+    {
+      "event_date": "2024-06-09",
+      "track_id": "montreal",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 907
+    },
+    {
+      "event_date": "2024-06-30",
+      "track_id": "red_bull_ring",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 488
+    },
+    {
+      "event_date": "2024-07-07",
+      "track_id": "silverstone",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 297
+    },
+    {
+      "event_date": "2024-07-21",
+      "track_id": "hungaroring",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 586
+    },
+    {
+      "event_date": "2024-07-28",
+      "track_id": "spa",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 266
+    },
+    {
+      "event_date": "2024-08-25",
+      "track_id": "zandvoort",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 531
+    },
+    {
+      "event_date": "2024-09-01",
+      "track_id": "monza",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 264
+    },
+    {
+      "event_date": "2024-09-15",
+      "track_id": "baku",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 391
+    },
+    {
+      "event_date": "2024-09-22",
+      "track_id": "singapore",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 518
+    },
+    {
+      "event_date": "2024-10-20",
+      "track_id": "cota",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 307
+    },
+    {
+      "event_date": "2024-10-27",
+      "track_id": "rodriguez",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 408
+    },
+    {
+      "event_date": "2024-11-03",
+      "track_id": "interlagos",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 343
+    },
+    {
+      "event_date": "2024-11-23",
+      "track_id": "las_vegas",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 287
+    },
+    {
+      "event_date": "2024-12-01",
+      "track_id": "losail",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 280
+    },
+    {
+      "event_date": "2024-12-08",
+      "track_id": "abu_dhabi",
+      "season": 2024,
+      "partition": "TRAIN",
+      "laps_count": 293
+    },
+    {
+      "event_date": "2025-03-16",
+      "track_id": "albert_park",
+      "season": 2025,
+      "partition": "TRAIN",
+      "laps_count": 137
+    },
+    {
+      "event_date": "2025-03-23",
+      "track_id": "shanghai",
+      "season": 2025,
+      "partition": "TRAIN",
+      "laps_count": 311
+    },
+    {
+      "event_date": "2025-04-06",
+      "track_id": "suzuka",
+      "season": 2025,
+      "partition": "TRAIN",
+      "laps_count": 349
+    },
+    {
+      "event_date": "2025-04-13",
+      "track_id": "bahrain",
+      "season": 2025,
+      "partition": "TRAIN",
+      "laps_count": 489
+    },
+    {
+      "event_date": "2025-04-20",
+      "track_id": "jeddah",
+      "season": 2025,
+      "partition": "TRAIN",
+      "laps_count": 204
+    },
+    {
+      "event_date": "2025-05-04",
+      "track_id": "miami",
+      "season": 2025,
+      "partition": "TRAIN",
+      "laps_count": 53
+    },
+    {
+      "event_date": "2025-05-18",
+      "track_id": "imola",
+      "season": 2025,
+      "partition": "VALIDATION",
+      "laps_count": 483
+    },
+    {
+      "event_date": "2025-05-25",
+      "track_id": "monaco",
+      "season": 2025,
+      "partition": "VALIDATION",
+      "laps_count": 462
+    },
+    {
+      "event_date": "2025-06-15",
+      "track_id": "montreal",
+      "season": 2025,
+      "partition": "VALIDATION",
+      "laps_count": 490
+    },
+    {
+      "event_date": "2025-06-29",
+      "track_id": "red_bull_ring",
+      "season": 2025,
+      "partition": "VALIDATION",
+      "laps_count": 114
+    },
+    {
+      "event_date": "2025-07-06",
+      "track_id": "silverstone",
+      "season": 2025,
+      "partition": "VALIDATION",
+      "laps_count": 76
+    },
+    {
+      "event_date": "2025-07-27",
+      "track_id": "spa",
+      "season": 2025,
+      "partition": "VALIDATION",
+      "laps_count": 437
+    },
+    {
+      "event_date": "2025-08-03",
+      "track_id": "hungaroring",
+      "season": 2025,
+      "partition": "VALIDATION",
+      "laps_count": 536
+    },
+    {
+      "event_date": "2025-08-31",
+      "track_id": "zandvoort",
+      "season": 2025,
+      "partition": "TEST",
+      "laps_count": 464
+    },
+    {
+      "event_date": "2025-09-07",
+      "track_id": "monza",
+      "season": 2025,
+      "partition": "TEST",
+      "laps_count": 213
+    },
+    {
+      "event_date": "2025-09-21",
+      "track_id": "baku",
+      "season": 2025,
+      "partition": "TEST",
+      "laps_count": 220
+    },
+    {
+      "event_date": "2025-10-05",
+      "track_id": "singapore",
+      "season": 2025,
+      "partition": "TEST",
+      "laps_count": 544
+    },
+    {
+      "event_date": "2025-10-19",
+      "track_id": "cota",
+      "season": 2025,
+      "partition": "TEST",
+      "laps_count": 347
+    },
+    {
+      "event_date": "2025-10-26",
+      "track_id": "rodriguez",
+      "season": 2025,
+      "partition": "TEST",
+      "laps_count": 474
+    },
+    {
+      "event_date": "2025-11-09",
+      "track_id": "interlagos",
+      "season": 2025,
+      "partition": "TEST",
+      "laps_count": 306
+    },
+    {
+      "event_date": "2025-11-22",
+      "track_id": "las_vegas",
+      "season": 2025,
+      "partition": "TEST",
+      "laps_count": 185
+    },
+    {
+      "event_date": "2025-11-30",
+      "track_id": "losail",
+      "season": 2025,
+      "partition": "TEST",
+      "laps_count": 231
+    },
+    {
+      "event_date": "2025-12-07",
+      "track_id": "abu_dhabi",
+      "season": 2025,
+      "partition": "TEST",
+      "laps_count": 388
+    }
+  ]
+}

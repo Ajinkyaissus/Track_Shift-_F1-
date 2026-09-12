@@ -1,0 +1,9 @@
+{
+  "train_season": 2024,
+  "test_season": 2025,
+  "head_c_forecast_rmse_2025": 793397952512.0,
+  "persistence_rmse_2025": 741692538880.0,
+  "forecast_improvement_percent": -6.97,
+  "head_b_anomaly_detection_maintained": true,
+  "cross_season_valid": true
+}

@@ -1,0 +1,4304 @@
+{
+  "benchmark_circuit": "silverstone",
+  "drivers_evaluated": 8,
+  "sample_curves": [
+    {
+      "driver_id": "HAM",
+      "stint_id": "stint_HAM",
+      "circuit_id": "silverstone",
+      "compound": "MEDIUM",
+      "session_id": "unknown",
+      "points": [
+        {
+          "tyre_age": 1,
+          "raw_pace_delta": 4.614,
+          "m1_baseline_delta": 0.2374,
+          "context_adjusted_delta": 3.8128,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.5805,
+            "track_evolution_delta": -0.008,
+            "traffic_delta": 0.0029,
+            "total_confounder_adjustment": 3.5754
+          },
+          "uncertainty_q10": 0.2869,
+          "uncertainty_q50": 9.3452,
+          "uncertainty_q90": 44.5222,
+          "contextual_debt": 0.8012,
+          "m1_debt": 4.3766
+        },
+        {
+          "tyre_age": 2,
+          "raw_pace_delta": 0.0,
+          "m1_baseline_delta": 0.2774,
+          "context_adjusted_delta": 3.8393,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.531,
+            "track_evolution_delta": -0.016,
+            "traffic_delta": 0.0469,
+            "total_confounder_adjustment": 3.5619
+          },
+          "uncertainty_q10": 0.3521,
+          "uncertainty_q50": 15.4641,
+          "uncertainty_q90": 44.5699,
+          "contextual_debt": 0.8012,
+          "m1_debt": 4.3766
+        },
+        {
+          "tyre_age": 3,
+          "raw_pace_delta": 0.296,
+          "m1_baseline_delta": 0.3174,
+          "context_adjusted_delta": 3.7749,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.4815,
+            "track_evolution_delta": -0.024,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.4575
+          },
+          "uncertainty_q10": 0.3001,
+          "uncertainty_q50": 14.0384,
+          "uncertainty_q90": 44.0503,
+          "contextual_debt": 0.8012,
+          "m1_debt": 4.3766
+        },
+        {
+          "tyre_age": 4,
+          "raw_pace_delta": 0.568,
+          "m1_baseline_delta": 0.3574,
+          "context_adjusted_delta": 3.7574,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.432,
+            "track_evolution_delta": -0.032,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.4
+          },
+          "uncertainty_q10": 0.2785,
+          "uncertainty_q50": 14.7016,
+          "uncertainty_q90": 44.4689,
+          "contextual_debt": 0.8012,
+          "m1_debt": 4.5872
+        },
+        {
+          "tyre_age": 5,
+          "raw_pace_delta": 0.257,
+          "m1_baseline_delta": 0.3974,
+          "context_adjusted_delta": 3.7399,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.3825,
+            "track_evolution_delta": -0.04,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.3425
+          },
+          "uncertainty_q10": 0.1825,
+          "uncertainty_q50": 14.048,
+          "uncertainty_q90": 44.548,
+          "contextual_debt": 0.8012,
+          "m1_debt": 4.5872
+        },
+        {
+          "tyre_age": 6,
+          "raw_pace_delta": 0.326,
+          "m1_baseline_delta": 0.4374,
+          "context_adjusted_delta": 3.7224,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.333,
+            "track_evolution_delta": -0.048,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.285
+          },
+          "uncertainty_q10": 0.2395,
+          "uncertainty_q50": 4.5236,
+          "uncertainty_q90": 44.453,
+          "contextual_debt": 0.8012,
+          "m1_debt": 4.5872
+        },
+        {
+          "tyre_age": 7,
+          "raw_pace_delta": 0.255,
+          "m1_baseline_delta": 0.4774,
+          "context_adjusted_delta": 3.7049,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.2835,
+            "track_evolution_delta": -0.056,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.2275
+          },
+          "uncertainty_q10": 0.1464,
+          "uncertainty_q50": 0.6172,
+          "uncertainty_q90": 44.4143,
+          "contextual_debt": 0.8012,
+          "m1_debt": 4.5872
+        },
+        {
+          "tyre_age": 8,
+          "raw_pace_delta": 0.34,
+          "m1_baseline_delta": 0.5174,
+          "context_adjusted_delta": 3.6874,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.234,
+            "track_evolution_delta": -0.064,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.17
+          },
+          "uncertainty_q10": 0.1615,
+          "uncertainty_q50": 14.0401,
+          "uncertainty_q90": 44.418,
+          "contextual_debt": 0.8012,
+          "m1_debt": 4.5872
+        },
+        {
+          "tyre_age": 9,
+          "raw_pace_delta": 0.144,
+          "m1_baseline_delta": 0.5574,
+          "context_adjusted_delta": 3.6699,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.1845,
+            "track_evolution_delta": -0.072,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.1125
+          },
+          "uncertainty_q10": 0.1906,
+          "uncertainty_q50": 13.9334,
+          "uncertainty_q90": 44.3793,
+          "contextual_debt": 0.8012,
+          "m1_debt": 4.5872
+        },
+        {
+          "tyre_age": 10,
+          "raw_pace_delta": 0.095,
+          "m1_baseline_delta": 0.5974,
+          "context_adjusted_delta": 3.6524,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.135,
+            "track_evolution_delta": -0.08,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.055
+          },
+          "uncertainty_q10": 0.1695,
+          "uncertainty_q50": 14.0051,
+          "uncertainty_q90": 44.3618,
+          "contextual_debt": 0.8012,
+          "m1_debt": 4.5872
+        },
+        {
+          "tyre_age": 11,
+          "raw_pace_delta": 0.067,
+          "m1_baseline_delta": 0.6374,
+          "context_adjusted_delta": 3.6349,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.0855,
+            "track_evolution_delta": -0.088,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.9975
+          },
+          "uncertainty_q10": 0.0775,
+          "uncertainty_q50": 13.9876,
+          "uncertainty_q90": 43.9537,
+          "contextual_debt": 0.8012,
+          "m1_debt": 4.5872
+        },
+        {
+          "tyre_age": 12,
+          "raw_pace_delta": 0.143,
+          "m1_baseline_delta": 0.6774,
+          "context_adjusted_delta": 3.6174,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.036,
+            "track_evolution_delta": -0.096,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.94
+          },
+          "uncertainty_q10": 0.0873,
+          "uncertainty_q50": 4.4186,
+          "uncertainty_q90": 43.8928,
+          "contextual_debt": 0.8012,
+          "m1_debt": 4.5872
+        },
+        {
+          "tyre_age": 13,
+          "raw_pace_delta": 0.461,
+          "m1_baseline_delta": 0.7174,
+          "context_adjusted_delta": 3.5999,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.9865,
+            "track_evolution_delta": -0.104,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.8825
+          },
+          "uncertainty_q10": 0.0425,
+          "uncertainty_q50": 13.9526,
+          "uncertainty_q90": 35.9008,
+          "contextual_debt": 0.8012,
+          "m1_debt": 4.5872
+        },
+        {
+          "tyre_age": 14,
+          "raw_pace_delta": 0.189,
+          "m1_baseline_delta": 0.7574,
+          "context_adjusted_delta": 3.5824,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.937,
+            "track_evolution_delta": -0.112,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.825
+          },
+          "uncertainty_q10": 0.0145,
+          "uncertainty_q50": 13.8459,
+          "uncertainty_q90": 44.313,
+          "contextual_debt": 0.8012,
+          "m1_debt": 4.5872
+        },
+        {
+          "tyre_age": 15,
+          "raw_pace_delta": 0.143,
+          "m1_baseline_delta": 0.7974,
+          "context_adjusted_delta": 3.5649,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.8875,
+            "track_evolution_delta": -0.12,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.7675
+          },
+          "uncertainty_q10": 0.0777,
+          "uncertainty_q50": 4.3661,
+          "uncertainty_q90": 44.2743,
+          "contextual_debt": 0.8012,
+          "m1_debt": 4.5872
+        },
+        {
+          "tyre_age": 16,
+          "raw_pace_delta": 0.511,
+          "m1_baseline_delta": 0.8374,
+          "context_adjusted_delta": 3.5474,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.838,
+            "track_evolution_delta": -0.128,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.71
+          },
+          "uncertainty_q10": 0.0183,
+          "uncertainty_q50": 4.3486,
+          "uncertainty_q90": 43.8662,
+          "contextual_debt": 0.8012,
+          "m1_debt": 4.5872
+        },
+        {
+          "tyre_age": 17,
+          "raw_pace_delta": 17.407,
+          "m1_baseline_delta": 0.8774,
+          "context_adjusted_delta": 4.6999,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.5805,
+            "track_evolution_delta": -0.008,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.8225
+          },
+          "uncertainty_q10": 1.1425,
+          "uncertainty_q50": 5.5011,
+          "uncertainty_q90": 45.4093,
+          "contextual_debt": 13.5083,
+          "m1_debt": 21.1168
+        },
+        {
+          "tyre_age": 18,
+          "raw_pace_delta": 46.191,
+          "m1_baseline_delta": 0.9174,
+          "context_adjusted_delta": 4.6854,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.531,
+            "track_evolution_delta": -0.016,
+            "traffic_delta": 0.253,
+            "total_confounder_adjustment": 3.768
+          },
+          "uncertainty_q10": 1.128,
+          "uncertainty_q50": 1.649,
+          "uncertainty_q90": 45.3947,
+          "contextual_debt": 55.0139,
+          "m1_debt": 66.3904
+        },
+        {
+          "tyre_age": 19,
+          "raw_pace_delta": 44.942,
+          "m1_baseline_delta": 0.9574,
+          "context_adjusted_delta": 4.6665,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.4815,
+            "track_evolution_delta": -0.024,
+            "traffic_delta": 0.2516,
+            "total_confounder_adjustment": 3.7092
+          },
+          "uncertainty_q10": 1.1794,
+          "uncertainty_q50": 14.93,
+          "uncertainty_q90": 36.924,
+          "contextual_debt": 95.2894,
+          "m1_debt": 110.375
+        },
+        {
+          "tyre_age": 20,
+          "raw_pace_delta": 14.913,
+          "m1_baseline_delta": 0.9974,
+          "context_adjusted_delta": 4.6495,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.432,
+            "track_evolution_delta": -0.032,
+            "traffic_delta": 0.2521,
+            "total_confounder_adjustment": 3.6521
+          },
+          "uncertainty_q10": 1.1706,
+          "uncertainty_q50": 15.0022,
+          "uncertainty_q90": 45.3801,
+          "contextual_debt": 105.5529,
+          "m1_debt": 124.2906
+        },
+        {
+          "tyre_age": 21,
+          "raw_pace_delta": 16.257,
+          "m1_baseline_delta": 1.0374,
+          "context_adjusted_delta": 4.6322,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.3825,
+            "track_evolution_delta": -0.04,
+            "traffic_delta": 0.2522,
+            "total_confounder_adjustment": 3.5948
+          },
+          "uncertainty_q10": 1.1493,
+          "uncertainty_q50": 5.4333,
+          "uncertainty_q90": 45.3415,
+          "contextual_debt": 117.1777,
+          "m1_debt": 139.5102
+        },
+        {
+          "tyre_age": 22,
+          "raw_pace_delta": 45.325,
+          "m1_baseline_delta": 1.0774,
+          "context_adjusted_delta": 4.6156,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.333,
+            "track_evolution_delta": -0.048,
+            "traffic_delta": 0.2532,
+            "total_confounder_adjustment": 3.5382
+          },
+          "uncertainty_q10": 1.1327,
+          "uncertainty_q50": 1.5792,
+          "uncertainty_q90": 45.325,
+          "contextual_debt": 157.8871,
+          "m1_debt": 183.7578
+        },
+        {
+          "tyre_age": 23,
+          "raw_pace_delta": 32.589,
+          "m1_baseline_delta": 1.1174,
+          "context_adjusted_delta": 4.5949,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.2835,
+            "track_evolution_delta": -0.056,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.4775
+          },
+          "uncertainty_q10": 1.0375,
+          "uncertainty_q50": 14.9476,
+          "uncertainty_q90": 45.3043,
+          "contextual_debt": 185.8812,
+          "m1_debt": 215.2294
+        },
+        {
+          "tyre_age": 24,
+          "raw_pace_delta": 14.682,
+          "m1_baseline_delta": 1.1574,
+          "context_adjusted_delta": 4.3293,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.234,
+            "track_evolution_delta": -0.064,
+            "traffic_delta": 0.0019,
+            "total_confounder_adjustment": 3.1719
+          },
+          "uncertainty_q10": 0.8421,
+          "uncertainty_q50": 14.5928,
+          "uncertainty_q90": 45.0599,
+          "contextual_debt": 196.2339,
+          "m1_debt": 228.754
+        },
+        {
+          "tyre_age": 25,
+          "raw_pace_delta": 16.629,
+          "m1_baseline_delta": 1.1974,
+          "context_adjusted_delta": 4.312,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.1845,
+            "track_evolution_delta": -0.072,
+            "traffic_delta": 0.0021,
+            "total_confounder_adjustment": 3.1146
+          },
+          "uncertainty_q10": 0.8216,
+          "uncertainty_q50": 1.2756,
+          "uncertainty_q90": 44.5874,
+          "contextual_debt": 208.5509,
+          "m1_debt": 244.1856
+        },
+        {
+          "tyre_age": 26,
+          "raw_pace_delta": 16.822,
+          "m1_baseline_delta": 1.2374,
+          "context_adjusted_delta": 4.2924,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.135,
+            "track_evolution_delta": -0.08,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.055
+          },
+          "uncertainty_q10": 0.8052,
+          "uncertainty_q50": 3.1748,
+          "uncertainty_q90": 45.023,
+          "contextual_debt": 221.0805,
+          "m1_debt": 259.7702
+        },
+        {
+          "tyre_age": 27,
+          "raw_pace_delta": 18.064,
+          "m1_baseline_delta": 1.2774,
+          "context_adjusted_delta": 4.2807,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.0855,
+            "track_evolution_delta": -0.088,
+            "traffic_delta": 0.0058,
+            "total_confounder_adjustment": 3.0033
+          },
+          "uncertainty_q10": 0.7548,
+          "uncertainty_q50": 5.0819,
+          "uncertainty_q90": 44.9901,
+          "contextual_debt": 234.8638,
+          "m1_debt": 276.5568
+        },
+        {
+          "tyre_age": 28,
+          "raw_pace_delta": 35.624,
+          "m1_baseline_delta": 1.3174,
+          "context_adjusted_delta": 4.2574,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.036,
+            "track_evolution_delta": -0.096,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.94
+          },
+          "uncertainty_q10": 0.7315,
+          "uncertainty_q50": 5.0586,
+          "uncertainty_q90": 44.988,
+          "contextual_debt": 266.2304,
+          "m1_debt": 310.8634
+        },
+        {
+          "tyre_age": 29,
+          "raw_pace_delta": 29.334,
+          "m1_baseline_delta": 1.3574,
+          "context_adjusted_delta": 4.5225,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.9865,
+            "track_evolution_delta": -0.104,
+            "traffic_delta": 0.2826,
+            "total_confounder_adjustment": 3.165
+          },
+          "uncertainty_q10": 0.965,
+          "uncertainty_q50": 5.3236,
+          "uncertainty_q90": 45.2339,
+          "contextual_debt": 291.0419,
+          "m1_debt": 338.84
+        },
+        {
+          "tyre_age": 30,
+          "raw_pace_delta": 45.203,
+          "m1_baseline_delta": 1.3974,
+          "context_adjusted_delta": 4.4724,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.937,
+            "track_evolution_delta": -0.112,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.075
+          },
+          "uncertainty_q10": 0.9895,
+          "uncertainty_q50": 14.8251,
+          "uncertainty_q90": 45.1818,
+          "contextual_debt": 331.7725,
+          "m1_debt": 382.6456
+        },
+        {
+          "tyre_age": 31,
+          "raw_pace_delta": 55.382,
+          "m1_baseline_delta": 1.4374,
+          "context_adjusted_delta": 4.4621,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.8875,
+            "track_evolution_delta": -0.12,
+            "traffic_delta": 0.2572,
+            "total_confounder_adjustment": 3.0247
+          },
+          "uncertainty_q10": 0.9047,
+          "uncertainty_q50": 14.7702,
+          "uncertainty_q90": 45.1715,
+          "contextual_debt": 382.6924,
+          "m1_debt": 436.5902
+        },
+        {
+          "tyre_age": 32,
+          "raw_pace_delta": 32.901,
+          "m1_baseline_delta": 1.4774,
+          "context_adjusted_delta": 4.3224,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.739,
+            "track_evolution_delta": -0.144,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 2.845
+          },
+          "uncertainty_q10": 0.765,
+          "uncertainty_q50": 14.5859,
+          "uncertainty_q90": 44.5978,
+          "contextual_debt": 411.271,
+          "m1_debt": 468.0138
+        }
+      ],
+      "summary": {
+        "total_laps_analyzed": 32,
+        "final_m1_debt": 468.0138,
+        "final_contextual_debt": 411.271,
+        "mean_confounder_adjustment_s": 3.2271,
+        "fuel_saving_s": 102.597,
+        "track_grip_gain_s": -2.192,
+        "traffic_loss_s": 2.8615
+      },
+      "provenance_metadata": {
+        "m1_formula": "y_hat = 0.1974 + 0.04 * tyre_age",
+        "fuel_coefficient": 0.033,
+        "track_evolution_coefficient": -0.008,
+        "traffic_coefficient": 0.25,
+        "uncertainty_method": "Non-parametric bootstrap (B=100, seed=42)",
+        "classification": "Observable Contextual Adjustment (Frozen Stage 1/Stage 2 Preserved)"
+      }
+    },
+    {
+      "driver_id": "VER",
+      "stint_id": "stint_VER",
+      "circuit_id": "silverstone",
+      "compound": "MEDIUM",
+      "session_id": "unknown",
+      "points": [
+        {
+          "tyre_age": 1,
+          "raw_pace_delta": 4.938,
+          "m1_baseline_delta": 0.2374,
+          "context_adjusted_delta": 3.8099,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.5805,
+            "track_evolution_delta": -0.008,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.5725
+          },
+          "uncertainty_q10": 0.1545,
+          "uncertainty_q50": 12.216,
+          "uncertainty_q90": 44.729,
+          "contextual_debt": 1.1281,
+          "m1_debt": 4.7006
+        },
+        {
+          "tyre_age": 2,
+          "raw_pace_delta": 0.0,
+          "m1_baseline_delta": 0.2774,
+          "context_adjusted_delta": 3.8631,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.531,
+            "track_evolution_delta": -0.016,
+            "traffic_delta": 0.0707,
+            "total_confounder_adjustment": 3.5857
+          },
+          "uncertainty_q10": 0.1282,
+          "uncertainty_q50": 12.2692,
+          "uncertainty_q90": 44.4377,
+          "contextual_debt": 1.1281,
+          "m1_debt": 4.7006
+        },
+        {
+          "tyre_age": 3,
+          "raw_pace_delta": 0.427,
+          "m1_baseline_delta": 0.3174,
+          "context_adjusted_delta": 3.7749,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.4815,
+            "track_evolution_delta": -0.024,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.4575
+          },
+          "uncertainty_q10": -0.0095,
+          "uncertainty_q50": 4.903,
+          "uncertainty_q90": 42.9175,
+          "contextual_debt": 1.1281,
+          "m1_debt": 4.8102
+        },
+        {
+          "tyre_age": 4,
+          "raw_pace_delta": 0.16,
+          "m1_baseline_delta": 0.3574,
+          "context_adjusted_delta": 3.7574,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.432,
+            "track_evolution_delta": -0.032,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.4
+          },
+          "uncertainty_q10": -0.007,
+          "uncertainty_q50": 4.8855,
+          "uncertainty_q90": 43.0432,
+          "contextual_debt": 1.1281,
+          "m1_debt": 4.8102
+        },
+        {
+          "tyre_age": 5,
+          "raw_pace_delta": 0.005,
+          "m1_baseline_delta": 0.3974,
+          "context_adjusted_delta": 3.7399,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.3825,
+            "track_evolution_delta": -0.04,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.3425
+          },
+          "uncertainty_q10": 0.0021,
+          "uncertainty_q50": 0.7873,
+          "uncertainty_q90": 42.8825,
+          "contextual_debt": 1.1281,
+          "m1_debt": 4.8102
+        },
+        {
+          "tyre_age": 6,
+          "raw_pace_delta": -0.062,
+          "m1_baseline_delta": 0.4374,
+          "context_adjusted_delta": 3.7224,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.333,
+            "track_evolution_delta": -0.048,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.285
+          },
+          "uncertainty_q10": 0.0591,
+          "uncertainty_q50": 2.8783,
+          "uncertainty_q90": 42.865,
+          "contextual_debt": 1.1281,
+          "m1_debt": 4.8102
+        },
+        {
+          "tyre_age": 7,
+          "raw_pace_delta": 0.162,
+          "m1_baseline_delta": 0.4774,
+          "context_adjusted_delta": 3.7049,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.2835,
+            "track_evolution_delta": -0.056,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.2275
+          },
+          "uncertainty_q10": -0.03,
+          "uncertainty_q50": 12.8525,
+          "uncertainty_q90": 35.4144,
+          "contextual_debt": 1.1281,
+          "m1_debt": 4.8102
+        },
+        {
+          "tyre_age": 8,
+          "raw_pace_delta": 0.265,
+          "m1_baseline_delta": 0.5174,
+          "context_adjusted_delta": 3.6874,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.234,
+            "track_evolution_delta": -0.064,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.17
+          },
+          "uncertainty_q10": -0.077,
+          "uncertainty_q50": 0.7348,
+          "uncertainty_q90": 34.571,
+          "contextual_debt": 1.1281,
+          "m1_debt": 4.8102
+        },
+        {
+          "tyre_age": 9,
+          "raw_pace_delta": 0.11,
+          "m1_baseline_delta": 0.5574,
+          "context_adjusted_delta": 3.6699,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.1845,
+            "track_evolution_delta": -0.072,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.1125
+          },
+          "uncertainty_q10": -0.0679,
+          "uncertainty_q50": 4.798,
+          "uncertainty_q90": 44.279,
+          "contextual_debt": 1.1281,
+          "m1_debt": 4.8102
+        },
+        {
+          "tyre_age": 10,
+          "raw_pace_delta": -0.112,
+          "m1_baseline_delta": 0.5974,
+          "context_adjusted_delta": 3.6524,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.135,
+            "track_evolution_delta": -0.08,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.055
+          },
+          "uncertainty_q10": 0.0344,
+          "uncertainty_q50": 12.8,
+          "uncertainty_q90": 34.536,
+          "contextual_debt": 1.1281,
+          "m1_debt": 4.8102
+        },
+        {
+          "tyre_age": 11,
+          "raw_pace_delta": 0.037,
+          "m1_baseline_delta": 0.6374,
+          "context_adjusted_delta": 3.6349,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.0855,
+            "track_evolution_delta": -0.088,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.9975
+          },
+          "uncertainty_q10": -0.1295,
+          "uncertainty_q50": 0.8185,
+          "uncertainty_q90": 44.2095,
+          "contextual_debt": 1.1281,
+          "m1_debt": 4.8102
+        },
+        {
+          "tyre_age": 12,
+          "raw_pace_delta": 0.121,
+          "m1_baseline_delta": 0.6774,
+          "context_adjusted_delta": 3.6174,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.036,
+            "track_evolution_delta": -0.096,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.94
+          },
+          "uncertainty_q10": -0.147,
+          "uncertainty_q50": 0.5285,
+          "uncertainty_q90": 44.192,
+          "contextual_debt": 1.1281,
+          "m1_debt": 4.8102
+        },
+        {
+          "tyre_age": 13,
+          "raw_pace_delta": -0.014,
+          "m1_baseline_delta": 0.7174,
+          "context_adjusted_delta": 3.5999,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.9865,
+            "track_evolution_delta": -0.104,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.8825
+          },
+          "uncertainty_q10": -0.1645,
+          "uncertainty_q50": 4.728,
+          "uncertainty_q90": 35.3094,
+          "contextual_debt": 1.1281,
+          "m1_debt": 4.8102
+        },
+        {
+          "tyre_age": 14,
+          "raw_pace_delta": -0.073,
+          "m1_baseline_delta": 0.7574,
+          "context_adjusted_delta": 3.5824,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.937,
+            "track_evolution_delta": -0.112,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.825
+          },
+          "uncertainty_q10": -0.182,
+          "uncertainty_q50": 0.766,
+          "uncertainty_q90": 42.725,
+          "contextual_debt": 1.1281,
+          "m1_debt": 4.8102
+        },
+        {
+          "tyre_age": 15,
+          "raw_pace_delta": 0.476,
+          "m1_baseline_delta": 0.7974,
+          "context_adjusted_delta": 3.5649,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.8875,
+            "track_evolution_delta": -0.12,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.7675
+          },
+          "uncertainty_q10": -0.0531,
+          "uncertainty_q50": 11.971,
+          "uncertainty_q90": 35.2744,
+          "contextual_debt": 1.1281,
+          "m1_debt": 4.8102
+        },
+        {
+          "tyre_age": 16,
+          "raw_pace_delta": 0.731,
+          "m1_baseline_delta": 0.8374,
+          "context_adjusted_delta": 3.5474,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.838,
+            "track_evolution_delta": -0.128,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.71
+          },
+          "uncertainty_q10": -0.1875,
+          "uncertainty_q50": 12.695,
+          "uncertainty_q90": 44.122,
+          "contextual_debt": 1.1281,
+          "m1_debt": 4.8102
+        },
+        {
+          "tyre_age": 17,
+          "raw_pace_delta": 14.047,
+          "m1_baseline_delta": 0.8774,
+          "context_adjusted_delta": 4.6999,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.5805,
+            "track_evolution_delta": -0.008,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.8225
+          },
+          "uncertainty_q10": 0.965,
+          "uncertainty_q50": 5.828,
+          "uncertainty_q90": 45.2745,
+          "contextual_debt": 10.4752,
+          "m1_debt": 17.9798
+        },
+        {
+          "tyre_age": 18,
+          "raw_pace_delta": 43.825,
+          "m1_baseline_delta": 0.9174,
+          "context_adjusted_delta": 4.6824,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.531,
+            "track_evolution_delta": -0.016,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.765
+          },
+          "uncertainty_q10": 1.027,
+          "uncertainty_q50": 9.4495,
+          "uncertainty_q90": 45.257,
+          "contextual_debt": 49.6178,
+          "m1_debt": 60.8874
+        },
+        {
+          "tyre_age": 19,
+          "raw_pace_delta": 45.584,
+          "m1_baseline_delta": 0.9574,
+          "context_adjusted_delta": 4.6649,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.4815,
+            "track_evolution_delta": -0.024,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.7075
+          },
+          "uncertainty_q10": 0.93,
+          "uncertainty_q50": 13.8125,
+          "uncertainty_q90": 45.2395,
+          "contextual_debt": 90.5369,
+          "m1_debt": 105.514
+        },
+        {
+          "tyre_age": 20,
+          "raw_pace_delta": 13.795,
+          "m1_baseline_delta": 0.9974,
+          "context_adjusted_delta": 4.6474,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.432,
+            "track_evolution_delta": -0.032,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.65
+          },
+          "uncertainty_q10": 0.9125,
+          "uncertainty_q50": 1.2995,
+          "uncertainty_q90": 43.79,
+          "contextual_debt": 99.6845,
+          "m1_debt": 118.3116
+        },
+        {
+          "tyre_age": 21,
+          "raw_pace_delta": 13.036,
+          "m1_baseline_delta": 1.0374,
+          "context_adjusted_delta": 4.6299,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.3825,
+            "track_evolution_delta": -0.04,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.5925
+          },
+          "uncertainty_q10": 1.0119,
+          "uncertainty_q50": 5.758,
+          "uncertainty_q90": 45.2045,
+          "contextual_debt": 108.0906,
+          "m1_debt": 130.3102
+        },
+        {
+          "tyre_age": 22,
+          "raw_pace_delta": 48.016,
+          "m1_baseline_delta": 1.0774,
+          "context_adjusted_delta": 4.6124,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.333,
+            "track_evolution_delta": -0.048,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.535
+          },
+          "uncertainty_q10": 0.848,
+          "uncertainty_q50": 1.796,
+          "uncertainty_q90": 45.187,
+          "contextual_debt": 151.4942,
+          "m1_debt": 177.2488
+        },
+        {
+          "tyre_age": 23,
+          "raw_pace_delta": 30.774,
+          "m1_baseline_delta": 1.1174,
+          "context_adjusted_delta": 4.5949,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.2835,
+            "track_evolution_delta": -0.056,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.4775
+          },
+          "uncertainty_q10": 0.86,
+          "uncertainty_q50": 13.3718,
+          "uncertainty_q90": 43.7375,
+          "contextual_debt": 177.6733,
+          "m1_debt": 206.9054
+        },
+        {
+          "tyre_age": 24,
+          "raw_pace_delta": 14.061,
+          "m1_baseline_delta": 1.1574,
+          "context_adjusted_delta": 4.3274,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.234,
+            "track_evolution_delta": -0.064,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.17
+          },
+          "uncertainty_q10": 0.563,
+          "uncertainty_q50": 13.1043,
+          "uncertainty_q90": 43.47,
+          "contextual_debt": 187.4069,
+          "m1_debt": 219.809
+        },
+        {
+          "tyre_age": 25,
+          "raw_pace_delta": 14.553,
+          "m1_baseline_delta": 1.1974,
+          "context_adjusted_delta": 4.3099,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.1845,
+            "track_evolution_delta": -0.072,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.1125
+          },
+          "uncertainty_q10": 0.6436,
+          "uncertainty_q50": 12.716,
+          "uncertainty_q90": 44.919,
+          "contextual_debt": 197.65,
+          "m1_debt": 233.1646
+        },
+        {
+          "tyre_age": 26,
+          "raw_pace_delta": 14.659,
+          "m1_baseline_delta": 1.2374,
+          "context_adjusted_delta": 4.2924,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.135,
+            "track_evolution_delta": -0.08,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.055
+          },
+          "uncertainty_q10": 0.5575,
+          "uncertainty_q50": 5.4205,
+          "uncertainty_q90": 44.867,
+          "contextual_debt": 208.0166,
+          "m1_debt": 246.5862
+        },
+        {
+          "tyre_age": 27,
+          "raw_pace_delta": 18.724,
+          "m1_baseline_delta": 1.2774,
+          "context_adjusted_delta": 4.2749,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.0855,
+            "track_evolution_delta": -0.088,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.9975
+          },
+          "uncertainty_q10": 0.6195,
+          "uncertainty_q50": 13.4225,
+          "uncertainty_q90": 43.5607,
+          "contextual_debt": 222.4657,
+          "m1_debt": 264.0328
+        },
+        {
+          "tyre_age": 28,
+          "raw_pace_delta": 35.141,
+          "m1_baseline_delta": 1.3174,
+          "context_adjusted_delta": 4.2574,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.036,
+            "track_evolution_delta": -0.096,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.94
+          },
+          "uncertainty_q10": 0.491,
+          "uncertainty_q50": 1.3048,
+          "uncertainty_q90": 35.141,
+          "contextual_debt": 253.3493,
+          "m1_debt": 297.8564
+        },
+        {
+          "tyre_age": 29,
+          "raw_pace_delta": 19.451,
+          "m1_baseline_delta": 1.3574,
+          "context_adjusted_delta": 4.5313,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.9865,
+            "track_evolution_delta": -0.104,
+            "traffic_delta": 0.2914,
+            "total_confounder_adjustment": 3.1739
+          },
+          "uncertainty_q10": 0.7669,
+          "uncertainty_q50": 12.9374,
+          "uncertainty_q90": 45.1059,
+          "contextual_debt": 268.269,
+          "m1_debt": 315.95
+        },
+        {
+          "tyre_age": 30,
+          "raw_pace_delta": 45.047,
+          "m1_baseline_delta": 1.3974,
+          "context_adjusted_delta": 4.4724,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.937,
+            "track_evolution_delta": -0.112,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.075
+          },
+          "uncertainty_q10": 0.708,
+          "uncertainty_q50": 9.2395,
+          "uncertainty_q90": 43.615,
+          "contextual_debt": 308.8436,
+          "m1_debt": 359.5996
+        },
+        {
+          "tyre_age": 31,
+          "raw_pace_delta": 26.892,
+          "m1_baseline_delta": 1.4374,
+          "context_adjusted_delta": 4.2824,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.739,
+            "track_evolution_delta": -0.144,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 2.845
+          },
+          "uncertainty_q10": 0.516,
+          "uncertainty_q50": 13.43,
+          "uncertainty_q90": 44.857,
+          "contextual_debt": 331.4532,
+          "m1_debt": 385.0542
+        }
+      ],
+      "summary": {
+        "total_laps_analyzed": 31,
+        "final_m1_debt": 385.0542,
+        "final_contextual_debt": 331.4532,
+        "mean_confounder_adjustment_s": 3.2339,
+        "fuel_saving_s": 99.7095,
+        "track_grip_gain_s": -2.072,
+        "traffic_loss_s": 2.6121
+      },
+      "provenance_metadata": {
+        "m1_formula": "y_hat = 0.1974 + 0.04 * tyre_age",
+        "fuel_coefficient": 0.033,
+        "track_evolution_coefficient": -0.008,
+        "traffic_coefficient": 0.25,
+        "uncertainty_method": "Non-parametric bootstrap (B=100, seed=42)",
+        "classification": "Observable Contextual Adjustment (Frozen Stage 1/Stage 2 Preserved)"
+      }
+    },
+    {
+      "driver_id": "NOR",
+      "stint_id": "stint_NOR",
+      "circuit_id": "silverstone",
+      "compound": "MEDIUM",
+      "session_id": "unknown",
+      "points": [
+        {
+          "tyre_age": 1,
+          "raw_pace_delta": 5.356,
+          "m1_baseline_delta": 0.2374,
+          "context_adjusted_delta": 3.8099,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.5805,
+            "track_evolution_delta": -0.008,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.5725
+          },
+          "uncertainty_q10": -0.309,
+          "uncertainty_q50": 12.222,
+          "uncertainty_q90": 44.758,
+          "contextual_debt": 1.5461,
+          "m1_debt": 5.1186
+        },
+        {
+          "tyre_age": 2,
+          "raw_pace_delta": 0.197,
+          "m1_baseline_delta": 0.2774,
+          "context_adjusted_delta": 3.7924,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.531,
+            "track_evolution_delta": -0.016,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.515
+          },
+          "uncertainty_q10": -0.3265,
+          "uncertainty_q50": 12.2045,
+          "uncertainty_q90": 44.5795,
+          "contextual_debt": 1.5461,
+          "m1_debt": 5.1186
+        },
+        {
+          "tyre_age": 3,
+          "raw_pace_delta": 0.0,
+          "m1_baseline_delta": 0.3174,
+          "context_adjusted_delta": 3.8115,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.4815,
+            "track_evolution_delta": -0.024,
+            "traffic_delta": 0.0366,
+            "total_confounder_adjustment": 3.4941
+          },
+          "uncertainty_q10": -0.0789,
+          "uncertainty_q50": 5.3576,
+          "uncertainty_q90": 43.3831,
+          "contextual_debt": 1.5461,
+          "m1_debt": 5.1186
+        },
+        {
+          "tyre_age": 4,
+          "raw_pace_delta": -0.015,
+          "m1_baseline_delta": 0.3574,
+          "context_adjusted_delta": 3.7574,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.432,
+            "track_evolution_delta": -0.032,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.4
+          },
+          "uncertainty_q10": -0.2575,
+          "uncertainty_q50": 5.3035,
+          "uncertainty_q90": 43.4506,
+          "contextual_debt": 1.5461,
+          "m1_debt": 5.1186
+        },
+        {
+          "tyre_age": 5,
+          "raw_pace_delta": -0.275,
+          "m1_baseline_delta": 0.3974,
+          "context_adjusted_delta": 3.7399,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.3825,
+            "track_evolution_delta": -0.04,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.3425
+          },
+          "uncertainty_q10": -0.4265,
+          "uncertainty_q50": 0.1298,
+          "uncertainty_q90": 43.3115,
+          "contextual_debt": 1.5461,
+          "m1_debt": 5.1186
+        },
+        {
+          "tyre_age": 6,
+          "raw_pace_delta": -0.095,
+          "m1_baseline_delta": 0.4374,
+          "context_adjusted_delta": 3.7224,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.333,
+            "track_evolution_delta": -0.048,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.285
+          },
+          "uncertainty_q10": -0.3029,
+          "uncertainty_q50": 2.6977,
+          "uncertainty_q90": 43.294,
+          "contextual_debt": 1.5461,
+          "m1_debt": 5.1186
+        },
+        {
+          "tyre_age": 7,
+          "raw_pace_delta": 0.08,
+          "m1_baseline_delta": 0.4774,
+          "context_adjusted_delta": 3.7049,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.2835,
+            "track_evolution_delta": -0.056,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.2275
+          },
+          "uncertainty_q10": -0.3204,
+          "uncertainty_q50": 12.5365,
+          "uncertainty_q90": 38.4444,
+          "contextual_debt": 1.5461,
+          "m1_debt": 5.1186
+        },
+        {
+          "tyre_age": 8,
+          "raw_pace_delta": 0.027,
+          "m1_baseline_delta": 0.5174,
+          "context_adjusted_delta": 3.6874,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.234,
+            "track_evolution_delta": -0.064,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.17
+          },
+          "uncertainty_q10": -0.4315,
+          "uncertainty_q50": 0.0025,
+          "uncertainty_q90": 37.89,
+          "contextual_debt": 1.5461,
+          "m1_debt": 5.1186
+        },
+        {
+          "tyre_age": 9,
+          "raw_pace_delta": -0.015,
+          "m1_baseline_delta": 0.5574,
+          "context_adjusted_delta": 3.6699,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.1845,
+            "track_evolution_delta": -0.072,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.1125
+          },
+          "uncertainty_q10": -0.2205,
+          "uncertainty_q50": 5.216,
+          "uncertainty_q90": 44.457,
+          "contextual_debt": 1.5461,
+          "m1_debt": 5.1186
+        },
+        {
+          "tyre_age": 10,
+          "raw_pace_delta": -0.161,
+          "m1_baseline_delta": 0.5974,
+          "context_adjusted_delta": 3.6524,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.135,
+            "track_evolution_delta": -0.08,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.055
+          },
+          "uncertainty_q10": -0.238,
+          "uncertainty_q50": 12.203,
+          "uncertainty_q90": 37.855,
+          "contextual_debt": 1.5461,
+          "m1_debt": 5.1186
+        },
+        {
+          "tyre_age": 11,
+          "raw_pace_delta": -0.243,
+          "m1_baseline_delta": 0.6374,
+          "context_adjusted_delta": 3.6349,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.0855,
+            "track_evolution_delta": -0.088,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.9975
+          },
+          "uncertainty_q10": -0.4888,
+          "uncertainty_q50": 0.0248,
+          "uncertainty_q90": 46.0315,
+          "contextual_debt": 1.5461,
+          "m1_debt": 5.1186
+        },
+        {
+          "tyre_age": 12,
+          "raw_pace_delta": -0.273,
+          "m1_baseline_delta": 0.6774,
+          "context_adjusted_delta": 3.6174,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.036,
+            "track_evolution_delta": -0.096,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.94
+          },
+          "uncertainty_q10": -0.5015,
+          "uncertainty_q50": 0.022,
+          "uncertainty_q90": 44.4045,
+          "contextual_debt": 1.5461,
+          "m1_debt": 5.1186
+        },
+        {
+          "tyre_age": 13,
+          "raw_pace_delta": -0.519,
+          "m1_baseline_delta": 0.7174,
+          "context_adjusted_delta": 3.5999,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.9865,
+            "track_evolution_delta": -0.104,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.8825
+          },
+          "uncertainty_q10": -0.3029,
+          "uncertainty_q50": 5.146,
+          "uncertainty_q90": 38.3394,
+          "contextual_debt": 1.5461,
+          "m1_debt": 5.1186
+        },
+        {
+          "tyre_age": 14,
+          "raw_pace_delta": -0.584,
+          "m1_baseline_delta": 0.7574,
+          "context_adjusted_delta": 3.5824,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.937,
+            "track_evolution_delta": -0.112,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.825
+          },
+          "uncertainty_q10": -0.5365,
+          "uncertainty_q50": -0.013,
+          "uncertainty_q90": 43.154,
+          "contextual_debt": 1.5461,
+          "m1_debt": 5.1186
+        },
+        {
+          "tyre_age": 15,
+          "raw_pace_delta": -1.045,
+          "m1_baseline_delta": 0.7974,
+          "context_adjusted_delta": 3.5649,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.8875,
+            "track_evolution_delta": -0.12,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.7675
+          },
+          "uncertainty_q10": -0.4604,
+          "uncertainty_q50": 11.977,
+          "uncertainty_q90": 38.3044,
+          "contextual_debt": 1.5461,
+          "m1_debt": 5.1186
+        },
+        {
+          "tyre_age": 16,
+          "raw_pace_delta": -0.301,
+          "m1_baseline_delta": 0.8374,
+          "context_adjusted_delta": 3.5474,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.838,
+            "track_evolution_delta": -0.128,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.71
+          },
+          "uncertainty_q10": -0.4675,
+          "uncertainty_q50": 12.098,
+          "uncertainty_q90": 44.3345,
+          "contextual_debt": 1.5461,
+          "m1_debt": 5.1186
+        },
+        {
+          "tyre_age": 17,
+          "raw_pace_delta": 16.205,
+          "m1_baseline_delta": 0.8774,
+          "context_adjusted_delta": 4.6999,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.5805,
+            "track_evolution_delta": -0.008,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.8225
+          },
+          "uncertainty_q10": 0.5335,
+          "uncertainty_q50": 6.246,
+          "uncertainty_q90": 45.487,
+          "contextual_debt": 13.0512,
+          "m1_debt": 20.4462
+        },
+        {
+          "tyre_age": 18,
+          "raw_pace_delta": 44.254,
+          "m1_baseline_delta": 0.9174,
+          "context_adjusted_delta": 4.6824,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.531,
+            "track_evolution_delta": -0.016,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.765
+          },
+          "uncertainty_q10": 0.6675,
+          "uncertainty_q50": 9.6615,
+          "uncertainty_q90": 45.4695,
+          "contextual_debt": 52.6228,
+          "m1_debt": 63.7828
+        },
+        {
+          "tyre_age": 19,
+          "raw_pace_delta": 45.452,
+          "m1_baseline_delta": 0.9574,
+          "context_adjusted_delta": 4.6649,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.4815,
+            "track_evolution_delta": -0.024,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.7075
+          },
+          "uncertainty_q10": 0.546,
+          "uncertainty_q50": 13.4965,
+          "uncertainty_q90": 45.452,
+          "contextual_debt": 93.4099,
+          "m1_debt": 108.2774
+        },
+        {
+          "tyre_age": 20,
+          "raw_pace_delta": 13.76,
+          "m1_baseline_delta": 0.9974,
+          "context_adjusted_delta": 4.6474,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.432,
+            "track_evolution_delta": -0.032,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.65
+          },
+          "uncertainty_q10": 0.481,
+          "uncertainty_q50": 0.987,
+          "uncertainty_q90": 44.219,
+          "contextual_debt": 102.5225,
+          "m1_debt": 121.04
+        },
+        {
+          "tyre_age": 21,
+          "raw_pace_delta": 13.042,
+          "m1_baseline_delta": 1.0374,
+          "context_adjusted_delta": 4.6299,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.3825,
+            "track_evolution_delta": -0.04,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.5925
+          },
+          "uncertainty_q10": 0.511,
+          "uncertainty_q50": 6.176,
+          "uncertainty_q90": 45.417,
+          "contextual_debt": 110.9346,
+          "m1_debt": 133.0446
+        },
+        {
+          "tyre_age": 22,
+          "raw_pace_delta": 47.242,
+          "m1_baseline_delta": 1.0774,
+          "context_adjusted_delta": 4.6124,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.333,
+            "track_evolution_delta": -0.048,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.535
+          },
+          "uncertainty_q10": 0.4935,
+          "uncertainty_q50": 1.017,
+          "uncertainty_q90": 45.5605,
+          "contextual_debt": 153.5642,
+          "m1_debt": 179.2092
+        },
+        {
+          "tyre_age": 23,
+          "raw_pace_delta": 31.233,
+          "m1_baseline_delta": 1.1174,
+          "context_adjusted_delta": 4.5949,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.2835,
+            "track_evolution_delta": -0.056,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.4775
+          },
+          "uncertainty_q10": 0.58,
+          "uncertainty_q50": 13.0763,
+          "uncertainty_q90": 44.1665,
+          "contextual_debt": 180.2023,
+          "m1_debt": 209.3248
+        },
+        {
+          "tyre_age": 24,
+          "raw_pace_delta": 12.878,
+          "m1_baseline_delta": 1.1574,
+          "context_adjusted_delta": 4.3274,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.234,
+            "track_evolution_delta": -0.064,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.17
+          },
+          "uncertainty_q10": 0.3021,
+          "uncertainty_q50": 12.8087,
+          "uncertainty_q90": 43.899,
+          "contextual_debt": 188.7529,
+          "m1_debt": 221.0454
+        },
+        {
+          "tyre_age": 25,
+          "raw_pace_delta": 13.604,
+          "m1_baseline_delta": 1.1974,
+          "context_adjusted_delta": 4.3099,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.1845,
+            "track_evolution_delta": -0.072,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.1125
+          },
+          "uncertainty_q10": 0.4195,
+          "uncertainty_q50": 12.722,
+          "uncertainty_q90": 45.097,
+          "contextual_debt": 198.047,
+          "m1_debt": 233.452
+        },
+        {
+          "tyre_age": 26,
+          "raw_pace_delta": 13.866,
+          "m1_baseline_delta": 1.2374,
+          "context_adjusted_delta": 4.2924,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.135,
+            "track_evolution_delta": -0.08,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.055
+          },
+          "uncertainty_q10": 0.1735,
+          "uncertainty_q50": 5.8385,
+          "uncertainty_q90": 45.0795,
+          "contextual_debt": 207.6206,
+          "m1_debt": 246.0806
+        },
+        {
+          "tyre_age": 27,
+          "raw_pace_delta": 15.744,
+          "m1_baseline_delta": 1.2774,
+          "context_adjusted_delta": 4.2749,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.0855,
+            "track_evolution_delta": -0.088,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.9975
+          },
+          "uncertainty_q10": 0.156,
+          "uncertainty_q50": 12.8255,
+          "uncertainty_q90": 43.9681,
+          "contextual_debt": 219.0897,
+          "m1_debt": 260.5472
+        },
+        {
+          "tyre_age": 28,
+          "raw_pace_delta": 38.46,
+          "m1_baseline_delta": 1.3174,
+          "context_adjusted_delta": 4.2574,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.036,
+            "track_evolution_delta": -0.096,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.94
+          },
+          "uncertainty_q10": 0.2425,
+          "uncertainty_q50": 0.662,
+          "uncertainty_q90": 38.46,
+          "contextual_debt": 253.2923,
+          "m1_debt": 297.6898
+        },
+        {
+          "tyre_age": 29,
+          "raw_pace_delta": 17.614,
+          "m1_baseline_delta": 1.3574,
+          "context_adjusted_delta": 4.4899,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.9865,
+            "track_evolution_delta": -0.104,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.1325
+          },
+          "uncertainty_q10": 0.475,
+          "uncertainty_q50": 12.902,
+          "uncertainty_q90": 45.277,
+          "contextual_debt": 266.4164,
+          "m1_debt": 313.9464
+        },
+        {
+          "tyre_age": 30,
+          "raw_pace_delta": 46.869,
+          "m1_baseline_delta": 1.3974,
+          "context_adjusted_delta": 4.4724,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.937,
+            "track_evolution_delta": -0.112,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.075
+          },
+          "uncertainty_q10": 0.4575,
+          "uncertainty_q50": 9.4515,
+          "uncertainty_q90": 44.044,
+          "contextual_debt": 308.813,
+          "m1_debt": 359.418
+        },
+        {
+          "tyre_age": 31,
+          "raw_pace_delta": 27.833,
+          "m1_baseline_delta": 1.4374,
+          "context_adjusted_delta": 4.2824,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.739,
+            "track_evolution_delta": -0.144,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 2.845
+          },
+          "uncertainty_q10": 0.4033,
+          "uncertainty_q50": 13.395,
+          "uncertainty_q90": 46.679,
+          "contextual_debt": 332.3636,
+          "m1_debt": 385.8136
+        }
+      ],
+      "summary": {
+        "total_laps_analyzed": 31,
+        "final_m1_debt": 385.8136,
+        "final_contextual_debt": 332.3636,
+        "mean_confounder_adjustment_s": 3.2314,
+        "fuel_saving_s": 99.7095,
+        "track_grip_gain_s": -2.072,
+        "traffic_loss_s": 2.5366
+      },
+      "provenance_metadata": {
+        "m1_formula": "y_hat = 0.1974 + 0.04 * tyre_age",
+        "fuel_coefficient": 0.033,
+        "track_evolution_coefficient": -0.008,
+        "traffic_coefficient": 0.25,
+        "uncertainty_method": "Non-parametric bootstrap (B=100, seed=42)",
+        "classification": "Observable Contextual Adjustment (Frozen Stage 1/Stage 2 Preserved)"
+      }
+    },
+    {
+      "driver_id": "LEC",
+      "stint_id": "stint_LEC",
+      "circuit_id": "silverstone",
+      "compound": "MEDIUM",
+      "session_id": "unknown",
+      "points": [
+        {
+          "tyre_age": 1,
+          "raw_pace_delta": 7.294,
+          "m1_baseline_delta": 0.2374,
+          "context_adjusted_delta": 3.8099,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.5805,
+            "track_evolution_delta": -0.008,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.5725
+          },
+          "uncertainty_q10": 0.097,
+          "uncertainty_q50": 2.0038,
+          "uncertainty_q90": 42.608,
+          "contextual_debt": 3.4841,
+          "m1_debt": 7.0566
+        },
+        {
+          "tyre_age": 2,
+          "raw_pace_delta": 0.489,
+          "m1_baseline_delta": 0.2774,
+          "context_adjusted_delta": 3.7924,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.531,
+            "track_evolution_delta": -0.016,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.515
+          },
+          "uncertainty_q10": 0.0299,
+          "uncertainty_q50": 3.1735,
+          "uncertainty_q90": 39.0544,
+          "contextual_debt": 3.4841,
+          "m1_debt": 7.2682
+        },
+        {
+          "tyre_age": 3,
+          "raw_pace_delta": 0.0,
+          "m1_baseline_delta": 0.3174,
+          "context_adjusted_delta": 3.8713,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.4815,
+            "track_evolution_delta": -0.024,
+            "traffic_delta": 0.0964,
+            "total_confounder_adjustment": 3.5539
+          },
+          "uncertainty_q10": 0.1209,
+          "uncertainty_q50": 5.2559,
+          "uncertainty_q90": 42.6694,
+          "contextual_debt": 3.4841,
+          "m1_debt": 7.2682
+        },
+        {
+          "tyre_age": 4,
+          "raw_pace_delta": 0.336,
+          "m1_baseline_delta": 0.3574,
+          "context_adjusted_delta": 3.7574,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.432,
+            "track_evolution_delta": -0.032,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.4
+          },
+          "uncertainty_q10": 0.0407,
+          "uncertainty_q50": 7.2415,
+          "uncertainty_q90": 42.7534,
+          "contextual_debt": 3.4841,
+          "m1_debt": 7.2682
+        },
+        {
+          "tyre_age": 5,
+          "raw_pace_delta": 0.328,
+          "m1_baseline_delta": 0.3974,
+          "context_adjusted_delta": 3.7399,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.3825,
+            "track_evolution_delta": -0.04,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.3425
+          },
+          "uncertainty_q10": 0.084,
+          "uncertainty_q50": 11.7335,
+          "uncertainty_q90": 44.5165,
+          "contextual_debt": 3.4841,
+          "m1_debt": 7.2682
+        },
+        {
+          "tyre_age": 6,
+          "raw_pace_delta": 0.389,
+          "m1_baseline_delta": 0.4374,
+          "context_adjusted_delta": 3.7224,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.333,
+            "track_evolution_delta": -0.048,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.285
+          },
+          "uncertainty_q10": 0.0665,
+          "uncertainty_q50": 7.5755,
+          "uncertainty_q90": 44.499,
+          "contextual_debt": 3.4841,
+          "m1_debt": 7.2682
+        },
+        {
+          "tyre_age": 7,
+          "raw_pace_delta": 0.293,
+          "m1_baseline_delta": 0.4774,
+          "context_adjusted_delta": 3.7049,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.2835,
+            "track_evolution_delta": -0.056,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.2275
+          },
+          "uncertainty_q10": -0.1664,
+          "uncertainty_q50": 3.086,
+          "uncertainty_q90": 44.4815,
+          "contextual_debt": 3.4841,
+          "m1_debt": 7.2682
+        },
+        {
+          "tyre_age": 8,
+          "raw_pace_delta": 0.491,
+          "m1_baseline_delta": 0.5174,
+          "context_adjusted_delta": 3.6874,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.234,
+            "track_evolution_delta": -0.064,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.17
+          },
+          "uncertainty_q10": 0.0258,
+          "uncertainty_q50": 7.0755,
+          "uncertainty_q90": 44.464,
+          "contextual_debt": 3.4841,
+          "m1_debt": 7.2682
+        },
+        {
+          "tyre_age": 9,
+          "raw_pace_delta": -0.043,
+          "m1_baseline_delta": 0.5574,
+          "context_adjusted_delta": 3.6699,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.1845,
+            "track_evolution_delta": -0.072,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.1125
+          },
+          "uncertainty_q10": 0.1045,
+          "uncertainty_q50": 7.892,
+          "uncertainty_q90": 42.468,
+          "contextual_debt": 3.4841,
+          "m1_debt": 7.2682
+        },
+        {
+          "tyre_age": 10,
+          "raw_pace_delta": 0.127,
+          "m1_baseline_delta": 0.5974,
+          "context_adjusted_delta": 3.6524,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.135,
+            "track_evolution_delta": -0.08,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.055
+          },
+          "uncertainty_q10": 0.087,
+          "uncertainty_q50": 7.0885,
+          "uncertainty_q90": 42.4505,
+          "contextual_debt": 3.4841,
+          "m1_debt": 7.2682
+        },
+        {
+          "tyre_age": 11,
+          "raw_pace_delta": -0.021,
+          "m1_baseline_delta": 0.6374,
+          "context_adjusted_delta": 3.6349,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.0855,
+            "track_evolution_delta": -0.088,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.9975
+          },
+          "uncertainty_q10": -0.078,
+          "uncertainty_q50": 7.023,
+          "uncertainty_q90": 42.1198,
+          "contextual_debt": 3.4841,
+          "m1_debt": 7.2682
+        },
+        {
+          "tyre_age": 12,
+          "raw_pace_delta": -0.133,
+          "m1_baseline_delta": 0.6774,
+          "context_adjusted_delta": 3.6174,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.036,
+            "track_evolution_delta": -0.096,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.94
+          },
+          "uncertainty_q10": -0.133,
+          "uncertainty_q50": 0.624,
+          "uncertainty_q90": 42.1023,
+          "contextual_debt": 3.4841,
+          "m1_debt": 7.2682
+        },
+        {
+          "tyre_age": 13,
+          "raw_pace_delta": -0.38,
+          "m1_baseline_delta": 0.7174,
+          "context_adjusted_delta": 3.5999,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.9865,
+            "track_evolution_delta": -0.104,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.8825
+          },
+          "uncertainty_q10": -0.113,
+          "uncertainty_q50": 4.9845,
+          "uncertainty_q90": 42.5959,
+          "contextual_debt": 3.4841,
+          "m1_debt": 7.2682
+        },
+        {
+          "tyre_age": 14,
+          "raw_pace_delta": 0.027,
+          "m1_baseline_delta": 0.7574,
+          "context_adjusted_delta": 3.5824,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.937,
+            "track_evolution_delta": -0.112,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.825
+          },
+          "uncertainty_q10": -0.1305,
+          "uncertainty_q50": 7.8045,
+          "uncertainty_q90": 42.0673,
+          "contextual_debt": 3.4841,
+          "m1_debt": 7.2682
+        },
+        {
+          "tyre_age": 15,
+          "raw_pace_delta": 0.386,
+          "m1_baseline_delta": 0.7974,
+          "context_adjusted_delta": 3.5649,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.8875,
+            "track_evolution_delta": -0.12,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.7675
+          },
+          "uncertainty_q10": 0.0095,
+          "uncertainty_q50": 7.049,
+          "uncertainty_q90": 42.015,
+          "contextual_debt": 3.4841,
+          "m1_debt": 7.2682
+        },
+        {
+          "tyre_age": 16,
+          "raw_pace_delta": 0.554,
+          "m1_baseline_delta": 0.8374,
+          "context_adjusted_delta": 3.5474,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.838,
+            "track_evolution_delta": -0.128,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.71
+          },
+          "uncertainty_q10": -0.1142,
+          "uncertainty_q50": 9.6553,
+          "uncertainty_q90": 44.324,
+          "contextual_debt": 3.4841,
+          "m1_debt": 7.2682
+        },
+        {
+          "tyre_age": 17,
+          "raw_pace_delta": 2.911,
+          "m1_baseline_delta": 0.8774,
+          "context_adjusted_delta": 3.5299,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.7885,
+            "track_evolution_delta": -0.136,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.6525
+          },
+          "uncertainty_q10": 0.0015,
+          "uncertainty_q50": 7.752,
+          "uncertainty_q90": 42.328,
+          "contextual_debt": 3.4841,
+          "m1_debt": 9.3018
+        },
+        {
+          "tyre_age": 18,
+          "raw_pace_delta": 39.609,
+          "m1_baseline_delta": 0.9174,
+          "context_adjusted_delta": 4.7399,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.5805,
+            "track_evolution_delta": -0.008,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.8225
+          },
+          "uncertainty_q10": 1.1845,
+          "uncertainty_q50": 20.278,
+          "uncertainty_q90": 43.7359,
+          "contextual_debt": 38.3532,
+          "m1_debt": 47.9934
+        },
+        {
+          "tyre_age": 19,
+          "raw_pace_delta": 45.499,
+          "m1_baseline_delta": 0.9574,
+          "context_adjusted_delta": 4.7224,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.531,
+            "track_evolution_delta": -0.016,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.765
+          },
+          "uncertainty_q10": 0.972,
+          "uncertainty_q50": 8.1585,
+          "uncertainty_q90": 43.2073,
+          "contextual_debt": 79.1298,
+          "m1_debt": 92.535
+        },
+        {
+          "tyre_age": 20,
+          "raw_pace_delta": 43.503,
+          "m1_baseline_delta": 0.9974,
+          "context_adjusted_delta": 4.7049,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.4815,
+            "track_evolution_delta": -0.024,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.7075
+          },
+          "uncertainty_q10": 0.992,
+          "uncertainty_q50": 4.086,
+          "uncertainty_q90": 45.5925,
+          "contextual_debt": 117.9279,
+          "m1_debt": 135.0406
+        },
+        {
+          "tyre_age": 21,
+          "raw_pace_delta": 20.624,
+          "m1_baseline_delta": 1.0374,
+          "context_adjusted_delta": 4.6874,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.432,
+            "track_evolution_delta": -0.032,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.65
+          },
+          "uncertainty_q10": 1.0315,
+          "uncertainty_q50": 14.422,
+          "uncertainty_q90": 45.4751,
+          "contextual_debt": 133.8645,
+          "m1_debt": 154.6272
+        },
+        {
+          "tyre_age": 22,
+          "raw_pace_delta": 26.089,
+          "m1_baseline_delta": 1.0774,
+          "context_adjusted_delta": 4.6699,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.3825,
+            "track_evolution_delta": -0.04,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.5925
+          },
+          "uncertainty_q10": 0.7986,
+          "uncertainty_q50": 6.0545,
+          "uncertainty_q90": 38.7573,
+          "contextual_debt": 155.2836,
+          "m1_debt": 179.6388
+        },
+        {
+          "tyre_age": 23,
+          "raw_pace_delta": 45.54,
+          "m1_baseline_delta": 1.1174,
+          "context_adjusted_delta": 4.6524,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.333,
+            "track_evolution_delta": -0.048,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.535
+          },
+          "uncertainty_q10": 0.9395,
+          "uncertainty_q50": 10.7603,
+          "uncertainty_q90": 45.429,
+          "contextual_debt": 196.1712,
+          "m1_debt": 224.0614
+        },
+        {
+          "tyre_age": 24,
+          "raw_pace_delta": 20.173,
+          "m1_baseline_delta": 1.1574,
+          "context_adjusted_delta": 4.6349,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.2835,
+            "track_evolution_delta": -0.056,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.4775
+          },
+          "uncertainty_q10": 0.9182,
+          "uncertainty_q50": 8.857,
+          "uncertainty_q90": 45.4226,
+          "contextual_debt": 211.7093,
+          "m1_debt": 243.077
+        },
+        {
+          "tyre_age": 25,
+          "raw_pace_delta": 12.361,
+          "m1_baseline_delta": 1.1974,
+          "context_adjusted_delta": 4.3674,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.234,
+            "track_evolution_delta": -0.064,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.17
+          },
+          "uncertainty_q10": 0.6507,
+          "uncertainty_q50": 1.374,
+          "uncertainty_q90": 43.1655,
+          "contextual_debt": 219.7029,
+          "m1_debt": 254.2406
+        },
+        {
+          "tyre_age": 26,
+          "raw_pace_delta": 8.572,
+          "m1_baseline_delta": 1.2374,
+          "context_adjusted_delta": 4.3499,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.1845,
+            "track_evolution_delta": -0.072,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.1125
+          },
+          "uncertainty_q10": 0.5995,
+          "uncertainty_q50": 7.834,
+          "uncertainty_q90": 45.1265,
+          "contextual_debt": 223.925,
+          "m1_debt": 261.5752
+        },
+        {
+          "tyre_age": 27,
+          "raw_pace_delta": 7.723,
+          "m1_baseline_delta": 1.2774,
+          "context_adjusted_delta": 4.3349,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.135,
+            "track_evolution_delta": -0.08,
+            "traffic_delta": 0.0025,
+            "total_confounder_adjustment": 3.0575
+          },
+          "uncertainty_q10": 0.6733,
+          "uncertainty_q50": 7.819,
+          "uncertainty_q90": 45.1115,
+          "contextual_debt": 227.3131,
+          "m1_debt": 268.0208
+        },
+        {
+          "tyre_age": 28,
+          "raw_pace_delta": 36.207,
+          "m1_baseline_delta": 1.3174,
+          "context_adjusted_delta": 4.3171,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.0855,
+            "track_evolution_delta": -0.088,
+            "traffic_delta": 0.0023,
+            "total_confounder_adjustment": 2.9998
+          },
+          "uncertainty_q10": 0.5668,
+          "uncertainty_q50": 5.7497,
+          "uncertainty_q90": 43.1153,
+          "contextual_debt": 259.203,
+          "m1_debt": 302.9104
+        },
+        {
+          "tyre_age": 29,
+          "raw_pace_delta": 15.773,
+          "m1_baseline_delta": 1.3574,
+          "context_adjusted_delta": 4.2974,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.036,
+            "track_evolution_delta": -0.096,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.94
+          },
+          "uncertainty_q10": 0.6358,
+          "uncertainty_q50": 3.6785,
+          "uncertainty_q90": 43.2934,
+          "contextual_debt": 270.6786,
+          "m1_debt": 317.326
+        },
+        {
+          "tyre_age": 30,
+          "raw_pace_delta": 28.214,
+          "m1_baseline_delta": 1.3974,
+          "context_adjusted_delta": 4.5363,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.9865,
+            "track_evolution_delta": -0.104,
+            "traffic_delta": 0.2565,
+            "total_confounder_adjustment": 3.1389
+          },
+          "uncertainty_q10": 0.8234,
+          "uncertainty_q50": 3.9175,
+          "uncertainty_q90": 43.0213,
+          "contextual_debt": 294.3562,
+          "m1_debt": 344.1426
+        },
+        {
+          "tyre_age": 31,
+          "raw_pace_delta": 43.001,
+          "m1_baseline_delta": 1.4374,
+          "context_adjusted_delta": 4.5509,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.937,
+            "track_evolution_delta": -0.112,
+            "traffic_delta": 0.2885,
+            "total_confounder_adjustment": 3.1135
+          },
+          "uncertainty_q10": 0.838,
+          "uncertainty_q50": 8.035,
+          "uncertainty_q90": 39.42,
+          "contextual_debt": 332.8064,
+          "m1_debt": 385.7062
+        },
+        {
+          "tyre_age": 32,
+          "raw_pace_delta": 49.731,
+          "m1_baseline_delta": 1.4774,
+          "context_adjusted_delta": 4.5124,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.8875,
+            "track_evolution_delta": -0.12,
+            "traffic_delta": 0.2675,
+            "total_confounder_adjustment": 3.035
+          },
+          "uncertainty_q10": 0.7995,
+          "uncertainty_q50": 7.9005,
+          "uncertainty_q90": 45.3001,
+          "contextual_debt": 378.0249,
+          "m1_debt": 433.9598
+        },
+        {
+          "tyre_age": 33,
+          "raw_pace_delta": 37.965,
+          "m1_baseline_delta": 1.5174,
+          "context_adjusted_delta": 4.3624,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.739,
+            "track_evolution_delta": -0.144,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 2.845
+          },
+          "uncertainty_q10": 0.612,
+          "uncertainty_q50": 1.369,
+          "uncertainty_q90": 39.6244,
+          "contextual_debt": 411.6275,
+          "m1_debt": 470.4074
+        }
+      ],
+      "summary": {
+        "total_laps_analyzed": 33,
+        "final_m1_debt": 470.4074,
+        "final_contextual_debt": 411.6275,
+        "mean_confounder_adjustment_s": 3.2112,
+        "fuel_saving_s": 105.3855,
+        "track_grip_gain_s": -2.328,
+        "traffic_loss_s": 2.9136
+      },
+      "provenance_metadata": {
+        "m1_formula": "y_hat = 0.1974 + 0.04 * tyre_age",
+        "fuel_coefficient": 0.033,
+        "track_evolution_coefficient": -0.008,
+        "traffic_coefficient": 0.25,
+        "uncertainty_method": "Non-parametric bootstrap (B=100, seed=42)",
+        "classification": "Observable Contextual Adjustment (Frozen Stage 1/Stage 2 Preserved)"
+      }
+    },
+    {
+      "driver_id": "RUS",
+      "stint_id": "stint_RUS",
+      "circuit_id": "silverstone",
+      "compound": "HARD",
+      "session_id": "unknown",
+      "points": [
+        {
+          "tyre_age": 1,
+          "raw_pace_delta": 0.0,
+          "m1_baseline_delta": 0.2374,
+          "context_adjusted_delta": 4.0599,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.5805,
+            "track_evolution_delta": -0.008,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.8225
+          },
+          "uncertainty_q10": -28.674,
+          "uncertainty_q50": -15.072,
+          "uncertainty_q90": 7.5245,
+          "contextual_debt": 0.0,
+          "m1_debt": 0.0
+        },
+        {
+          "tyre_age": 2,
+          "raw_pace_delta": 6.371,
+          "m1_baseline_delta": 0.2774,
+          "context_adjusted_delta": 4.0424,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.531,
+            "track_evolution_delta": -0.016,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.765
+          },
+          "uncertainty_q10": -27.9007,
+          "uncertainty_q50": -5.0643,
+          "uncertainty_q90": 7.507,
+          "contextual_debt": 2.3286,
+          "m1_debt": 6.0936
+        },
+        {
+          "tyre_age": 3,
+          "raw_pace_delta": 5.86,
+          "m1_baseline_delta": 0.3174,
+          "context_adjusted_delta": 4.0249,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.4815,
+            "track_evolution_delta": -0.024,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.7075
+          },
+          "uncertainty_q10": -28.709,
+          "uncertainty_q50": -15.107,
+          "uncertainty_q90": 7.0251,
+          "contextual_debt": 4.1637,
+          "m1_debt": 11.6362
+        },
+        {
+          "tyre_age": 4,
+          "raw_pace_delta": -19.149,
+          "m1_baseline_delta": 0.3574,
+          "context_adjusted_delta": 4.0074,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.432,
+            "track_evolution_delta": -0.032,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.65
+          },
+          "uncertainty_q10": -28.7265,
+          "uncertainty_q50": -7.9931,
+          "uncertainty_q90": 7.472,
+          "contextual_debt": 4.1637,
+          "m1_debt": 11.6362
+        },
+        {
+          "tyre_age": 5,
+          "raw_pace_delta": -15.142,
+          "m1_baseline_delta": 0.3974,
+          "context_adjusted_delta": 3.9899,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.3825,
+            "track_evolution_delta": -0.04,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.5925
+          },
+          "uncertainty_q10": -28.744,
+          "uncertainty_q50": -10.648,
+          "uncertainty_q90": 7.4545,
+          "contextual_debt": 4.1637,
+          "m1_debt": 11.6362
+        },
+        {
+          "tyre_age": 6,
+          "raw_pace_delta": 6.921,
+          "m1_baseline_delta": 0.4374,
+          "context_adjusted_delta": 3.9724,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.333,
+            "track_evolution_delta": -0.048,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.535
+          },
+          "uncertainty_q10": -28.7615,
+          "uncertainty_q50": -5.3907,
+          "uncertainty_q90": 7.437,
+          "contextual_debt": 7.1123,
+          "m1_debt": 18.1198
+        },
+        {
+          "tyre_age": 7,
+          "raw_pace_delta": -16.892,
+          "m1_baseline_delta": 0.4774,
+          "context_adjusted_delta": 3.9549,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.2835,
+            "track_evolution_delta": -0.056,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.4775
+          },
+          "uncertainty_q10": -28.779,
+          "uncertainty_q50": -10.683,
+          "uncertainty_q90": 7.4195,
+          "contextual_debt": 7.1123,
+          "m1_debt": 18.1198
+        },
+        {
+          "tyre_age": 8,
+          "raw_pace_delta": -29.28,
+          "m1_baseline_delta": 0.5174,
+          "context_adjusted_delta": 3.6874,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.234,
+            "track_evolution_delta": -0.064,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.17
+          },
+          "uncertainty_q10": -28.1678,
+          "uncertainty_q50": -5.6757,
+          "uncertainty_q90": 6.636,
+          "contextual_debt": 7.1123,
+          "m1_debt": 18.1198
+        },
+        {
+          "tyre_age": 9,
+          "raw_pace_delta": -29.064,
+          "m1_baseline_delta": 0.5574,
+          "context_adjusted_delta": 3.6699,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.1845,
+            "track_evolution_delta": -0.072,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.1125
+          },
+          "uncertainty_q10": -29.064,
+          "uncertainty_q50": -5.4368,
+          "uncertainty_q90": 6.6185,
+          "contextual_debt": 7.1123,
+          "m1_debt": 18.1198
+        },
+        {
+          "tyre_age": 10,
+          "raw_pace_delta": -28.15,
+          "m1_baseline_delta": 0.5974,
+          "context_adjusted_delta": 3.7052,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.135,
+            "track_evolution_delta": -0.08,
+            "traffic_delta": 0.0528,
+            "total_confounder_adjustment": 3.1078
+          },
+          "uncertainty_q10": -28.15,
+          "uncertainty_q50": -10.9327,
+          "uncertainty_q90": 7.8413,
+          "contextual_debt": 7.1123,
+          "m1_debt": 18.1198
+        },
+        {
+          "tyre_age": 11,
+          "raw_pace_delta": -5.686,
+          "m1_baseline_delta": 0.6374,
+          "context_adjusted_delta": 3.677,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.0855,
+            "track_evolution_delta": -0.088,
+            "traffic_delta": 0.0421,
+            "total_confounder_adjustment": 3.0396
+          },
+          "uncertainty_q10": -29.0569,
+          "uncertainty_q50": -0.3828,
+          "uncertainty_q90": 7.1416,
+          "contextual_debt": 7.1123,
+          "m1_debt": 18.1198
+        },
+        {
+          "tyre_age": 12,
+          "raw_pace_delta": -22.996,
+          "m1_baseline_delta": 0.6774,
+          "context_adjusted_delta": 3.6174,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.036,
+            "track_evolution_delta": -0.096,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.94
+          },
+          "uncertainty_q10": -29.1165,
+          "uncertainty_q50": -11.0205,
+          "uncertainty_q90": 6.566,
+          "contextual_debt": 7.1123,
+          "m1_debt": 18.1198
+        },
+        {
+          "tyre_age": 13,
+          "raw_pace_delta": -10.788,
+          "m1_baseline_delta": 0.7174,
+          "context_adjusted_delta": 3.8499,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.9865,
+            "track_evolution_delta": -0.104,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.1325
+          },
+          "uncertainty_q10": -28.0053,
+          "uncertainty_q50": -5.5132,
+          "uncertainty_q90": 7.986,
+          "contextual_debt": 7.1123,
+          "m1_debt": 18.1198
+        },
+        {
+          "tyre_age": 14,
+          "raw_pace_delta": 7.297,
+          "m1_baseline_delta": 0.7574,
+          "context_adjusted_delta": 3.8324,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.937,
+            "track_evolution_delta": -0.112,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.075
+          },
+          "uncertainty_q10": -28.9015,
+          "uncertainty_q50": -5.5307,
+          "uncertainty_q90": 7.297,
+          "contextual_debt": 10.5769,
+          "m1_debt": 24.6594
+        },
+        {
+          "tyre_age": 15,
+          "raw_pace_delta": 13.994,
+          "m1_baseline_delta": 0.7974,
+          "context_adjusted_delta": 3.8149,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.8875,
+            "track_evolution_delta": -0.12,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.0175
+          },
+          "uncertainty_q10": -28.919,
+          "uncertainty_q50": -10.823,
+          "uncertainty_q90": 6.7635,
+          "contextual_debt": 20.756,
+          "m1_debt": 37.856
+        },
+        {
+          "tyre_age": 16,
+          "raw_pace_delta": -5.168,
+          "m1_baseline_delta": 0.8374,
+          "context_adjusted_delta": 3.6824,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.739,
+            "track_evolution_delta": -0.144,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 2.845
+          },
+          "uncertainty_q10": -29.0515,
+          "uncertainty_q50": -13.2025,
+          "uncertainty_q90": 7.147,
+          "contextual_debt": 20.756,
+          "m1_debt": 37.856
+        }
+      ],
+      "summary": {
+        "total_laps_analyzed": 16,
+        "final_m1_debt": 37.856,
+        "final_contextual_debt": 20.756,
+        "mean_confounder_adjustment_s": 3.3119,
+        "fuel_saving_s": 51.249,
+        "track_grip_gain_s": -1.104,
+        "traffic_loss_s": 2.8449
+      },
+      "provenance_metadata": {
+        "m1_formula": "y_hat = 0.1974 + 0.04 * tyre_age",
+        "fuel_coefficient": 0.033,
+        "track_evolution_coefficient": -0.008,
+        "traffic_coefficient": 0.25,
+        "uncertainty_method": "Non-parametric bootstrap (B=100, seed=42)",
+        "classification": "Observable Contextual Adjustment (Frozen Stage 1/Stage 2 Preserved)"
+      }
+    },
+    {
+      "driver_id": "SAI",
+      "stint_id": "stint_SAI",
+      "circuit_id": "silverstone",
+      "compound": "MEDIUM",
+      "session_id": "unknown",
+      "points": [
+        {
+          "tyre_age": 1,
+          "raw_pace_delta": 6.597,
+          "m1_baseline_delta": 0.2374,
+          "context_adjusted_delta": 3.8099,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.5805,
+            "track_evolution_delta": -0.008,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.5725
+          },
+          "uncertainty_q10": -0.014,
+          "uncertainty_q50": 1.5555,
+          "uncertainty_q90": 42.9695,
+          "contextual_debt": 2.7871,
+          "m1_debt": 6.3596
+        },
+        {
+          "tyre_age": 2,
+          "raw_pace_delta": 0.257,
+          "m1_baseline_delta": 0.2774,
+          "context_adjusted_delta": 3.7924,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.531,
+            "track_evolution_delta": -0.016,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.515
+          },
+          "uncertainty_q10": -0.0868,
+          "uncertainty_q50": 2.3885,
+          "uncertainty_q90": 36.6552,
+          "contextual_debt": 2.7871,
+          "m1_debt": 6.3596
+        },
+        {
+          "tyre_age": 3,
+          "raw_pace_delta": 0.0,
+          "m1_baseline_delta": 0.3174,
+          "context_adjusted_delta": 3.7805,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.4815,
+            "track_evolution_delta": -0.024,
+            "traffic_delta": 0.0056,
+            "total_confounder_adjustment": 3.4631
+          },
+          "uncertainty_q10": -0.0434,
+          "uncertainty_q50": 4.4721,
+          "uncertainty_q90": 42.6226,
+          "contextual_debt": 2.7871,
+          "m1_debt": 6.3596
+        },
+        {
+          "tyre_age": 4,
+          "raw_pace_delta": -0.057,
+          "m1_baseline_delta": 0.3574,
+          "context_adjusted_delta": 3.8222,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.432,
+            "track_evolution_delta": -0.032,
+            "traffic_delta": 0.0648,
+            "total_confounder_adjustment": 3.4648
+          },
+          "uncertainty_q10": -0.0017,
+          "uncertainty_q50": 13.0446,
+          "uncertainty_q90": 42.6448,
+          "contextual_debt": 2.7871,
+          "m1_debt": 6.3596
+        },
+        {
+          "tyre_age": 5,
+          "raw_pace_delta": -0.163,
+          "m1_baseline_delta": 0.3974,
+          "context_adjusted_delta": 3.7399,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.3825,
+            "track_evolution_delta": -0.04,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.3425
+          },
+          "uncertainty_q10": 0.1093,
+          "uncertainty_q50": 13.4975,
+          "uncertainty_q90": 44.9925,
+          "contextual_debt": 2.7871,
+          "m1_debt": 6.3596
+        },
+        {
+          "tyre_age": 6,
+          "raw_pace_delta": -0.202,
+          "m1_baseline_delta": 0.4374,
+          "context_adjusted_delta": 3.7224,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.333,
+            "track_evolution_delta": -0.048,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.285
+          },
+          "uncertainty_q10": -0.0581,
+          "uncertainty_q50": 15.0895,
+          "uncertainty_q90": 42.5645,
+          "contextual_debt": 2.7871,
+          "m1_debt": 6.3596
+        },
+        {
+          "tyre_age": 7,
+          "raw_pace_delta": 0.6,
+          "m1_baseline_delta": 0.4774,
+          "context_adjusted_delta": 3.7049,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.2835,
+            "track_evolution_delta": -0.056,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.2275
+          },
+          "uncertainty_q10": -0.119,
+          "uncertainty_q50": 2.301,
+          "uncertainty_q90": 42.547,
+          "contextual_debt": 2.7871,
+          "m1_debt": 6.4822
+        },
+        {
+          "tyre_age": 8,
+          "raw_pace_delta": 0.27,
+          "m1_baseline_delta": 0.5174,
+          "context_adjusted_delta": 3.6874,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.234,
+            "track_evolution_delta": -0.064,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.17
+          },
+          "uncertainty_q10": -0.0931,
+          "uncertainty_q50": 6.4745,
+          "uncertainty_q90": 44.1205,
+          "contextual_debt": 2.7871,
+          "m1_debt": 6.4822
+        },
+        {
+          "tyre_age": 9,
+          "raw_pace_delta": 0.382,
+          "m1_baseline_delta": 0.5574,
+          "context_adjusted_delta": 3.6699,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.1845,
+            "track_evolution_delta": -0.072,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.1125
+          },
+          "uncertainty_q10": 0.056,
+          "uncertainty_q50": 15.037,
+          "uncertainty_q90": 42.8295,
+          "contextual_debt": 2.7871,
+          "m1_debt": 6.4822
+        },
+        {
+          "tyre_age": 10,
+          "raw_pace_delta": 0.26,
+          "m1_baseline_delta": 0.5974,
+          "context_adjusted_delta": 3.6524,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.135,
+            "track_evolution_delta": -0.08,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.055
+          },
+          "uncertainty_q10": -0.2268,
+          "uncertainty_q50": 6.4395,
+          "uncertainty_q90": 42.812,
+          "contextual_debt": 2.7871,
+          "m1_debt": 6.4822
+        },
+        {
+          "tyre_age": 11,
+          "raw_pace_delta": 0.021,
+          "m1_baseline_delta": 0.6374,
+          "context_adjusted_delta": 3.6349,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.0855,
+            "track_evolution_delta": -0.088,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.9975
+          },
+          "uncertainty_q10": -0.189,
+          "uncertainty_q50": 9.6396,
+          "uncertainty_q90": 42.7945,
+          "contextual_debt": 2.7871,
+          "m1_debt": 6.4822
+        },
+        {
+          "tyre_age": 12,
+          "raw_pace_delta": 0.256,
+          "m1_baseline_delta": 0.6774,
+          "context_adjusted_delta": 3.6174,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.036,
+            "track_evolution_delta": -0.096,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.94
+          },
+          "uncertainty_q10": -0.2618,
+          "uncertainty_q50": 0.4677,
+          "uncertainty_q90": 42.44,
+          "contextual_debt": 2.7871,
+          "m1_debt": 6.4822
+        },
+        {
+          "tyre_age": 13,
+          "raw_pace_delta": 0.149,
+          "m1_baseline_delta": 0.7174,
+          "context_adjusted_delta": 3.5999,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.9865,
+            "track_evolution_delta": -0.104,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.8825
+          },
+          "uncertainty_q10": -0.224,
+          "uncertainty_q50": 4.2915,
+          "uncertainty_q90": 42.618,
+          "contextual_debt": 2.7871,
+          "m1_debt": 6.4822
+        },
+        {
+          "tyre_age": 14,
+          "raw_pace_delta": 0.004,
+          "m1_baseline_delta": 0.7574,
+          "context_adjusted_delta": 3.5824,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.937,
+            "track_evolution_delta": -0.112,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.825
+          },
+          "uncertainty_q10": -0.0482,
+          "uncertainty_q50": 13.34,
+          "uncertainty_q90": 42.6005,
+          "contextual_debt": 2.7871,
+          "m1_debt": 6.4822
+        },
+        {
+          "tyre_age": 15,
+          "raw_pace_delta": -0.186,
+          "m1_baseline_delta": 0.7974,
+          "context_adjusted_delta": 3.6379,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.8875,
+            "track_evolution_delta": -0.12,
+            "traffic_delta": 0.073,
+            "total_confounder_adjustment": 2.8405
+          },
+          "uncertainty_q10": -0.2413,
+          "uncertainty_q50": 12.8603,
+          "uncertainty_q90": 42.4605,
+          "contextual_debt": 2.7871,
+          "m1_debt": 6.4822
+        },
+        {
+          "tyre_age": 16,
+          "raw_pace_delta": 0.353,
+          "m1_baseline_delta": 0.8374,
+          "context_adjusted_delta": 3.5474,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.838,
+            "track_evolution_delta": -0.128,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.71
+          },
+          "uncertainty_q10": -0.3318,
+          "uncertainty_q50": 13.0374,
+          "uncertainty_q90": 44.0625,
+          "contextual_debt": 2.7871,
+          "m1_debt": 6.4822
+        },
+        {
+          "tyre_age": 17,
+          "raw_pace_delta": 2.126,
+          "m1_baseline_delta": 0.8774,
+          "context_adjusted_delta": 3.5299,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.7885,
+            "track_evolution_delta": -0.136,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.6525
+          },
+          "uncertainty_q10": -0.2995,
+          "uncertainty_q50": 13.2875,
+          "uncertainty_q90": 42.548,
+          "contextual_debt": 2.7871,
+          "m1_debt": 7.7308
+        },
+        {
+          "tyre_age": 18,
+          "raw_pace_delta": 19.152,
+          "m1_baseline_delta": 0.9174,
+          "context_adjusted_delta": 4.7437,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.5805,
+            "track_evolution_delta": -0.008,
+            "traffic_delta": 0.2538,
+            "total_confounder_adjustment": 3.8263
+          },
+          "uncertainty_q10": 1.1132,
+          "uncertainty_q50": 18.0055,
+          "uncertainty_q90": 45.1768,
+          "contextual_debt": 17.1954,
+          "m1_debt": 25.9654
+        },
+        {
+          "tyre_age": 19,
+          "raw_pace_delta": 45.975,
+          "m1_baseline_delta": 0.9574,
+          "context_adjusted_delta": 4.7224,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.531,
+            "track_evolution_delta": -0.016,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.765
+          },
+          "uncertainty_q10": 0.8985,
+          "uncertainty_q50": 7.5095,
+          "uncertainty_q90": 43.545,
+          "contextual_debt": 58.448,
+          "m1_debt": 70.983
+        },
+        {
+          "tyre_age": 20,
+          "raw_pace_delta": 45.138,
+          "m1_baseline_delta": 0.9974,
+          "context_adjusted_delta": 4.7049,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.4815,
+            "track_evolution_delta": -0.024,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.7075
+          },
+          "uncertainty_q10": 0.8257,
+          "uncertainty_q50": 3.301,
+          "uncertainty_q90": 43.723,
+          "contextual_debt": 98.8811,
+          "m1_debt": 115.1236
+        },
+        {
+          "tyre_age": 21,
+          "raw_pace_delta": 13.914,
+          "m1_baseline_delta": 1.0374,
+          "context_adjusted_delta": 4.6916,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.432,
+            "track_evolution_delta": -0.032,
+            "traffic_delta": 0.2542,
+            "total_confounder_adjustment": 3.6542
+          },
+          "uncertainty_q10": 0.8124,
+          "uncertainty_q50": 13.914,
+          "uncertainty_q90": 45.1247,
+          "contextual_debt": 108.1035,
+          "m1_debt": 128.0002
+        },
+        {
+          "tyre_age": 22,
+          "raw_pace_delta": 18.542,
+          "m1_baseline_delta": 1.0774,
+          "context_adjusted_delta": 4.6699,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.3825,
+            "track_evolution_delta": -0.04,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.5925
+          },
+          "uncertainty_q10": 0.846,
+          "uncertainty_q50": 5.3615,
+          "uncertainty_q90": 37.5327,
+          "contextual_debt": 121.9756,
+          "m1_debt": 145.4648
+        },
+        {
+          "tyre_age": 23,
+          "raw_pace_delta": 43.475,
+          "m1_baseline_delta": 1.1174,
+          "context_adjusted_delta": 4.6524,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.333,
+            "track_evolution_delta": -0.048,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.535
+          },
+          "uncertainty_q10": 0.8676,
+          "uncertainty_q50": 14.41,
+          "uncertainty_q90": 45.905,
+          "contextual_debt": 160.7982,
+          "m1_debt": 187.8224
+        },
+        {
+          "tyre_age": 24,
+          "raw_pace_delta": 30.103,
+          "m1_baseline_delta": 1.1574,
+          "context_adjusted_delta": 4.6349,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.2835,
+            "track_evolution_delta": -0.056,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.4775
+          },
+          "uncertainty_q10": 0.8055,
+          "uncertainty_q50": 13.8573,
+          "uncertainty_q90": 45.068,
+          "contextual_debt": 186.2663,
+          "m1_debt": 216.768
+        },
+        {
+          "tyre_age": 25,
+          "raw_pace_delta": 14.125,
+          "m1_baseline_delta": 1.1974,
+          "context_adjusted_delta": 4.3674,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.234,
+            "track_evolution_delta": -0.064,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.17
+          },
+          "uncertainty_q10": 0.5435,
+          "uncertainty_q50": 1.2625,
+          "uncertainty_q90": 43.19,
+          "contextual_debt": 196.0239,
+          "m1_debt": 229.6956
+        },
+        {
+          "tyre_age": 26,
+          "raw_pace_delta": 15.717,
+          "m1_baseline_delta": 1.2374,
+          "context_adjusted_delta": 4.3499,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.1845,
+            "track_evolution_delta": -0.072,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.1125
+          },
+          "uncertainty_q10": 0.526,
+          "uncertainty_q50": 7.137,
+          "uncertainty_q90": 43.1725,
+          "contextual_debt": 207.391,
+          "m1_debt": 244.1752
+        },
+        {
+          "tyre_age": 27,
+          "raw_pace_delta": 16.429,
+          "m1_baseline_delta": 1.2774,
+          "context_adjusted_delta": 4.3324,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.135,
+            "track_evolution_delta": -0.08,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.055
+          },
+          "uncertainty_q10": 0.5085,
+          "uncertainty_q50": 7.1195,
+          "uncertainty_q90": 45.585,
+          "contextual_debt": 219.4876,
+          "m1_debt": 259.3268
+        },
+        {
+          "tyre_age": 28,
+          "raw_pace_delta": 17.586,
+          "m1_baseline_delta": 1.3174,
+          "context_adjusted_delta": 4.3242,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.0855,
+            "track_evolution_delta": -0.088,
+            "traffic_delta": 0.0093,
+            "total_confounder_adjustment": 3.0068
+          },
+          "uncertainty_q10": 0.5394,
+          "uncertainty_q50": 5.0158,
+          "uncertainty_q90": 43.1468,
+          "contextual_debt": 232.7493,
+          "m1_debt": 275.5954
+        },
+        {
+          "tyre_age": 29,
+          "raw_pace_delta": 36.032,
+          "m1_baseline_delta": 1.3574,
+          "context_adjusted_delta": 4.2974,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.036,
+            "track_evolution_delta": -0.096,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.94
+          },
+          "uncertainty_q10": 0.4735,
+          "uncertainty_q50": 2.8935,
+          "uncertainty_q90": 43.2811,
+          "contextual_debt": 264.4839,
+          "m1_debt": 310.27
+        },
+        {
+          "tyre_age": 30,
+          "raw_pace_delta": 30.999,
+          "m1_baseline_delta": 1.3974,
+          "context_adjusted_delta": 4.577,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.9865,
+            "track_evolution_delta": -0.104,
+            "traffic_delta": 0.2971,
+            "total_confounder_adjustment": 3.1796
+          },
+          "uncertainty_q10": 0.6978,
+          "uncertainty_q50": 3.1731,
+          "uncertainty_q90": 43.3996,
+          "contextual_debt": 290.9059,
+          "m1_debt": 339.8716
+        },
+        {
+          "tyre_age": 31,
+          "raw_pace_delta": 43.541,
+          "m1_baseline_delta": 1.4374,
+          "context_adjusted_delta": 4.5229,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.937,
+            "track_evolution_delta": -0.112,
+            "traffic_delta": 0.2605,
+            "total_confounder_adjustment": 3.0855
+          },
+          "uncertainty_q10": 0.6437,
+          "uncertainty_q50": 13.7453,
+          "uncertainty_q90": 31.4762,
+          "contextual_debt": 329.924,
+          "m1_debt": 381.9752
+        },
+        {
+          "tyre_age": 32,
+          "raw_pace_delta": 52.6,
+          "m1_baseline_delta": 1.4774,
+          "context_adjusted_delta": 4.4949,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.8875,
+            "track_evolution_delta": -0.12,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.0175
+          },
+          "uncertainty_q10": 0.6157,
+          "uncertainty_q50": 7.282,
+          "uncertainty_q90": 43.337,
+          "contextual_debt": 378.0291,
+          "m1_debt": 433.0978
+        },
+        {
+          "tyre_age": 33,
+          "raw_pace_delta": 36.563,
+          "m1_baseline_delta": 1.5174,
+          "context_adjusted_delta": 4.3624,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.739,
+            "track_evolution_delta": -0.144,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 2.845
+          },
+          "uncertainty_q10": 0.5385,
+          "uncertainty_q50": 1.2575,
+          "uncertainty_q90": 37.3863,
+          "contextual_debt": 410.2297,
+          "m1_debt": 468.1434
+        }
+      ],
+      "summary": {
+        "total_laps_analyzed": 33,
+        "final_m1_debt": 468.1434,
+        "final_contextual_debt": 410.2297,
+        "mean_confounder_adjustment_s": 3.2129,
+        "fuel_saving_s": 105.3855,
+        "track_grip_gain_s": -2.328,
+        "traffic_loss_s": 2.9684
+      },
+      "provenance_metadata": {
+        "m1_formula": "y_hat = 0.1974 + 0.04 * tyre_age",
+        "fuel_coefficient": 0.033,
+        "track_evolution_coefficient": -0.008,
+        "traffic_coefficient": 0.25,
+        "uncertainty_method": "Non-parametric bootstrap (B=100, seed=42)",
+        "classification": "Observable Contextual Adjustment (Frozen Stage 1/Stage 2 Preserved)"
+      }
+    },
+    {
+      "driver_id": "PIA",
+      "stint_id": "stint_PIA",
+      "circuit_id": "silverstone",
+      "compound": "MEDIUM",
+      "session_id": "unknown",
+      "points": [
+        {
+          "tyre_age": 1,
+          "raw_pace_delta": 6.081,
+          "m1_baseline_delta": 0.2374,
+          "context_adjusted_delta": 3.8099,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.5805,
+            "track_evolution_delta": -0.008,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.5725
+          },
+          "uncertainty_q10": -0.0103,
+          "uncertainty_q50": 11.708,
+          "uncertainty_q90": 45.013,
+          "contextual_debt": 2.2711,
+          "m1_debt": 5.8436
+        },
+        {
+          "tyre_age": 2,
+          "raw_pace_delta": 0.434,
+          "m1_baseline_delta": 0.2774,
+          "context_adjusted_delta": 3.7924,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.531,
+            "track_evolution_delta": -0.016,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.515
+          },
+          "uncertainty_q10": -0.0278,
+          "uncertainty_q50": 11.6905,
+          "uncertainty_q90": 43.078,
+          "contextual_debt": 2.2711,
+          "m1_debt": 6.0002
+        },
+        {
+          "tyre_age": 3,
+          "raw_pace_delta": 0.0,
+          "m1_baseline_delta": 0.3174,
+          "context_adjusted_delta": 3.8202,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.4815,
+            "track_evolution_delta": -0.024,
+            "traffic_delta": 0.0453,
+            "total_confounder_adjustment": 3.5028
+          },
+          "uncertainty_q10": 0.0078,
+          "uncertainty_q50": 6.0913,
+          "uncertainty_q90": 42.3418,
+          "contextual_debt": 2.2711,
+          "m1_debt": 6.0002
+        },
+        {
+          "tyre_age": 4,
+          "raw_pace_delta": -0.008,
+          "m1_baseline_delta": 0.3574,
+          "context_adjusted_delta": 3.7574,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.432,
+            "track_evolution_delta": -0.032,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.4
+          },
+          "uncertainty_q10": -0.0642,
+          "uncertainty_q50": 6.0285,
+          "uncertainty_q90": 42.3554,
+          "contextual_debt": 2.2711,
+          "m1_debt": 6.0002
+        },
+        {
+          "tyre_age": 5,
+          "raw_pace_delta": -0.095,
+          "m1_baseline_delta": 0.3974,
+          "context_adjusted_delta": 3.7399,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.3825,
+            "track_evolution_delta": -0.04,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.3425
+          },
+          "uncertainty_q10": -0.1415,
+          "uncertainty_q50": 0.3825,
+          "uncertainty_q90": 42.2615,
+          "contextual_debt": 2.2711,
+          "m1_debt": 6.0002
+        },
+        {
+          "tyre_age": 6,
+          "raw_pace_delta": 0.135,
+          "m1_baseline_delta": 0.4374,
+          "context_adjusted_delta": 3.7224,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.333,
+            "track_evolution_delta": -0.048,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.285
+          },
+          "uncertainty_q10": -0.1125,
+          "uncertainty_q50": 3.1797,
+          "uncertainty_q90": 42.244,
+          "contextual_debt": 2.2711,
+          "m1_debt": 6.0002
+        },
+        {
+          "tyre_age": 7,
+          "raw_pace_delta": -0.002,
+          "m1_baseline_delta": 0.4774,
+          "context_adjusted_delta": 3.7049,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.2835,
+            "track_evolution_delta": -0.056,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.2275
+          },
+          "uncertainty_q10": -0.13,
+          "uncertainty_q50": 11.7412,
+          "uncertainty_q90": 34.5261,
+          "contextual_debt": 2.2711,
+          "m1_debt": 6.0002
+        },
+        {
+          "tyre_age": 8,
+          "raw_pace_delta": 0.067,
+          "m1_baseline_delta": 0.5174,
+          "context_adjusted_delta": 3.6874,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.234,
+            "track_evolution_delta": -0.064,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.17
+          },
+          "uncertainty_q10": -0.194,
+          "uncertainty_q50": 0.33,
+          "uncertainty_q90": 33.653,
+          "contextual_debt": 2.2711,
+          "m1_debt": 6.0002
+        },
+        {
+          "tyre_age": 9,
+          "raw_pace_delta": 0.073,
+          "m1_baseline_delta": 0.5574,
+          "context_adjusted_delta": 3.6699,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.1845,
+            "track_evolution_delta": -0.072,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.1125
+          },
+          "uncertainty_q10": -0.1433,
+          "uncertainty_q50": 5.941,
+          "uncertainty_q90": 43.1473,
+          "contextual_debt": 2.2711,
+          "m1_debt": 6.0002
+        },
+        {
+          "tyre_age": 10,
+          "raw_pace_delta": -0.116,
+          "m1_baseline_delta": 0.5974,
+          "context_adjusted_delta": 3.6524,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.135,
+            "track_evolution_delta": -0.08,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.055
+          },
+          "uncertainty_q10": -0.1678,
+          "uncertainty_q50": 11.569,
+          "uncertainty_q90": 33.618,
+          "contextual_debt": 2.2711,
+          "m1_debt": 6.0002
+        },
+        {
+          "tyre_age": 11,
+          "raw_pace_delta": -0.072,
+          "m1_baseline_delta": 0.6374,
+          "context_adjusted_delta": 3.6349,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.0855,
+            "track_evolution_delta": -0.088,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.9975
+          },
+          "uncertainty_q10": -0.2,
+          "uncertainty_q50": 0.2785,
+          "uncertainty_q90": 42.9205,
+          "contextual_debt": 2.2711,
+          "m1_debt": 6.0002
+        },
+        {
+          "tyre_age": 12,
+          "raw_pace_delta": -0.264,
+          "m1_baseline_delta": 0.6774,
+          "context_adjusted_delta": 3.6174,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.036,
+            "track_evolution_delta": -0.096,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.94
+          },
+          "uncertainty_q10": -0.2175,
+          "uncertainty_q50": 0.259,
+          "uncertainty_q90": 42.903,
+          "contextual_debt": 2.2711,
+          "m1_debt": 6.0002
+        },
+        {
+          "tyre_age": 13,
+          "raw_pace_delta": -0.031,
+          "m1_baseline_delta": 0.7174,
+          "context_adjusted_delta": 3.5999,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.9865,
+            "track_evolution_delta": -0.104,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.8825
+          },
+          "uncertainty_q10": -0.2125,
+          "uncertainty_q50": 5.871,
+          "uncertainty_q90": 34.4211,
+          "contextual_debt": 2.2711,
+          "m1_debt": 6.0002
+        },
+        {
+          "tyre_age": 14,
+          "raw_pace_delta": -0.23,
+          "m1_baseline_delta": 0.7574,
+          "context_adjusted_delta": 3.5824,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.937,
+            "track_evolution_delta": -0.112,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.825
+          },
+          "uncertainty_q10": -0.2525,
+          "uncertainty_q50": 0.226,
+          "uncertainty_q90": 42.104,
+          "contextual_debt": 2.2711,
+          "m1_debt": 6.0002
+        },
+        {
+          "tyre_age": 15,
+          "raw_pace_delta": -0.413,
+          "m1_baseline_delta": 0.7974,
+          "context_adjusted_delta": 3.5649,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.8875,
+            "track_evolution_delta": -0.12,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.7675
+          },
+          "uncertainty_q10": -0.2553,
+          "uncertainty_q50": 11.463,
+          "uncertainty_q90": 34.3861,
+          "contextual_debt": 2.2711,
+          "m1_debt": 6.0002
+        },
+        {
+          "tyre_age": 16,
+          "raw_pace_delta": 0.191,
+          "m1_baseline_delta": 0.8374,
+          "context_adjusted_delta": 3.5474,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.838,
+            "track_evolution_delta": -0.128,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.71
+          },
+          "uncertainty_q10": -0.2875,
+          "uncertainty_q50": 11.464,
+          "uncertainty_q90": 42.833,
+          "contextual_debt": 2.2711,
+          "m1_debt": 6.0002
+        },
+        {
+          "tyre_age": 17,
+          "raw_pace_delta": 14.627,
+          "m1_baseline_delta": 0.8774,
+          "context_adjusted_delta": 4.6999,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.5805,
+            "track_evolution_delta": -0.008,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.8225
+          },
+          "uncertainty_q10": 0.865,
+          "uncertainty_q50": 6.971,
+          "uncertainty_q90": 43.9855,
+          "contextual_debt": 12.1982,
+          "m1_debt": 19.7498
+        },
+        {
+          "tyre_age": 18,
+          "raw_pace_delta": 43.204,
+          "m1_baseline_delta": 0.9174,
+          "context_adjusted_delta": 4.6824,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.531,
+            "track_evolution_delta": -0.016,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.765
+          },
+          "uncertainty_q10": 0.8622,
+          "uncertainty_q50": 9.767,
+          "uncertainty_q90": 43.968,
+          "contextual_debt": 50.7198,
+          "m1_debt": 62.0364
+        },
+        {
+          "tyre_age": 19,
+          "raw_pace_delta": 45.868,
+          "m1_baseline_delta": 0.9574,
+          "context_adjusted_delta": 4.6649,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.4815,
+            "track_evolution_delta": -0.024,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.7075
+          },
+          "uncertainty_q10": 0.83,
+          "uncertainty_q50": 12.7012,
+          "uncertainty_q90": 43.9505,
+          "contextual_debt": 91.9229,
+          "m1_debt": 106.947
+        },
+        {
+          "tyre_age": 20,
+          "raw_pace_delta": 13.901,
+          "m1_baseline_delta": 0.9974,
+          "context_adjusted_delta": 4.6474,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.432,
+            "track_evolution_delta": -0.032,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.65
+          },
+          "uncertainty_q10": 0.8078,
+          "uncertainty_q50": 1.027,
+          "uncertainty_q90": 43.169,
+          "contextual_debt": 101.1765,
+          "m1_debt": 119.8506
+        },
+        {
+          "tyre_age": 21,
+          "raw_pace_delta": 12.528,
+          "m1_baseline_delta": 1.0374,
+          "context_adjusted_delta": 4.6299,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.3825,
+            "track_evolution_delta": -0.04,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.5925
+          },
+          "uncertainty_q10": 0.795,
+          "uncertainty_q50": 6.901,
+          "uncertainty_q90": 43.9155,
+          "contextual_debt": 109.0746,
+          "m1_debt": 131.3412
+        },
+        {
+          "tyre_age": 22,
+          "raw_pace_delta": 47.699,
+          "m1_baseline_delta": 1.0774,
+          "context_adjusted_delta": 4.6124,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.333,
+            "track_evolution_delta": -0.048,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.535
+          },
+          "uncertainty_q10": 0.7908,
+          "uncertainty_q50": 1.256,
+          "uncertainty_q90": 43.898,
+          "contextual_debt": 152.1612,
+          "m1_debt": 177.9628
+        },
+        {
+          "tyre_age": 23,
+          "raw_pace_delta": 30.843,
+          "m1_baseline_delta": 1.1174,
+          "context_adjusted_delta": 4.5949,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.2835,
+            "track_evolution_delta": -0.056,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.4775
+          },
+          "uncertainty_q10": 0.76,
+          "uncertainty_q50": 12.5022,
+          "uncertainty_q90": 43.1165,
+          "contextual_debt": 178.4093,
+          "m1_debt": 207.6884
+        },
+        {
+          "tyre_age": 24,
+          "raw_pace_delta": 12.244,
+          "m1_baseline_delta": 1.1574,
+          "context_adjusted_delta": 4.3274,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.234,
+            "track_evolution_delta": -0.064,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.17
+          },
+          "uncertainty_q10": 0.4925,
+          "uncertainty_q50": 12.2347,
+          "uncertainty_q90": 42.849,
+          "contextual_debt": 186.3259,
+          "m1_debt": 218.775
+        },
+        {
+          "tyre_age": 25,
+          "raw_pace_delta": 12.466,
+          "m1_baseline_delta": 1.1974,
+          "context_adjusted_delta": 4.3099,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.1845,
+            "track_evolution_delta": -0.072,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.1125
+          },
+          "uncertainty_q10": 0.4897,
+          "uncertainty_q50": 12.208,
+          "uncertainty_q90": 43.7873,
+          "contextual_debt": 194.482,
+          "m1_debt": 230.0436
+        },
+        {
+          "tyre_age": 26,
+          "raw_pace_delta": 12.963,
+          "m1_baseline_delta": 1.2374,
+          "context_adjusted_delta": 4.2924,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.135,
+            "track_evolution_delta": -0.08,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.055
+          },
+          "uncertainty_q10": 0.4575,
+          "uncertainty_q50": 6.5635,
+          "uncertainty_q90": 43.578,
+          "contextual_debt": 203.1526,
+          "m1_debt": 241.7692
+        },
+        {
+          "tyre_age": 27,
+          "raw_pace_delta": 14.01,
+          "m1_baseline_delta": 1.2774,
+          "context_adjusted_delta": 4.2749,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.0855,
+            "track_evolution_delta": -0.088,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.9975
+          },
+          "uncertainty_q10": 0.4533,
+          "uncertainty_q50": 12.1915,
+          "uncertainty_q90": 42.8729,
+          "contextual_debt": 212.8877,
+          "m1_debt": 254.5018
+        },
+        {
+          "tyre_age": 28,
+          "raw_pace_delta": 34.223,
+          "m1_baseline_delta": 1.3174,
+          "context_adjusted_delta": 4.2574,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.036,
+            "track_evolution_delta": -0.096,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.94
+          },
+          "uncertainty_q10": 0.4225,
+          "uncertainty_q50": 0.9,
+          "uncertainty_q90": 34.223,
+          "contextual_debt": 242.8533,
+          "m1_debt": 287.4074
+        },
+        {
+          "tyre_age": 29,
+          "raw_pace_delta": 15.658,
+          "m1_baseline_delta": 1.3574,
+          "context_adjusted_delta": 4.2399,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.9865,
+            "track_evolution_delta": -0.104,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.8825
+          },
+          "uncertainty_q10": 0.4183,
+          "uncertainty_q50": 12.138,
+          "uncertainty_q90": 43.5255,
+          "contextual_debt": 254.2714,
+          "m1_debt": 301.708
+        },
+        {
+          "tyre_age": 30,
+          "raw_pace_delta": 43.883,
+          "m1_baseline_delta": 1.3974,
+          "context_adjusted_delta": 4.5974,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.937,
+            "track_evolution_delta": -0.112,
+            "traffic_delta": 0.375,
+            "total_confounder_adjustment": 3.2
+          },
+          "uncertainty_q10": 0.7772,
+          "uncertainty_q50": 9.682,
+          "uncertainty_q90": 43.119,
+          "contextual_debt": 293.557,
+          "m1_debt": 344.1936
+        },
+        {
+          "tyre_age": 31,
+          "raw_pace_delta": 26.116,
+          "m1_baseline_delta": 1.4374,
+          "context_adjusted_delta": 4.2824,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.739,
+            "track_evolution_delta": -0.144,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 2.845
+          },
+          "uncertainty_q10": 0.514,
+          "uncertainty_q50": 12.6957,
+          "uncertainty_q90": 43.568,
+          "contextual_debt": 315.3906,
+          "m1_debt": 368.8722
+        }
+      ],
+      "summary": {
+        "total_laps_analyzed": 31,
+        "final_m1_debt": 368.8722,
+        "final_contextual_debt": 315.3906,
+        "mean_confounder_adjustment_s": 3.2277,
+        "fuel_saving_s": 99.7095,
+        "track_grip_gain_s": -2.072,
+        "traffic_loss_s": 2.4203
+      },
+      "provenance_metadata": {
+        "m1_formula": "y_hat = 0.1974 + 0.04 * tyre_age",
+        "fuel_coefficient": 0.033,
+        "track_evolution_coefficient": -0.008,
+        "traffic_coefficient": 0.25,
+        "uncertainty_method": "Non-parametric bootstrap (B=100, seed=42)",
+        "classification": "Observable Contextual Adjustment (Frozen Stage 1/Stage 2 Preserved)"
+      }
+    },
+    {
+      "driver_id": "ALO",
+      "stint_id": "stint_ALO",
+      "circuit_id": "silverstone",
+      "compound": "MEDIUM",
+      "session_id": "unknown",
+      "points": [
+        {
+          "tyre_age": 1,
+          "raw_pace_delta": 7.523,
+          "m1_baseline_delta": 0.2374,
+          "context_adjusted_delta": 3.8099,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.5805,
+            "track_evolution_delta": -0.008,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.5725
+          },
+          "uncertainty_q10": -0.3325,
+          "uncertainty_q50": 1.3183,
+          "uncertainty_q90": 42.9657,
+          "contextual_debt": 3.7131,
+          "m1_debt": 7.2856
+        },
+        {
+          "tyre_age": 2,
+          "raw_pace_delta": 0.251,
+          "m1_baseline_delta": 0.2774,
+          "context_adjusted_delta": 3.7924,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.531,
+            "track_evolution_delta": -0.016,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.515
+          },
+          "uncertainty_q10": -0.2882,
+          "uncertainty_q50": 2.3255,
+          "uncertainty_q90": 34.9325,
+          "contextual_debt": 3.7131,
+          "m1_debt": 7.2856
+        },
+        {
+          "tyre_age": 3,
+          "raw_pace_delta": 0.0,
+          "m1_baseline_delta": 0.3174,
+          "context_adjusted_delta": 3.8442,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.4815,
+            "track_evolution_delta": -0.024,
+            "traffic_delta": 0.0693,
+            "total_confounder_adjustment": 3.5268
+          },
+          "uncertainty_q10": -0.2982,
+          "uncertainty_q50": 4.9673,
+          "uncertainty_q90": 42.8813,
+          "contextual_debt": 3.7131,
+          "m1_debt": 7.2856
+        },
+        {
+          "tyre_age": 4,
+          "raw_pace_delta": 0.241,
+          "m1_baseline_delta": 0.3574,
+          "context_adjusted_delta": 3.7574,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.432,
+            "track_evolution_delta": -0.032,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.4
+          },
+          "uncertainty_q10": -0.3841,
+          "uncertainty_q50": 11.797,
+          "uncertainty_q90": 42.7865,
+          "contextual_debt": 3.7131,
+          "m1_debt": 7.2856
+        },
+        {
+          "tyre_age": 5,
+          "raw_pace_delta": -0.334,
+          "m1_baseline_delta": 0.3974,
+          "context_adjusted_delta": 3.7399,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.3825,
+            "track_evolution_delta": -0.04,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.3425
+          },
+          "uncertainty_q10": -0.4016,
+          "uncertainty_q50": 12.8415,
+          "uncertainty_q90": 43.7425,
+          "contextual_debt": 3.7131,
+          "m1_debt": 7.2856
+        },
+        {
+          "tyre_age": 6,
+          "raw_pace_delta": -0.278,
+          "m1_baseline_delta": 0.4374,
+          "context_adjusted_delta": 3.7224,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.333,
+            "track_evolution_delta": -0.048,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.285
+          },
+          "uncertainty_q10": -0.4191,
+          "uncertainty_q50": 13.9404,
+          "uncertainty_q90": 42.7596,
+          "contextual_debt": 3.7131,
+          "m1_debt": 7.2856
+        },
+        {
+          "tyre_age": 7,
+          "raw_pace_delta": -0.239,
+          "m1_baseline_delta": 0.4774,
+          "context_adjusted_delta": 3.7049,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.2835,
+            "track_evolution_delta": -0.056,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.2275
+          },
+          "uncertainty_q10": -0.3757,
+          "uncertainty_q50": 2.238,
+          "uncertainty_q90": 42.7421,
+          "contextual_debt": 3.7131,
+          "m1_debt": 7.2856
+        },
+        {
+          "tyre_age": 8,
+          "raw_pace_delta": -0.455,
+          "m1_baseline_delta": 0.5174,
+          "context_adjusted_delta": 3.6874,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.234,
+            "track_evolution_delta": -0.064,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.17
+          },
+          "uncertainty_q10": -0.4541,
+          "uncertainty_q50": 7.4005,
+          "uncertainty_q90": 43.2585,
+          "contextual_debt": 3.7131,
+          "m1_debt": 7.2856
+        },
+        {
+          "tyre_age": 9,
+          "raw_pace_delta": -0.372,
+          "m1_baseline_delta": 0.5574,
+          "context_adjusted_delta": 3.6699,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.1845,
+            "track_evolution_delta": -0.072,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.1125
+          },
+          "uncertainty_q10": -0.4725,
+          "uncertainty_q50": 13.8879,
+          "uncertainty_q90": 42.8257,
+          "contextual_debt": 3.7131,
+          "m1_debt": 7.2856
+        },
+        {
+          "tyre_age": 10,
+          "raw_pace_delta": -0.21,
+          "m1_baseline_delta": 0.5974,
+          "context_adjusted_delta": 3.6524,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.135,
+            "track_evolution_delta": -0.08,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.055
+          },
+          "uncertainty_q10": -0.3927,
+          "uncertainty_q50": 7.3655,
+          "uncertainty_q90": 42.8082,
+          "contextual_debt": 3.7131,
+          "m1_debt": 7.2856
+        },
+        {
+          "tyre_age": 11,
+          "raw_pace_delta": -0.403,
+          "m1_baseline_delta": 0.6374,
+          "context_adjusted_delta": 3.6349,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.0855,
+            "track_evolution_delta": -0.088,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.9975
+          },
+          "uncertainty_q10": -0.439,
+          "uncertainty_q50": 9.5113,
+          "uncertainty_q90": 42.7907,
+          "contextual_debt": 3.7131,
+          "m1_debt": 7.2856
+        },
+        {
+          "tyre_age": 12,
+          "raw_pace_delta": -0.524,
+          "m1_baseline_delta": 0.6774,
+          "context_adjusted_delta": 3.6174,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.036,
+            "track_evolution_delta": -0.096,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.94
+          },
+          "uncertainty_q10": -0.4565,
+          "uncertainty_q50": 0.101,
+          "uncertainty_q90": 42.6465,
+          "contextual_debt": 3.7131,
+          "m1_debt": 7.2856
+        },
+        {
+          "tyre_age": 13,
+          "raw_pace_delta": -0.434,
+          "m1_baseline_delta": 0.7174,
+          "context_adjusted_delta": 3.5999,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.9865,
+            "track_evolution_delta": -0.104,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.8825
+          },
+          "uncertainty_q10": -0.5415,
+          "uncertainty_q50": 4.723,
+          "uncertainty_q90": 42.7095,
+          "contextual_debt": 3.7131,
+          "m1_debt": 7.2856
+        },
+        {
+          "tyre_age": 14,
+          "raw_pace_delta": -0.568,
+          "m1_baseline_delta": 0.7574,
+          "context_adjusted_delta": 3.5824,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.937,
+            "track_evolution_delta": -0.112,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.825
+          },
+          "uncertainty_q10": -0.4627,
+          "uncertainty_q50": 12.684,
+          "uncertainty_q90": 42.692,
+          "contextual_debt": 3.7131,
+          "m1_debt": 7.2856
+        },
+        {
+          "tyre_age": 15,
+          "raw_pace_delta": -0.692,
+          "m1_baseline_delta": 0.7974,
+          "context_adjusted_delta": 3.5649,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.8875,
+            "track_evolution_delta": -0.12,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.7675
+          },
+          "uncertainty_q10": -0.5766,
+          "uncertainty_q50": 11.6045,
+          "uncertainty_q90": 42.594,
+          "contextual_debt": 3.7131,
+          "m1_debt": 7.2856
+        },
+        {
+          "tyre_age": 16,
+          "raw_pace_delta": -0.361,
+          "m1_baseline_delta": 0.8374,
+          "context_adjusted_delta": 3.5474,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.838,
+            "track_evolution_delta": -0.128,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.71
+          },
+          "uncertainty_q10": -0.594,
+          "uncertainty_q50": 12.118,
+          "uncertainty_q90": 43.1617,
+          "contextual_debt": 3.7131,
+          "m1_debt": 7.2856
+        },
+        {
+          "tyre_age": 17,
+          "raw_pace_delta": 2.063,
+          "m1_baseline_delta": 0.8774,
+          "context_adjusted_delta": 3.5299,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.7885,
+            "track_evolution_delta": -0.136,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.6525
+          },
+          "uncertainty_q10": -0.544,
+          "uncertainty_q50": 12.6315,
+          "uncertainty_q90": 42.6395,
+          "contextual_debt": 3.7131,
+          "m1_debt": 8.4712
+        },
+        {
+          "tyre_age": 18,
+          "raw_pace_delta": 17.517,
+          "m1_baseline_delta": 0.9174,
+          "context_adjusted_delta": 4.7399,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.5805,
+            "track_evolution_delta": -0.008,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.8225
+          },
+          "uncertainty_q10": 0.6593,
+          "uncertainty_q50": 16.655,
+          "uncertainty_q90": 44.311,
+          "contextual_debt": 16.4902,
+          "m1_debt": 25.0708
+        },
+        {
+          "tyre_age": 19,
+          "raw_pace_delta": 44.725,
+          "m1_baseline_delta": 0.9574,
+          "context_adjusted_delta": 4.7224,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.531,
+            "track_evolution_delta": -0.016,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.765
+          },
+          "uncertainty_q10": 0.581,
+          "uncertainty_q50": 8.4355,
+          "uncertainty_q90": 43.7515,
+          "contextual_debt": 56.4928,
+          "m1_debt": 68.8384
+        },
+        {
+          "tyre_age": 20,
+          "raw_pace_delta": 44.276,
+          "m1_baseline_delta": 0.9974,
+          "context_adjusted_delta": 4.7049,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.4815,
+            "track_evolution_delta": -0.024,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.7075
+          },
+          "uncertainty_q10": 0.631,
+          "uncertainty_q50": 3.238,
+          "uncertainty_q90": 43.8145,
+          "contextual_debt": 96.0639,
+          "m1_debt": 112.117
+        },
+        {
+          "tyre_age": 21,
+          "raw_pace_delta": 12.727,
+          "m1_baseline_delta": 1.0374,
+          "context_adjusted_delta": 4.6874,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.432,
+            "track_evolution_delta": -0.032,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.65
+          },
+          "uncertainty_q10": 0.6068,
+          "uncertainty_q50": 12.727,
+          "uncertainty_q90": 44.2585,
+          "contextual_debt": 104.1035,
+          "m1_debt": 123.8066
+        },
+        {
+          "tyre_age": 22,
+          "raw_pace_delta": 16.585,
+          "m1_baseline_delta": 1.0774,
+          "context_adjusted_delta": 4.6699,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.3825,
+            "track_evolution_delta": -0.04,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.5925
+          },
+          "uncertainty_q10": 0.5284,
+          "uncertainty_q50": 5.793,
+          "uncertainty_q90": 35.81,
+          "contextual_debt": 116.0186,
+          "m1_debt": 139.3142
+        },
+        {
+          "tyre_age": 23,
+          "raw_pace_delta": 43.692,
+          "m1_baseline_delta": 1.1174,
+          "context_adjusted_delta": 4.6629,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.333,
+            "track_evolution_delta": -0.048,
+            "traffic_delta": 0.2605,
+            "total_confounder_adjustment": 3.5455
+          },
+          "uncertainty_q10": 0.5822,
+          "uncertainty_q50": 13.7645,
+          "uncertainty_q90": 44.6655,
+          "contextual_debt": 155.0477,
+          "m1_debt": 181.8888
+        },
+        {
+          "tyre_age": 24,
+          "raw_pace_delta": 29.112,
+          "m1_baseline_delta": 1.1574,
+          "context_adjusted_delta": 4.6349,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.2835,
+            "track_evolution_delta": -0.056,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.4775
+          },
+          "uncertainty_q10": 0.561,
+          "uncertainty_q50": 12.6745,
+          "uncertainty_q90": 44.206,
+          "contextual_debt": 179.5248,
+          "m1_debt": 209.8434
+        },
+        {
+          "tyre_age": 25,
+          "raw_pace_delta": 13.469,
+          "m1_baseline_delta": 1.1974,
+          "context_adjusted_delta": 4.3674,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.234,
+            "track_evolution_delta": -0.064,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 3.17
+          },
+          "uncertainty_q10": 0.225,
+          "uncertainty_q50": 0.851,
+          "uncertainty_q90": 43.3965,
+          "contextual_debt": 188.6264,
+          "m1_debt": 222.115
+        },
+        {
+          "tyre_age": 26,
+          "raw_pace_delta": 14.618,
+          "m1_baseline_delta": 1.2374,
+          "context_adjusted_delta": 4.4,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.1845,
+            "track_evolution_delta": -0.072,
+            "traffic_delta": 0.0501,
+            "total_confounder_adjustment": 3.1626
+          },
+          "uncertainty_q10": 0.2576,
+          "uncertainty_q50": 8.1131,
+          "uncertainty_q90": 43.4292,
+          "contextual_debt": 198.8444,
+          "m1_debt": 235.4956
+        },
+        {
+          "tyre_age": 27,
+          "raw_pace_delta": 16.0,
+          "m1_baseline_delta": 1.2774,
+          "context_adjusted_delta": 4.3438,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.135,
+            "track_evolution_delta": -0.08,
+            "traffic_delta": 0.0114,
+            "total_confounder_adjustment": 3.0664
+          },
+          "uncertainty_q10": 0.2631,
+          "uncertainty_q50": 8.0569,
+          "uncertainty_q90": 44.3464,
+          "contextual_debt": 210.5006,
+          "m1_debt": 250.2182
+        },
+        {
+          "tyre_age": 28,
+          "raw_pace_delta": 16.527,
+          "m1_baseline_delta": 1.3174,
+          "context_adjusted_delta": 4.3149,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.0855,
+            "track_evolution_delta": -0.088,
+            "traffic_delta": 0.0,
+            "total_confounder_adjustment": 2.9975
+          },
+          "uncertainty_q10": 0.1725,
+          "uncertainty_q50": 5.438,
+          "uncertainty_q90": 43.344,
+          "contextual_debt": 222.7127,
+          "m1_debt": 265.4278
+        },
+        {
+          "tyre_age": 29,
+          "raw_pace_delta": 34.565,
+          "m1_baseline_delta": 1.3574,
+          "context_adjusted_delta": 4.3014,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 3.036,
+            "track_evolution_delta": -0.096,
+            "traffic_delta": 0.004,
+            "total_confounder_adjustment": 2.944
+          },
+          "uncertainty_q10": 0.1591,
+          "uncertainty_q50": 2.8346,
+          "uncertainty_q90": 43.3848,
+          "contextual_debt": 252.9763,
+          "m1_debt": 298.6354
+        },
+        {
+          "tyre_age": 30,
+          "raw_pace_delta": 29.391,
+          "m1_baseline_delta": 1.3974,
+          "context_adjusted_delta": 4.5299,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.9865,
+            "track_evolution_delta": -0.104,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.1325
+          },
+          "uncertainty_q10": 0.3875,
+          "uncertainty_q50": 3.063,
+          "uncertainty_q90": 43.559,
+          "contextual_debt": 277.8374,
+          "m1_debt": 326.629
+        },
+        {
+          "tyre_age": 31,
+          "raw_pace_delta": 43.622,
+          "m1_baseline_delta": 1.4374,
+          "context_adjusted_delta": 4.5124,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.937,
+            "track_evolution_delta": -0.112,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.075
+          },
+          "uncertainty_q10": 0.371,
+          "uncertainty_q50": 12.552,
+          "uncertainty_q90": 29.859,
+          "contextual_debt": 316.947,
+          "m1_debt": 368.8136
+        },
+        {
+          "tyre_age": 32,
+          "raw_pace_delta": 51.317,
+          "m1_baseline_delta": 1.4774,
+          "context_adjusted_delta": 4.4949,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.8875,
+            "track_evolution_delta": -0.12,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 3.0175
+          },
+          "uncertainty_q10": 0.4143,
+          "uncertainty_q50": 8.208,
+          "uncertainty_q90": 43.5321,
+          "contextual_debt": 363.7691,
+          "m1_debt": 418.6532
+        },
+        {
+          "tyre_age": 33,
+          "raw_pace_delta": 34.078,
+          "m1_baseline_delta": 1.5174,
+          "context_adjusted_delta": 4.3624,
+          "confounder_breakdown": {
+            "fuel_effect_delta": 2.739,
+            "track_evolution_delta": -0.144,
+            "traffic_delta": 0.25,
+            "total_confounder_adjustment": 2.845
+          },
+          "uncertainty_q10": 0.2209,
+          "uncertainty_q50": 0.846,
+          "uncertainty_q90": 35.5567,
+          "contextual_debt": 393.4847,
+          "m1_debt": 451.2138
+        }
+      ],
+      "summary": {
+        "total_laps_analyzed": 33,
+        "final_m1_debt": 451.2138,
+        "final_contextual_debt": 393.4847,
+        "mean_confounder_adjustment_s": 3.2107,
+        "fuel_saving_s": 105.3855,
+        "track_grip_gain_s": -2.328,
+        "traffic_loss_s": 2.8953
+      },
+      "provenance_metadata": {
+        "m1_formula": "y_hat = 0.1974 + 0.04 * tyre_age",
+        "fuel_coefficient": 0.033,
+        "track_evolution_coefficient": -0.008,
+        "traffic_coefficient": 0.25,
+        "uncertainty_method": "Non-parametric bootstrap (B=100, seed=42)",
+        "classification": "Observable Contextual Adjustment (Frozen Stage 1/Stage 2 Preserved)"
+      }
+    }
+  ],
+  "bootstrap_parameters": {
+    "n_bootstraps": 100,
+    "quantiles": [
+      0.1,
+      0.5,
+      0.9
+    ],
+    "method": "Non-parametric empirical block bootstrap"
+  },
+  "scientific_integrity": "Stage 1 and Stage 2 mathematical formulas preserved unchanged."
+}

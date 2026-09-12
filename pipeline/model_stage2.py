@@ -11,6 +11,8 @@ def build_residual_ledger():
         print(f"File not found: {PREDICTIONS_PARQUET}")
         return
         
+    import numpy as np
+
     # Read predictions
     df = pd.read_parquet(PREDICTIONS_PARQUET)
     
@@ -20,8 +22,9 @@ def build_residual_ledger():
     # Ensure sorted by stint and lap
     df = df.sort_values(['stint_id', 'lap_number']).reset_index(drop=True)
     
-    # Calculate cumulative debt per stint
-    df['cumulative_debt'] = df.groupby('stint_id')['residual'].cumsum()
+    # Calculate cumulative debt per stint: non-negative accumulated performance loss debt
+    df['debt_increment'] = np.maximum(0.0, df['residual'])
+    df['cumulative_debt'] = df.groupby('stint_id')['debt_increment'].cumsum()
     
     # Phase 3 Gate check
     res_std = df['residual'].std()

@@ -1,0 +1,87 @@
+{
+  "contract_version": "v1.0_universal_race_intelligence",
+  "governance_rule": "Stage 2 Tyre Debt is sole authoritative scalar debt. Raw 16-D TCN embedding is excluded from direct predictive input.",
+  "features": [
+    {
+      "feature_name": "Stage 1 Expected Baseline Lap Time",
+      "stage_source": "Stage 1 (M1 Linear Tyre Age)",
+      "unit": "seconds",
+      "timestamp_rule": "Pre-race & in-race at lap n",
+      "availability": "AVAILABLE",
+      "physical_meaning": "Linear contextual expected lap time based on compound and tyre age (y_hat = 0.1974 + 0.0400*tyre_age)",
+      "inclusion_in_winner_model": "INCLUDED_PRIMARY"
+    },
+    {
+      "feature_name": "Stage 2 Estimated Tyre-Performance Debt",
+      "stage_source": "Stage 2 (M1 Residual Accumulation)",
+      "unit": "seconds (cumulative)",
+      "timestamp_rule": "In-race strictly <= current replay lap n",
+      "availability": "AVAILABLE",
+      "physical_meaning": "Cumulative sum of positive performance losses beyond baseline within stint",
+      "inclusion_in_winner_model": "INCLUDED_PRIMARY"
+    },
+    {
+      "feature_name": "Stage 2 Clean Degradation Rate",
+      "stage_source": "Stage 2 (Stint OLS Slope)",
+      "unit": "s/lap",
+      "timestamp_rule": "In-race strictly <= current replay lap n",
+      "availability": "AVAILABLE",
+      "physical_meaning": "Fuel-corrected longitudinal lap-time degradation rate per lap",
+      "inclusion_in_winner_model": "INCLUDED_PRIMARY"
+    },
+    {
+      "feature_name": "Stage 3 Head A \u2014 Behavioral State Score",
+      "stage_source": "Stage 3 (TCN Temporal Encoder)",
+      "unit": "index [0, 100]",
+      "timestamp_rule": "In-race strictly <= current replay lap n",
+      "availability": "AVAILABLE",
+      "physical_meaning": "Sigmoid-scaled norm of 16-D behavioral embedding representing driving aggression/intensity",
+      "inclusion_in_winner_model": "INCLUDED_CONTEXTUAL"
+    },
+    {
+      "feature_name": "Stage 3 Head B \u2014 Behavioral Anomaly Score",
+      "stage_source": "Stage 3 (Decoder Reconstruction MSE)",
+      "unit": "MSE",
+      "timestamp_rule": "In-race strictly <= current replay lap n",
+      "availability": "AVAILABLE",
+      "physical_meaning": "Reconstruction deviation from typical telemetry sequence indicating telemetry disruption/risk",
+      "inclusion_in_winner_model": "INCLUDED_RISK_MODULATOR"
+    },
+    {
+      "feature_name": "Stage 3 Head C \u2014 Short-Term Behavioral Forecast",
+      "stage_source": "Stage 3 (Autoregressive Ridge Head)",
+      "unit": "native channel units",
+      "timestamp_rule": "Forecasts +1, +3, +5 laps using data <= n",
+      "availability": "AVAILABLE",
+      "physical_meaning": "Projected braking aggression, kerb compliance, and lockup probability over next 1-5 laps",
+      "inclusion_in_winner_model": "INCLUDED_CONTEXTUAL"
+    },
+    {
+      "feature_name": "Stage 3 Head D \u2014 Behavioral Driving Regime",
+      "stage_source": "Stage 3 (Deterministic Classifier)",
+      "unit": "categorical (NORMAL, PUSH, CONSERVATIVE, HIGH_STRESS, ANOMALOUS)",
+      "timestamp_rule": "In-race strictly <= current replay lap n",
+      "availability": "AVAILABLE",
+      "physical_meaning": "Operational regime classification for strategy pacing",
+      "inclusion_in_winner_model": "INCLUDED_CONTEXTUAL"
+    },
+    {
+      "feature_name": "Stage 3 Head F \u2014 Intra-Stint Behavioral Drift",
+      "stage_source": "Stage 3 (Temporal Embedding L2 Delta)",
+      "unit": "L2 distance",
+      "timestamp_rule": "In-race strictly <= current replay lap n",
+      "availability": "AVAILABLE",
+      "physical_meaning": "L2 shift from stint-onset behavioral baseline indicating adaptation or fatigue",
+      "inclusion_in_winner_model": "INCLUDED_RISK_MODULATOR"
+    },
+    {
+      "feature_name": "Stage 3 Raw 16-D TCN Embedding",
+      "stage_source": "Stage 3 (Intermediate Latent Vector)",
+      "unit": "16-D unitless vector",
+      "timestamp_rule": "N/A",
+      "availability": "REJECTED",
+      "physical_meaning": "Latent unnormalized embedding vector",
+      "inclusion_in_winner_model": "EXPLICITLY_EXCLUDED"
+    }
+  ]
+}

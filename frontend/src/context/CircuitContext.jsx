@@ -17,6 +17,8 @@ import {
 const CircuitContext = createContext(null);
 
 export const TELEMETRY_TABS = [
+  'TYRE INTELLIGENCE',
+  'STRATEGIC WARFARE',
   'RACE INTELLIGENCE',
   'SPEED',
   'CLEAN DEG',
@@ -85,6 +87,7 @@ export function CircuitProvider({ children }) {
 
   // Loading & Error States across dependency stages
   const [loadingStage, setLoadingStage] = useState(null); // 'circuits' | 'circuit' | 'session' | 'stint' | null
+  const [loadingMessage, setLoadingMessage] = useState(null);
   const [error, setError] = useState(null);
 
   // Sync hash routing with window history
@@ -244,26 +247,30 @@ export function CircuitProvider({ children }) {
     setIsPlaying(false);
     setError(null);
     setLoadingStage('session');
+    setLoadingMessage('Loading session metadata & driver roster...');
 
     navigateTo(`/circuit/${circuitId}/session/${sessionId}`);
 
     try {
-      // Ensure map is loaded if not already
+      // 1. Ensure map geometry is loaded
       let map = circuitMapData;
       if (!map || map.circuit_id !== circuitId) {
+        setLoadingMessage('Building high-precision circuit GPS corridor...');
         map = await getCircuitMap(circuitId).catch(() => null);
         if (currentSeq === sessionReqSeqRef.current) {
           setCircuitMapData(map);
         }
       }
 
+      // 2. Fetch session telemetry
+      setLoadingMessage('Loading authentic FastF1 telemetry channels...');
       const telemetryData = await getSessionTelemetry(circuitId, sessionId);
       if (currentSeq !== sessionReqSeqRef.current) return; // Discard stale request
 
       setSessionTelemetry(telemetryData);
       setSessionPitStops(telemetryData?.pit_stops || null);
 
-      // Auto-select first driver if available
+      // 3. Auto-select first driver if available
       if (telemetryData.drivers && telemetryData.drivers.length > 0) {
         const firstDriver = telemetryData.drivers[0];
         setSelectedDriver(firstDriver.driver_id);
@@ -272,6 +279,7 @@ export function CircuitProvider({ children }) {
 
         // Load stint ledger and attribution
         if (firstDriver.stint_id) {
+          setLoadingMessage('Calculating Stage 1 Baseline & Stage 2 Tyre Debt...');
           getLedger(firstDriver.stint_id).then(d => {
             if (currentSeq === sessionReqSeqRef.current) setStintLedger(d);
           }).catch(() => {});
@@ -286,13 +294,14 @@ export function CircuitProvider({ children }) {
         }
       }
 
-      // Fetch clean degradation & contextual factors for the session
+      // 4. Fetch clean degradation & contextual factors for the session
       getSessionDegradation(sessionId).then(d => {
         if (currentSeq === sessionReqSeqRef.current) setSessionDegradationData(d);
       }).catch(() => {});
 
-      // Fetch Universal Race Intelligence
+      // 5. Fetch Universal Race Intelligence
       setRaceIntelligenceLoading(true);
+      setLoadingMessage('Inferring Stage 3 TCN Behavioral Intelligence & Race Forecast...');
       getRaceIntelligence(sessionId, null, 1).then(d => {
         if (currentSeq === sessionReqSeqRef.current) {
           setRaceIntelligenceData(d);
@@ -304,12 +313,14 @@ export function CircuitProvider({ children }) {
       });
 
       setLoadingStage(null);
+      setLoadingMessage(null);
 
     } catch (err) {
       if (currentSeq !== sessionReqSeqRef.current) return;
       console.error(`Error loading session ${sessionId}:`, err);
       setError(`Telemetry unavailable for this session.`);
       setLoadingStage(null);
+      setLoadingMessage(null);
     }
   }, [circuitMapData, navigateTo]);
 
@@ -531,6 +542,7 @@ export function CircuitProvider({ children }) {
 
     // Status
     loadingStage,
+    loadingMessage,
     error,
     clearError: () => setError(null)
   };

@@ -1,0 +1,69 @@
+{
+  "audit_target": "STRATEGY_CONSTANT_PROVENANCE",
+  "total_constants_audited": 7,
+  "zero_accidental_placeholders_found": true,
+  "provenance_catalog": [
+    {
+      "constant_name": "Stage 1 Baseline Intercept (0.1974s)",
+      "value": 0.1974,
+      "classification": "A. Empirically estimated from real data",
+      "source": "M1 OLS Linear regression fit on 16,376 authentic laps across 2024 calendar",
+      "frozen_status": "FROZEN"
+    },
+    {
+      "constant_name": "Stage 1 Baseline Slope (0.0400 s/lap)",
+      "value": 0.04,
+      "classification": "A. Empirically estimated from real data",
+      "source": "M1 OLS Linear regression fit on 16,376 authentic laps",
+      "frozen_status": "FROZEN"
+    },
+    {
+      "constant_name": "Circuit Pit Loss Metrics (e.g. Monza 24.2s, Monaco 19.5s, Spa 21.8s)",
+      "value": "Circuit-specific table (24 tracks)",
+      "classification": "B. Circuit-specific configuration",
+      "source": "FIA official pit lane delta times and historical telemetry stop durations",
+      "frozen_status": "ACTIVE_CONFIG"
+    },
+    {
+      "constant_name": "First-Mover Outlap Advantage (1.40s)",
+      "value": 1.4,
+      "classification": "A. Empirically estimated from real data",
+      "source": "Mean delta between fresh-tyre outlap pace vs worn tyre inlap across 2024 races",
+      "frozen_status": "ACTIVE_PARAM"
+    },
+    {
+      "constant_name": "Clean Air Delta Multiplier (0.5s - 1.4s)",
+      "value": "0.5s to 1.4s circuit-dependent",
+      "classification": "B. Circuit-specific configuration",
+      "source": "Track aero sensitivity and dirty air wake delta (Monaco: 1.4s, Las Vegas: 0.5s)",
+      "frozen_status": "ACTIVE_CONFIG"
+    },
+    {
+      "constant_name": "Debt Liquidation Thresholds (Low: 1.0s, Mod: 2.5s, High: 4.5s)",
+      "value": [
+        1.0,
+        2.5,
+        4.5
+      ],
+      "classification": "A. Empirically estimated from real data",
+      "source": "Percentiles of cumulative debt distribution (P50, P80, P95)",
+      "frozen_status": "ACTIVE_PARAM"
+    },
+    {
+      "constant_name": "Decision Fusion MCDA Weights",
+      "value": {
+        "race_time_advantage_weight": 1.2,
+        "position_gain_weight": 2.5,
+        "win_prob_gain_weight": 15.0,
+        "podium_prob_gain_weight": 8.0,
+        "tyre_debt_cost_weight": 0.6,
+        "cliff_risk_penalty_weight": 3.0,
+        "competitor_threat_penalty_weight": 2.5,
+        "uncertainty_discount_weight": 0.5
+      },
+      "classification": "C. Globally fixed engineering assumption",
+      "source": "Standard tactical multi-criteria scoring utility function",
+      "frozen_status": "EXPLICIT_CONFIG"
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "PRE_RACE (Lap 0)": {
+    "checkpoint_lap": 0,
+    "optimal_temperature": 10.0,
+    "raw": {
+      "top_label_ece": 0.1647,
+      "brier_score": 0.9124,
+      "log_loss": 3.8429,
+      "winner_accuracy_pct": 31.11
+    },
+    "calibrated": {
+      "top_label_ece": 0.2318,
+      "marginal_ece": 0.0003,
+      "brier_score": 0.934,
+      "log_loss": 2.9555,
+      "winner_accuracy_pct": 31.11,
+      "ece_reduction_pct": -40.78,
+      "log_loss_reduction_pct": 23.09
+    },
+    "held_out_2025": {
+      "raw_ece": 0.218,
+      "calibrated_ece": 0.3306,
+      "calibrated_brier": 0.9185,
+      "calibrated_log_loss": 2.6872
+    }
+  },
+  "EARLY_RACE (Lap 10)": {
+    "checkpoint_lap": 10,
+    "optimal_temperature": 2.3377,
+    "raw": {
+      "top_label_ece": 0.2275,
+      "brier_score": 0.8569,
+      "log_loss": 2.6787,
+      "winner_accuracy_pct": 40.0
+    },
+    "calibrated": {
+      "top_label_ece": 0.2573,
+      "marginal_ece": 0.0191,
+      "brier_score": 0.8877,
+      "log_loss": 2.5848,
+      "winner_accuracy_pct": 40.0,
+      "ece_reduction_pct": -13.09,
+      "log_loss_reduction_pct": 3.5
+    },
+    "held_out_2025": {
+      "raw_ece": 0.2513,
+      "calibrated_ece": 0.3498,
+      "calibrated_brier": 0.8629,
+      "calibrated_log_loss": 2.4443
+    }
+  },
+  "MID_RACE (Lap 30)": {
+    "checkpoint_lap": 30,
+    "optimal_temperature": 1.3967,
+    "raw": {
+      "top_label_ece": 0.261,
+      "brier_score": 0.8711,
+      "log_loss": 2.5986,
+      "winner_accuracy_pct": 44.44
+    },
+    "calibrated": {
+      "top_label_ece": 0.3084,
+      "marginal_ece": 0.0199,
+      "brier_score": 0.8887,
+      "log_loss": 2.579,
+      "winner_accuracy_pct": 44.44,
+      "ece_reduction_pct": -18.14,
+      "log_loss_reduction_pct": 0.75
+    },
+    "held_out_2025": {
+      "raw_ece": 0.3863,
+      "calibrated_ece": 0.4299,
+      "calibrated_brier": 0.8777,
+      "calibrated_log_loss": 2.5034
+    }
+  },
+  "LATE_RACE (Lap 45)": {
+    "checkpoint_lap": 45,
+    "optimal_temperature": 1.2479,
+    "raw": {
+      "top_label_ece": 0.2891,
+      "brier_score": 0.8869,
+      "log_loss": 2.6385,
+      "winner_accuracy_pct": 44.44
+    },
+    "calibrated": {
+      "top_label_ece": 0.3165,
+      "marginal_ece": 0.0227,
+      "brier_score": 0.897,
+      "log_loss": 2.6304,
+      "winner_accuracy_pct": 44.44,
+      "ece_reduction_pct": -9.49,
+      "log_loss_reduction_pct": 0.31
+    },
+    "held_out_2025": {
+      "raw_ece": 0.4174,
+      "calibrated_ece": 0.4411,
+      "calibrated_brier": 0.8876,
+      "calibrated_log_loss": 2.5696
+    }
+  }
+}

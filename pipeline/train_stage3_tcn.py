@@ -265,6 +265,7 @@ def build_stint_sequences(
     """
     laps = laps_df.sort_values(['stint_id', 'lap_number']).copy()
     ledger = ledger_df.sort_values(['stint_id', 'lap_number']).copy()
+    laps[BEHAVIORAL_FEATURES] = laps[BEHAVIORAL_FEATURES].bfill().ffill().fillna(0.0)
 
     # Fit or transform features
     if fit_scaler:

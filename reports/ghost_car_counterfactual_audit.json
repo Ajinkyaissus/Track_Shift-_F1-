@@ -1,0 +1,16 @@
+{
+  "status": "VALIDATED",
+  "temporal_causality_audit": {
+    "feature_timestamps_strictly_leq_checkpoint": true,
+    "zero_future_pit_leakage": true,
+    "zero_future_telemetry_leakage": true,
+    "zero_final_classification_leakage": true
+  },
+  "sample_sessions_audited": [
+    "2024_monza_R",
+    "2024_silverstone_R",
+    "2024_spa_R",
+    "2024_monaco_R",
+    "2025_albert_park_R"
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "lineage_dag_status": "VERIFIED_CONTINUOUS_AND_FROZEN",
+  "m7_contamination_detected": false,
+  "raw_tcn_direct_regression_detected": false,
+  "artifact_count": 7,
+  "artifacts": [
+    {
+      "name": "raw_fastf1_telemetry",
+      "type": "raw_dataset",
+      "path": "data/laps.parquet",
+      "version": "v1.0_2024_2025_fastf1",
+      "hash": "2cf339b8e3249d4f3ab2fe0bf726566f0f05db13b8bfb27780d7fc40b44ac6bc",
+      "source": "FastF1 API / Formula 1 Live Timing Archive",
+      "downstream": [
+        "Stage 1 Baseline",
+        "Stage 2 Tyre Debt",
+        "Stage 3 TCN"
+      ]
+    },
+    {
+      "name": "stage1_m1_linear_baseline",
+      "type": "regression_model",
+      "path": "models/stage1_m1_baseline.json",
+      "version": "v3_stage1_m1_production",
+      "equation": "y_hat = 0.1974 + 0.0400 * tyre_age",
+      "hash": "BUILTIN_FROZEN_SPEC",
+      "source": "data/laps.parquet (2024 Training Set)",
+      "downstream": [
+        "baseline_predictions.parquet",
+        "Stage 2 Residual Ledger"
+      ]
+    },
+    {
+      "name": "baseline_predictions",
+      "type": "intermediate_dataset",
+      "path": "data/baseline_predictions.parquet",
+      "version": "v1.0_m1_predictions",
+      "hash": "e56c0e8967266147c9b537adf919f01b956aea2ab051967fdc78bc20a55f4342",
+      "source": "Stage 1 M1 Baseline applied to data/laps.parquet",
+      "downstream": [
+        "residual_ledger.parquet"
+      ]
+    },
+    {
+      "name": "stage2_residual_ledger",
+      "type": "intermediate_dataset",
+      "path": "data/residual_ledger.parquet",
+      "version": "v1.0_cumulative_tyre_debt",
+      "hash": "67187f2f1c1d56f53bba057663c12eb927ad6d3f8a143155e72d8a8de93e8abd",
+      "source": "baseline_predictions.parquet",
+      "downstream": [
+        "Stage 3 TCN Multi-Head",
+        "Race Intelligence Engine"
+      ]
+    },
+    {
+      "name": "stage3_tcn_multihead_model",
+      "type": "deep_learning_sequence_model",
+      "path": "models/tcn_stage3_engine.pt",
+      "version": "v4_stage3_multihead_tcn_production",
+      "hash": "FILE_NOT_FOUND",
+      "source": "Temporal causal sequences (L=5) from data/laps.parquet & residual_ledger.parquet",
+      "heads": [
+        "behavioral_state",
+        "anomaly_score",
+        "behavior_forecast",
+        "driving_regime",
+        "behavioral_drift"
+      ],
+      "raw_16d_embedding_status": "EXPLICITLY_REJECTED_FROM_CORE_PREDICTION",
+      "downstream": [
+        "Race Intelligence Behavioral Context Overlay"
+      ]
+    },
+    {
+      "name": "stage4_sensitivity_engine",
+      "type": "observational_sensitivity_engine",
+      "path": "api/services/stints_service.py",
+      "version": "v2.0_bounded_observational_sensitivity",
+      "equation": "R_bounded = 7.0 * tanh(R_linear / 7.0)",
+      "causality_status": "NON_CAUSAL_OBSERVATIONAL_PROJECTION",
+      "source": "Ridge Attribution on Historical Residuals",
+      "downstream": [
+        "Counterfactual UI Sandbox"
+      ]
+    },
+    {
+      "name": "race_intelligence_engine",
+      "type": "probabilistic_forecasting_system",
+      "path": "api/services/race_intelligence_service.py",
+      "version": "v2.0_calibrated_multihead_race_intelligence",
+      "calibration_temperatures": {
+        "lap_0": 10.0,
+        "lap_10": 2.3377,
+        "lap_30": 1.3967,
+        "lap_45": 1.2479
+      },
+      "source": "Stage 1 + Stage 2 + Validated Stage 3 Heads",
+      "downstream": [
+        "Race Intelligence API & Frontend Dashboard"
+      ]
+    }
+  ]
+}

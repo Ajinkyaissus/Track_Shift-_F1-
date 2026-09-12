@@ -1,0 +1,181 @@
+{
+  "events_evaluated": 23,
+  "tcn_forecast_rmse_quantiles": {
+    "p10": 35000549376.0,
+    "p25": 37379188736.0,
+    "median": 52377194496.0,
+    "p75": 88403918848.0,
+    "p90": 666318772633.6003
+  },
+  "persistence_rmse_quantiles": {
+    "p10": 584.2785,
+    "p25": 48655361.0835,
+    "median": 1039632960.0,
+    "p75": 50481806336.0,
+    "p90": 518423032627.2001
+  },
+  "median_rmse_reduction_percent": -3943.62,
+  "per_event_records": [
+    {
+      "event": "abu_dhabi",
+      "n_test": 639,
+      "tcn_forecast_rmse": 91218067456.0,
+      "persistence_rmse": 67041112064.0,
+      "rmse_reduction_percent": -36.06
+    },
+    {
+      "event": "albert_park",
+      "n_test": 376,
+      "tcn_forecast_rmse": 64578854912.0,
+      "persistence_rmse": 33922500608.0,
+      "rmse_reduction_percent": -90.37
+    },
+    {
+      "event": "bahrain",
+      "n_test": 790,
+      "tcn_forecast_rmse": 250962903040.0,
+      "persistence_rmse": 349808984064.0,
+      "rmse_reduction_percent": 28.26
+    },
+    {
+      "event": "baku",
+      "n_test": 559,
+      "tcn_forecast_rmse": 759424417792.0,
+      "persistence_rmse": 700576432128.0,
+      "rmse_reduction_percent": -8.4
+    },
+    {
+      "event": "cota",
+      "n_test": 634,
+      "tcn_forecast_rmse": 37892329472.0,
+      "persistence_rmse": 244275152.0,
+      "rmse_reduction_percent": -15412.15
+    },
+    {
+      "event": "hungaroring",
+      "n_test": 1050,
+      "tcn_forecast_rmse": 36866048000.0,
+      "persistence_rmse": 16.9197,
+      "rmse_reduction_percent": -217888152220.66
+    },
+    {
+      "event": "imola",
+      "n_test": 866,
+      "tcn_forecast_rmse": 42038816768.0,
+      "persistence_rmse": 1039632960.0,
+      "rmse_reduction_percent": -3943.62
+    },
+    {
+      "event": "interlagos",
+      "n_test": 638,
+      "tcn_forecast_rmse": 49219076096.0,
+      "persistence_rmse": 6386066432.0,
+      "rmse_reduction_percent": -670.73
+    },
+    {
+      "event": "jeddah",
+      "n_test": 310,
+      "tcn_forecast_rmse": 36065538048.0,
+      "persistence_rmse": 19.0086,
+      "rmse_reduction_percent": -189732606562.88
+    },
+    {
+      "event": "las_vegas",
+      "n_test": 439,
+      "tcn_forecast_rmse": 26874607616.0,
+      "persistence_rmse": 4786.167,
+      "rmse_reduction_percent": -561505749.25
+    },
+    {
+      "event": "losail",
+      "n_test": 492,
+      "tcn_forecast_rmse": 293896192000.0,
+      "persistence_rmse": 409521389568.0,
+      "rmse_reduction_percent": 28.23
+    },
+    {
+      "event": "miami",
+      "n_test": 432,
+      "tcn_forecast_rmse": 60139433984.0,
+      "persistence_rmse": 97305936.0,
+      "rmse_reduction_percent": -61704.49
+    },
+    {
+      "event": "monaco",
+      "n_test": 976,
+      "tcn_forecast_rmse": 58749509632.0,
+      "persistence_rmse": 261.4069,
+      "rmse_reduction_percent": -22474353746.09
+    },
+    {
+      "event": "montreal",
+      "n_test": 1346,
+      "tcn_forecast_rmse": 770990997504.0,
+      "persistence_rmse": 545648443392.0,
+      "rmse_reduction_percent": -41.3
+    },
+    {
+      "event": "monza",
+      "n_test": 434,
+      "tcn_forecast_rmse": 36016128000.0,
+      "persistence_rmse": 14234125312.0,
+      "rmse_reduction_percent": -153.03
+    },
+    {
+      "event": "red_bull_ring",
+      "n_test": 563,
+      "tcn_forecast_rmse": 52377194496.0,
+      "persistence_rmse": 121502752.0,
+      "rmse_reduction_percent": -43007.83
+    },
+    {
+      "event": "rodriguez",
+      "n_test": 851,
+      "tcn_forecast_rmse": 2056214937600.0,
+      "persistence_rmse": 1997585383424.0,
+      "rmse_reduction_percent": -2.94
+    },
+    {
+      "event": "shanghai",
+      "n_test": 594,
+      "tcn_forecast_rmse": 30140975104.0,
+      "persistence_rmse": 1921931520.0,
+      "rmse_reduction_percent": -1468.26
+    },
+    {
+      "event": "silverstone",
+      "n_test": 341,
+      "tcn_forecast_rmse": 85589770240.0,
+      "persistence_rmse": 3476.7161,
+      "rmse_reduction_percent": -2461799156.92
+    },
+    {
+      "event": "singapore",
+      "n_test": 1002,
+      "tcn_forecast_rmse": 50747953152.0,
+      "persistence_rmse": 1875.7648,
+      "rmse_reduction_percent": -2705453907.34
+    },
+    {
+      "event": "spa",
+      "n_test": 633,
+      "tcn_forecast_rmse": 44531859456.0,
+      "persistence_rmse": 7417888768.0,
+      "rmse_reduction_percent": -500.33
+    },
+    {
+      "event": "suzuka",
+      "n_test": 508,
+      "tcn_forecast_rmse": 34746654720.0,
+      "persistence_rmse": 426362880.0,
+      "rmse_reduction_percent": -8049.55
+    },
+    {
+      "event": "zandvoort",
+      "n_test": 940,
+      "tcn_forecast_rmse": 53287239680.0,
+      "persistence_rmse": 374464640.0,
+      "rmse_reduction_percent": -14130.25
+    }
+  ]
+}

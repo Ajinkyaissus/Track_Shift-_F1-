@@ -3,6 +3,8 @@ import { useCircuit, TELEMETRY_TABS } from '../context/CircuitContext';
 import CleanDegradationView from './CleanDegradationView';
 import RacePredictionValidationPanel from './RacePredictionValidationPanel';
 import RaceIntelligencePanel from './RaceIntelligencePanel';
+import StrategicWarfarePanel from './StrategicWarfarePanel';
+import TyreIntelligenceWorkspace from './TyreIntelligenceWorkspace';
 import { 
   LineChart, 
   Line, 
@@ -122,7 +124,20 @@ export default function TelemetryTabs() {
 
       {/* Tab Content Display */}
       <div className="tab-chart-body">
-        {activeTelemetryTab === 'RACE INTELLIGENCE' ? (
+        {activeTelemetryTab === 'TYRE INTELLIGENCE' ? (
+          <TyreIntelligenceWorkspace
+            circuitId={selectedSession ? selectedSession.split('_')[0] : 'silverstone'}
+            driverId={selectedDriver || 'HAM'}
+            sessionId={selectedSession}
+            replayLap={replayLap}
+          />
+        ) : activeTelemetryTab === 'STRATEGIC WARFARE' ? (
+          <StrategicWarfarePanel
+            sessionId={selectedSession}
+            selectedDriver={selectedDriver}
+            currentLap={replayLap || 20}
+          />
+        ) : activeTelemetryTab === 'RACE INTELLIGENCE' ? (
           <RaceIntelligencePanel />
         ) : activeTelemetryTab === 'CLEAN DEG' ? (
           <CleanDegradationView

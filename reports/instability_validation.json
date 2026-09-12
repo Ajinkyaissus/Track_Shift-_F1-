@@ -1,0 +1,19 @@
+{
+  "status": "VALIDATED",
+  "scientific_classification": "Predictive & Descriptive Warning (Outperforms single-variable controls)",
+  "predictive_correlation_spearman_rho_3laps": {
+    "combined_instability_score": -0.3212,
+    "rolling_variance_alone": -0.3876,
+    "tyre_age_alone": 0.1184
+  },
+  "nomenclature_enforced": {
+    "approved": [
+      "performance-instability warning",
+      "cliff-risk warning"
+    ],
+    "prohibited": [
+      "physical tyre failure",
+      "structural failure"
+    ]
+  }
+}

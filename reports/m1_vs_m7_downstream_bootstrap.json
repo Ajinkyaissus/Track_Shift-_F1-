@@ -1,0 +1,9 @@
+{
+  "metric": "Delta Spearman rho (M7 Tyre Debt - M1 Tyre Debt) predicting +5 lap degradation",
+  "bootstrap_resamples_B": 1000,
+  "sampling_unit": "Stint-Level Cluster Resampling (Independent Stints)",
+  "mean_estimate": 0.0387,
+  "ci_95_lower": -0.0167,
+  "ci_95_upper": 0.0915,
+  "statistically_significant": false
+}

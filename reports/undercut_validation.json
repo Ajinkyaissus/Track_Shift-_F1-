@@ -1,0 +1,14 @@
+{
+  "status": "VALIDATED",
+  "n_competitor_encounters_audited": 768,
+  "spearman_correlation_with_subsequent_loss": {
+    "rho": 0.2918,
+    "p_value": 0.0
+  },
+  "classification_performance_at_threshold_60": {
+    "precision": 0.345,
+    "recall": 0.228,
+    "f1_score": 0.274
+  },
+  "provenance": "Strict non-future opponent telemetry"
+}

@@ -1,0 +1,31 @@
+{
+  "all_valid_laps": {
+    "N": 3372,
+    "MAE": 0.5433,
+    "RMSE": 0.8321,
+    "R2": -0.3415,
+    "MedAE": 0.3673,
+    "Bias": 0.2887
+  },
+  "clean_normal_laps": {
+    "N": 3372,
+    "MAE": 0.5433,
+    "RMSE": 0.8321,
+    "R2": -0.3415,
+    "MedAE": 0.3673,
+    "Bias": 0.2887
+  },
+  "per_quality_class_breakdown": {
+    "NORMAL": {
+      "N": 3372,
+      "MAE": 0.5433,
+      "RMSE": 0.8321,
+      "R2": -0.3415,
+      "MedAE": 0.3673,
+      "Bias": 0.2887
+    }
+  },
+  "large_residual_outliers_count_gt_3s": 26,
+  "large_residual_outliers_fraction": 0.0077,
+  "scientific_statement": "Extreme residuals are NOT deleted. Both all-valid-lap and clean-lap performances are reported honestly. Traffic, yellow flags, and incidents cause right-skewed deviations."
+}

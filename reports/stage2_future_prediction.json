@@ -1,0 +1,42 @@
+{
+  "horizon_1_laps": {
+    "horizon": 1,
+    "N_eval_laps": 3106,
+    "Pearson_r": 0.4149,
+    "Spearman_rho": 0.6144,
+    "MAE": 0.3872,
+    "RMSE": 0.6703,
+    "R2": 0.1721,
+    "MedAE": 0.3602
+  },
+  "horizon_3_laps": {
+    "horizon": 3,
+    "N_eval_laps": 2590,
+    "Pearson_r": 0.3451,
+    "Spearman_rho": 0.5167,
+    "MAE": 0.429,
+    "RMSE": 0.7263,
+    "R2": 0.1191,
+    "MedAE": 0.3616
+  },
+  "horizon_5_laps": {
+    "horizon": 5,
+    "N_eval_laps": 2110,
+    "Pearson_r": 0.2792,
+    "Spearman_rho": 0.4331,
+    "MAE": 0.4664,
+    "RMSE": 0.7853,
+    "R2": 0.078,
+    "MedAE": 0.3788
+  },
+  "horizon_10_laps": {
+    "horizon": 10,
+    "N_eval_laps": 1158,
+    "Pearson_r": 0.1145,
+    "Spearman_rho": 0.2681,
+    "MAE": 0.5302,
+    "RMSE": 0.9131,
+    "R2": 0.0131,
+    "MedAE": 0.3877
+  }
+}

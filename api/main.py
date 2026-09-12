@@ -38,6 +38,8 @@ from api.routers import (
     set_degradation_service,
     race_intelligence_router,
     set_race_intelligence_service,
+    strategic_warfare_router,
+    tyre_intelligence_router,
     admin_router
 )
 
@@ -243,6 +245,8 @@ app.include_router(stints_router)
 app.include_router(signatures_router)
 app.include_router(degradation_router)
 app.include_router(race_intelligence_router)
+app.include_router(strategic_warfare_router)
+app.include_router(tyre_intelligence_router)
 app.include_router(admin_router)
 
 

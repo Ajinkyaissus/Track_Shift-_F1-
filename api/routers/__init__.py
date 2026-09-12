@@ -8,6 +8,8 @@ from api.routers.stints import router as stints_router, set_stint_services
 from api.routers.signatures import router as signatures_router, set_signatures_service
 from api.routers.degradation import router as degradation_router, set_degradation_service
 from api.routers.race_intelligence import router as race_intelligence_router, set_race_intelligence_service
+from api.routers.strategic_warfare import router as strategic_warfare_router
+from api.routers.tyre_intelligence import router as tyre_intelligence_router
 from api.routers.admin import router as admin_router
 
 __all__ = [
@@ -23,6 +25,8 @@ __all__ = [
     "set_degradation_service",
     "race_intelligence_router",
     "set_race_intelligence_service",
+    "strategic_warfare_router",
+    "tyre_intelligence_router",
     "admin_router"
 ]
 

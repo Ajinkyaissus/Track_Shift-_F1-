@@ -1,0 +1,8 @@
+{
+  "model_version": "v4_m1_production_2026-09-10",
+  "stage": 1,
+  "model_hash_sha256": "81ead3b1f4389adc99f3f6dc545d7c680eb0beb6278a1901dccd3ea716e6dcb4",
+  "created_at": "2026-09-10T18:41:05.415947",
+  "split_method": "chronological_events (Train: 29 dates, Val: 7 dates, Test: 10 dates)",
+  "dataset_laps_total": 16376
+}

@@ -1,0 +1,152 @@
+{
+  "status": "VALIDATED",
+  "ordering_invariant": "earliest_forced_pit <= optimal_pit <= latest_safe_pit",
+  "ordering_violations_found": 0,
+  "tracks_verified": 24,
+  "track_summaries": {
+    "monza": {
+      "total_laps": 53,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "spa": {
+      "total_laps": 44,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 3,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "silverstone": {
+      "total_laps": 52,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "monaco": {
+      "total_laps": 78,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "hungaroring": {
+      "total_laps": 70,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "bahrain": {
+      "total_laps": 57,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "jeddah": {
+      "total_laps": 50,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "abu_dhabi": {
+      "total_laps": 58,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "cota": {
+      "total_laps": 56,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "miami": {
+      "total_laps": 57,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "las_vegas": {
+      "total_laps": 50,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "interlagos": {
+      "total_laps": 71,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "suzuka": {
+      "total_laps": 53,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "singapore": {
+      "total_laps": 62,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "albert_park": {
+      "total_laps": 58,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "baku": {
+      "total_laps": 51,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "catalunya": {
+      "total_laps": 66,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "montreal": {
+      "total_laps": 70,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "red_bull_ring": {
+      "total_laps": 71,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "zandvoort": {
+      "total_laps": 72,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "losail": {
+      "total_laps": 57,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "rodriguez": {
+      "total_laps": 71,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "shanghai": {
+      "total_laps": 56,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    },
+    "imola": {
+      "total_laps": 63,
+      "ordering_invariant_verified": true,
+      "sample_strategic_spread_laps": 4,
+      "tactical_flexibility": "MODERATE_FLEXIBILITY"
+    }
+  }
+}

@@ -24,6 +24,7 @@ export default function TelemetryDashboard() {
     totalLaps,
     isPlaying,
     loadingStage,
+    loadingMessage,
     error
   } = useCircuit();
 
@@ -46,7 +47,7 @@ export default function TelemetryDashboard() {
       <div className="dashboard-loading-container">
         <div className="loading-box">
           <div className="pulse-dot"></div>
-          <h2>Loading Historical Telemetry Session...</h2>
+          <h2>{loadingMessage || 'Loading Historical Telemetry Session...'}</h2>
           <p className="loading-sub">{circuitName} · {selectedSession}</p>
         </div>
       </div>

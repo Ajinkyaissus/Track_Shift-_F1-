@@ -1,0 +1,90 @@
+{
+  "A": {
+    "variant_name": "Baseline A (Stage 1 + Stage 2 Only)",
+    "winner_accuracy_pct": 57.78,
+    "podium_accuracy_pct": 65.19,
+    "brier_score": 0.8211,
+    "log_loss": 2.1325,
+    "expected_calibration_error": 0.4309,
+    "expected_finish_mae": 1.91,
+    "race_time_mae_sec": 2980.31,
+    "status": "PRODUCTION"
+  },
+  "B": {
+    "variant_name": "Stage 1 + Stage 2 + Head A (Behavioral State)",
+    "winner_accuracy_pct": 57.78,
+    "podium_accuracy_pct": 65.19,
+    "brier_score": 0.8212,
+    "log_loss": 2.1331,
+    "expected_calibration_error": 0.4309,
+    "expected_finish_mae": 1.91,
+    "race_time_mae_sec": 2980.64,
+    "status": "RESEARCH_BENCHMARK"
+  },
+  "C": {
+    "variant_name": "Stage 1 + Stage 2 + Head B (Anomaly Score)",
+    "winner_accuracy_pct": 57.78,
+    "podium_accuracy_pct": 64.44,
+    "brier_score": 0.82,
+    "log_loss": 2.1288,
+    "expected_calibration_error": 0.4302,
+    "expected_finish_mae": 1.93,
+    "race_time_mae_sec": 415493085.89,
+    "status": "RESEARCH_BENCHMARK"
+  },
+  "D": {
+    "variant_name": "Stage 1 + Stage 2 + Head C (Behavioral Forecast)",
+    "winner_accuracy_pct": 57.78,
+    "podium_accuracy_pct": 65.19,
+    "brier_score": 0.8211,
+    "log_loss": 2.1325,
+    "expected_calibration_error": 0.431,
+    "expected_finish_mae": 1.91,
+    "race_time_mae_sec": 2980.49,
+    "status": "RESEARCH_BENCHMARK"
+  },
+  "E": {
+    "variant_name": "Stage 1 + Stage 2 + Head D (Driving Regime)",
+    "winner_accuracy_pct": 57.78,
+    "podium_accuracy_pct": 65.19,
+    "brier_score": 0.8209,
+    "log_loss": 2.1317,
+    "expected_calibration_error": 0.4308,
+    "expected_finish_mae": 1.91,
+    "race_time_mae_sec": 2980.32,
+    "status": "RESEARCH_BENCHMARK"
+  },
+  "F": {
+    "variant_name": "Stage 1 + Stage 2 + Head F (Behavioral Drift)",
+    "winner_accuracy_pct": 57.78,
+    "podium_accuracy_pct": 65.19,
+    "brier_score": 0.821,
+    "log_loss": 2.1323,
+    "expected_calibration_error": 0.4309,
+    "expected_finish_mae": 1.91,
+    "race_time_mae_sec": 2980.32,
+    "status": "RESEARCH_BENCHMARK"
+  },
+  "G": {
+    "variant_name": "Baseline B (Stage 1 + Stage 2 + All Validated Stage 3 Heads)",
+    "winner_accuracy_pct": 57.78,
+    "podium_accuracy_pct": 64.44,
+    "brier_score": 0.82,
+    "log_loss": 2.129,
+    "expected_calibration_error": 0.4302,
+    "expected_finish_mae": 1.94,
+    "race_time_mae_sec": 415493086.1,
+    "status": "PRODUCTION"
+  },
+  "H": {
+    "variant_name": "Rejected Baseline (Stage 1 + Stage 2 + Raw 16-D Embedding)",
+    "winner_accuracy_pct": 4.44,
+    "podium_accuracy_pct": 58.52,
+    "brier_score": 0.8644,
+    "log_loss": 2.2378,
+    "expected_calibration_error": 0.1707,
+    "expected_finish_mae": 2.87,
+    "race_time_mae_sec": 2980.28,
+    "status": "REJECTED"
+  }
+}

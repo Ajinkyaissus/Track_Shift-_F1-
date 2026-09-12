@@ -1,0 +1,56 @@
+{
+  "compounds": {
+    "SOFT": {
+      "N": 394,
+      "mean_debt": 0.308,
+      "median_debt": 0.0,
+      "future_loss_Spearman_rho_h5": 0.4082
+    },
+    "MEDIUM": {
+      "N": 1308,
+      "mean_debt": 0.5833,
+      "median_debt": 0.0,
+      "future_loss_Spearman_rho_h5": 0.4563
+    },
+    "HARD": {
+      "N": 408,
+      "mean_debt": 0.3315,
+      "median_debt": 0.0,
+      "future_loss_Spearman_rho_h5": 0.3982
+    },
+    "INTERMEDIATE": {
+      "N": 0,
+      "status": "LOW DATA COVERAGE"
+    },
+    "WET": {
+      "N": 0,
+      "status": "LOW DATA COVERAGE"
+    }
+  },
+  "tyre_age_bins": {
+    "1-5": {
+      "N": 692,
+      "mean_debt": 0.0794,
+      "median_debt": 0.0,
+      "future_loss_Spearman_rho_h5": 0.2893
+    },
+    "6-10": {
+      "N": 589,
+      "mean_debt": 0.4199,
+      "median_debt": 0.0,
+      "future_loss_Spearman_rho_h5": 0.264
+    },
+    "11-20": {
+      "N": 639,
+      "mean_debt": 0.9887,
+      "median_debt": 0.2384,
+      "future_loss_Spearman_rho_h5": 0.4477
+    },
+    "21-30": {
+      "N": 50,
+      "mean_debt": 1.7109,
+      "median_debt": 0.5943,
+      "future_loss_Spearman_rho_h5": 0.2659
+    }
+  }
+}

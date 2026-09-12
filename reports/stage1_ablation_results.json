@@ -1,0 +1,271 @@
+{
+  "split_protocol": "64% TRAIN / 16% VALIDATION / 20% FROZEN TEST",
+  "partitions": {
+    "train_laps": 10406,
+    "val_laps": 2598,
+    "test_laps": 3372
+  },
+  "model_ablation_results": {
+    "M0_Global_Mean": {
+      "description": "Global Training Mean (Constant Baseline)",
+      "train": {
+        "N": 10406,
+        "MAE": 0.6369,
+        "RMSE": 1.5142,
+        "R2": 0.0,
+        "MedAE": 0.5675,
+        "Bias": 0.0
+      },
+      "validation": {
+        "N": 2598,
+        "MAE": 0.8152,
+        "RMSE": 2.0485,
+        "R2": -0.0101,
+        "MedAE": 0.5895,
+        "Bias": -0.205
+      },
+      "frozen_test": {
+        "N": 3372,
+        "MAE": 0.5138,
+        "RMSE": 0.7344,
+        "R2": -0.0449,
+        "MedAE": 0.5435,
+        "Bias": 0.1523
+      }
+    },
+    "M1_TyreAge_Linear": {
+      "description": "Linear Regression on tyre_age",
+      "train": {
+        "N": 10406,
+        "MAE": 0.5989,
+        "RMSE": 1.4872,
+        "R2": 0.0354,
+        "MedAE": 0.3573,
+        "Bias": 0.0
+      },
+      "validation": {
+        "N": 2598,
+        "MAE": 0.7519,
+        "RMSE": 2.0095,
+        "R2": 0.0279,
+        "MedAE": 0.3573,
+        "Bias": -0.2098
+      },
+      "frozen_test": {
+        "N": 3372,
+        "MAE": 0.4437,
+        "RMSE": 0.6664,
+        "R2": 0.1398,
+        "MedAE": 0.3573,
+        "Bias": 0.1477
+      }
+    },
+    "M2_TyreAge_Polynomial": {
+      "description": "Linear Regression on tyre_age + tyre_age_sq",
+      "train": {
+        "N": 10406,
+        "MAE": 0.6,
+        "RMSE": 1.4871,
+        "R2": 0.0355,
+        "MedAE": 0.3617,
+        "Bias": 0.0
+      },
+      "validation": {
+        "N": 2598,
+        "MAE": 0.7542,
+        "RMSE": 2.0098,
+        "R2": 0.0277,
+        "MedAE": 0.3617,
+        "Bias": -0.21
+      },
+      "frozen_test": {
+        "N": 3372,
+        "MAE": 0.4454,
+        "RMSE": 0.667,
+        "R2": 0.1382,
+        "MedAE": 0.3556,
+        "Bias": 0.1466
+      }
+    },
+    "M3_TyreAge_Compound": {
+      "description": "Ridge on tyre_age + compound",
+      "train": {
+        "N": 10406,
+        "MAE": 0.5974,
+        "RMSE": 1.4826,
+        "R2": 0.0412,
+        "MedAE": 0.3611,
+        "Bias": 0.0
+      },
+      "validation": {
+        "N": 2598,
+        "MAE": 0.7623,
+        "RMSE": 2.0092,
+        "R2": 0.0282,
+        "MedAE": 0.3678,
+        "Bias": -0.1831
+      },
+      "frozen_test": {
+        "N": 3372,
+        "MAE": 0.4617,
+        "RMSE": 0.676,
+        "R2": 0.1148,
+        "MedAE": 0.3611,
+        "Bias": 0.1757
+      }
+    },
+    "M4_TyreAge_Compound_Track": {
+      "description": "Ridge on tyre_age + compound + track_id",
+      "train": {
+        "N": 10406,
+        "MAE": 0.5793,
+        "RMSE": 1.4645,
+        "R2": 0.0646,
+        "MedAE": 0.353,
+        "Bias": 0.0
+      },
+      "validation": {
+        "N": 2598,
+        "MAE": 0.7894,
+        "RMSE": 2.0204,
+        "R2": 0.0174,
+        "MedAE": 0.417,
+        "Bias": -0.1585
+      },
+      "frozen_test": {
+        "N": 3372,
+        "MAE": 0.4496,
+        "RMSE": 0.7022,
+        "R2": 0.0447,
+        "MedAE": 0.3251,
+        "Bias": 0.0101
+      }
+    },
+    "M5_M4_Plus_Fuel": {
+      "description": "Ridge on tyre_age + compound + track_id + estimated_fuel_load",
+      "train": {
+        "N": 10406,
+        "MAE": 0.5744,
+        "RMSE": 1.4589,
+        "R2": 0.0717,
+        "MedAE": 0.3431,
+        "Bias": -0.0
+      },
+      "validation": {
+        "N": 2598,
+        "MAE": 0.8012,
+        "RMSE": 2.0369,
+        "R2": 0.0013,
+        "MedAE": 0.4529,
+        "Bias": -0.2421
+      },
+      "frozen_test": {
+        "N": 3372,
+        "MAE": 0.4865,
+        "RMSE": 0.7309,
+        "R2": -0.0349,
+        "MedAE": 0.3524,
+        "Bias": 0.0112
+      }
+    },
+    "M6_M5_Plus_TrackEvolution": {
+      "description": "Ridge on tyre_age + compound + track_id + estimated_fuel_load + track_evolution_index",
+      "train": {
+        "N": 10406,
+        "MAE": 0.5769,
+        "RMSE": 1.4572,
+        "R2": 0.0738,
+        "MedAE": 0.3465,
+        "Bias": 0.0
+      },
+      "validation": {
+        "N": 2598,
+        "MAE": 1.3251,
+        "RMSE": 2.3387,
+        "R2": -0.3166,
+        "MedAE": 0.7266,
+        "Bias": 0.5474
+      },
+      "frozen_test": {
+        "N": 3372,
+        "MAE": 0.5409,
+        "RMSE": 0.7647,
+        "R2": -0.1329,
+        "MedAE": 0.4254,
+        "Bias": 0.2626
+      }
+    },
+    "M7_Stage1_Contextual_HistGB": {
+      "description": "HistGradientBoosting on Full Contextual Feature Set (Stage 1)",
+      "train": {
+        "N": 10406,
+        "MAE": 0.4402,
+        "RMSE": 1.1988,
+        "R2": 0.3732,
+        "MedAE": 0.2054,
+        "Bias": -0.0042
+      },
+      "validation": {
+        "N": 2598,
+        "MAE": 0.7507,
+        "RMSE": 1.9989,
+        "R2": 0.0382,
+        "MedAE": 0.3795,
+        "Bias": -0.1164
+      },
+      "frozen_test": {
+        "N": 3372,
+        "MAE": 0.5249,
+        "RMSE": 0.8108,
+        "R2": -0.2734,
+        "MedAE": 0.3496,
+        "Bias": 0.268
+      }
+    }
+  },
+  "feature_incremental_deltas_on_validation": {
+    "M1_TyreAge_Linear_vs_M0_Global_Mean": {
+      "delta_MAE": -0.0633,
+      "delta_RMSE": -0.039,
+      "delta_R2": 0.038,
+      "interpretation": "Improved"
+    },
+    "M2_TyreAge_Polynomial_vs_M1_TyreAge_Linear": {
+      "delta_MAE": 0.0023,
+      "delta_RMSE": 0.0003,
+      "delta_R2": -0.0002,
+      "interpretation": "Degraded / Neutral"
+    },
+    "M3_TyreAge_Compound_vs_M2_TyreAge_Polynomial": {
+      "delta_MAE": 0.0081,
+      "delta_RMSE": -0.0006,
+      "delta_R2": 0.0005,
+      "interpretation": "Degraded / Neutral"
+    },
+    "M4_TyreAge_Compound_Track_vs_M3_TyreAge_Compound": {
+      "delta_MAE": 0.0271,
+      "delta_RMSE": 0.0112,
+      "delta_R2": -0.0108,
+      "interpretation": "Degraded / Neutral"
+    },
+    "M5_M4_Plus_Fuel_vs_M4_TyreAge_Compound_Track": {
+      "delta_MAE": 0.0118,
+      "delta_RMSE": 0.0165,
+      "delta_R2": -0.0161,
+      "interpretation": "Degraded / Neutral"
+    },
+    "M6_M5_Plus_TrackEvolution_vs_M5_M4_Plus_Fuel": {
+      "delta_MAE": 0.5239,
+      "delta_RMSE": 0.3018,
+      "delta_R2": -0.3179,
+      "interpretation": "Degraded / Neutral"
+    },
+    "M7_Stage1_Contextual_HistGB_vs_M6_M5_Plus_TrackEvolution": {
+      "delta_MAE": -0.5744,
+      "delta_RMSE": -0.3398,
+      "delta_R2": 0.3548,
+      "interpretation": "Improved"
+    }
+  },
+  "scientific_conclusion": "Model selection strictly executed on validation partition. M7 (HistGradientBoosting on full context) achieves lower median absolute error and contextual counterfactual adaptability than linear baselines."
+}

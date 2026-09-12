@@ -1,0 +1,226 @@
+{
+  "events_evaluated": 23,
+  "stage2_rho_quantiles": {
+    "p10": -0.0783,
+    "p25": 0.1187,
+    "median": 0.3258,
+    "p75": 0.4643,
+    "p90": 0.5728
+  },
+  "stage2_plus_tcn_rho_quantiles": {
+    "p10": 0.0949,
+    "p25": 0.1638,
+    "median": 0.2302,
+    "p75": 0.5062,
+    "p90": 0.6066
+  },
+  "per_event_records": [
+    {
+      "event": "abu_dhabi",
+      "n_test": 639,
+      "stage2_rho": 0.4583,
+      "stage2_mae": 0.3331,
+      "stage2_plus_tcn_rho": 0.2629,
+      "stage2_plus_tcn_mae": 0.3888,
+      "delta_rho": -0.1954
+    },
+    {
+      "event": "albert_park",
+      "n_test": 376,
+      "stage2_rho": 0.2303,
+      "stage2_mae": 0.8894,
+      "stage2_plus_tcn_rho": 0.4521,
+      "stage2_plus_tcn_mae": 0.8648,
+      "delta_rho": 0.2218
+    },
+    {
+      "event": "bahrain",
+      "n_test": 790,
+      "stage2_rho": 0.6334,
+      "stage2_mae": 0.4683,
+      "stage2_plus_tcn_rho": 0.6085,
+      "stage2_plus_tcn_mae": 0.4987,
+      "delta_rho": -0.0249
+    },
+    {
+      "event": "baku",
+      "n_test": 559,
+      "stage2_rho": 0.2312,
+      "stage2_mae": 0.4856,
+      "stage2_plus_tcn_rho": 0.1506,
+      "stage2_plus_tcn_mae": 0.4964,
+      "delta_rho": -0.0806
+    },
+    {
+      "event": "cota",
+      "n_test": 634,
+      "stage2_rho": 0.2654,
+      "stage2_mae": 0.3819,
+      "stage2_plus_tcn_rho": 0.1636,
+      "stage2_plus_tcn_mae": 0.4343,
+      "delta_rho": -0.1018
+    },
+    {
+      "event": "hungaroring",
+      "n_test": 1050,
+      "stage2_rho": 0.3841,
+      "stage2_mae": 0.4095,
+      "stage2_plus_tcn_rho": 0.2243,
+      "stage2_plus_tcn_mae": 0.5476,
+      "delta_rho": -0.1598
+    },
+    {
+      "event": "imola",
+      "n_test": 866,
+      "stage2_rho": 0.3258,
+      "stage2_mae": 0.4019,
+      "stage2_plus_tcn_rho": 0.1671,
+      "stage2_plus_tcn_mae": 0.5022,
+      "delta_rho": -0.1587
+    },
+    {
+      "event": "interlagos",
+      "n_test": 638,
+      "stage2_rho": 0.3958,
+      "stage2_mae": 0.6916,
+      "stage2_plus_tcn_rho": 0.3483,
+      "stage2_plus_tcn_mae": 0.618,
+      "delta_rho": -0.0475
+    },
+    {
+      "event": "jeddah",
+      "n_test": 310,
+      "stage2_rho": 0.1858,
+      "stage2_mae": 0.2777,
+      "stage2_plus_tcn_rho": 0.0397,
+      "stage2_plus_tcn_mae": 0.3258,
+      "delta_rho": -0.1461
+    },
+    {
+      "event": "las_vegas",
+      "n_test": 439,
+      "stage2_rho": 0.4963,
+      "stage2_mae": 0.6284,
+      "stage2_plus_tcn_rho": 0.1207,
+      "stage2_plus_tcn_mae": 0.8743,
+      "delta_rho": -0.3756
+    },
+    {
+      "event": "losail",
+      "n_test": 492,
+      "stage2_rho": -0.2119,
+      "stage2_mae": 0.4761,
+      "stage2_plus_tcn_rho": 0.5991,
+      "stage2_plus_tcn_mae": 0.3195,
+      "delta_rho": 0.811
+    },
+    {
+      "event": "miami",
+      "n_test": 432,
+      "stage2_rho": -0.105,
+      "stage2_mae": 0.4532,
+      "stage2_plus_tcn_rho": 0.1641,
+      "stage2_plus_tcn_mae": 0.553,
+      "delta_rho": 0.2691
+    },
+    {
+      "event": "monaco",
+      "n_test": 976,
+      "stage2_rho": 0.4406,
+      "stage2_mae": 0.9755,
+      "stage2_plus_tcn_rho": 0.4086,
+      "stage2_plus_tcn_mae": 0.9873,
+      "delta_rho": -0.032
+    },
+    {
+      "event": "montreal",
+      "n_test": 1346,
+      "stage2_rho": -0.1444,
+      "stage2_mae": 1.0614,
+      "stage2_plus_tcn_rho": 0.232,
+      "stage2_plus_tcn_mae": 0.9207,
+      "delta_rho": 0.3764
+    },
+    {
+      "event": "monza",
+      "n_test": 434,
+      "stage2_rho": 0.0286,
+      "stage2_mae": 0.3748,
+      "stage2_plus_tcn_rho": -0.009,
+      "stage2_plus_tcn_mae": 0.5229,
+      "delta_rho": -0.0376
+    },
+    {
+      "event": "red_bull_ring",
+      "n_test": 563,
+      "stage2_rho": 0.7029,
+      "stage2_mae": 0.345,
+      "stage2_plus_tcn_rho": 0.582,
+      "stage2_plus_tcn_mae": 0.412,
+      "delta_rho": -0.1209
+    },
+    {
+      "event": "rodriguez",
+      "n_test": 851,
+      "stage2_rho": 0.0978,
+      "stage2_mae": 0.5037,
+      "stage2_plus_tcn_rho": 0.2302,
+      "stage2_plus_tcn_mae": 0.4844,
+      "delta_rho": 0.1324
+    },
+    {
+      "event": "shanghai",
+      "n_test": 594,
+      "stage2_rho": 0.4704,
+      "stage2_mae": 0.5822,
+      "stage2_plus_tcn_rho": 0.5604,
+      "stage2_plus_tcn_mae": 0.5393,
+      "delta_rho": 0.09
+    },
+    {
+      "event": "silverstone",
+      "n_test": 341,
+      "stage2_rho": 0.3531,
+      "stage2_mae": 0.5286,
+      "stage2_plus_tcn_rho": 0.64,
+      "stage2_plus_tcn_mae": 0.4988,
+      "delta_rho": 0.2869
+    },
+    {
+      "event": "singapore",
+      "n_test": 1002,
+      "stage2_rho": 0.1247,
+      "stage2_mae": 0.5078,
+      "stage2_plus_tcn_rho": 0.0884,
+      "stage2_plus_tcn_mae": 0.4793,
+      "delta_rho": -0.0363
+    },
+    {
+      "event": "spa",
+      "n_test": 633,
+      "stage2_rho": 0.5309,
+      "stage2_mae": 0.5276,
+      "stage2_plus_tcn_rho": 0.1647,
+      "stage2_plus_tcn_mae": 0.6359,
+      "delta_rho": -0.3662
+    },
+    {
+      "event": "suzuka",
+      "n_test": 508,
+      "stage2_rho": 0.5833,
+      "stage2_mae": 0.4651,
+      "stage2_plus_tcn_rho": 0.7837,
+      "stage2_plus_tcn_mae": 0.3164,
+      "delta_rho": 0.2004
+    },
+    {
+      "event": "zandvoort",
+      "n_test": 940,
+      "stage2_rho": 0.1128,
+      "stage2_mae": 0.4298,
+      "stage2_plus_tcn_rho": 0.1728,
+      "stage2_plus_tcn_mae": 0.4886,
+      "delta_rho": 0.06
+    }
+  ]
+}

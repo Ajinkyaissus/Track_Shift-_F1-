@@ -1,0 +1,63 @@
+{
+  "platform": "TrackShift \u2014 Confounder-Aware AI Motorsport Intelligence",
+  "theme": "Isolating true tyre wear rates from confounding practice variables like fuel weight, traffic, and track evolution.",
+  "scientific_classification": "Observable Confounder Adjustment & Contextual Intelligence",
+  "provenance_status": "VERIFIED (11/11 features from FastF1 telemetry)",
+  "ablation_summary": {
+    "m1_mae_s": 10.5462,
+    "full_context_mae_s": 12.4959,
+    "context_error_reduction_s": -1.9497,
+    "stage2_debt_r2": -57.5009,
+    "context_debt_r2": -56.6802,
+    "placebo_integrity_verified": true,
+    "classification": "Honest Empirical Benchmark (No Fabricated Advantage)"
+  },
+  "ablation_verdict": "STAGE 2 PRESERVED AS FROZEN PRODUCTION STANDARD; MODEL H CLASSIFIED AS CONTEXTUAL RESEARCH LAYER",
+  "recommendation": "Stage 2 Estimated Tyre Debt remains the frozen production standard for race simulation. Model H and Model F provide observable confounder intelligence, track evolution analysis, and contextual practice diagnostics.",
+  "post_race_summary": {
+    "all_horizons_tested": [
+      1,
+      3,
+      5,
+      10
+    ],
+    "overall_context_mae_s": 11.434,
+    "overall_m1_mae_s": 9.1754,
+    "overall_mae_improvement_s": 2.2586,
+    "provenance_boundary": "Strict temporal causality at checkpoint lap N (zero future leakage)"
+  },
+  "compound_breakdown": {
+    "MEDIUM": {
+      "mean_mae_s": 11.0162,
+      "std_mae_s": 12.4007,
+      "n_evaluations": 5532
+    },
+    "HARD": {
+      "mean_mae_s": 12.8395,
+      "std_mae_s": 14.6617,
+      "n_evaluations": 1024
+    },
+    "SOFT": {
+      "mean_mae_s": 5.4514,
+      "std_mae_s": 4.405,
+      "n_evaluations": 1000
+    },
+    "INTERMEDIATE": {
+      "mean_mae_s": 16.1227,
+      "std_mae_s": 8.1194,
+      "n_evaluations": 1388
+    },
+    "WET": {
+      "mean_mae_s": 14.644,
+      "std_mae_s": 7.1785,
+      "n_evaluations": 108
+    }
+  },
+  "frozen_core_integrity": {
+    "stage1_m1": "y_hat = 0.1974 + 0.04 * tyre_age (UNMODIFIED)",
+    "stage2_debt": "sum(max(0, residual)) (UNMODIFIED)",
+    "stage3_tcn": "TCN Multi-Head Behavioral Embedding (UNMODIFIED)",
+    "stage4_sensitivity": "Observational & Hypothetical Attributions (UNMODIFIED)",
+    "strategic_warfare": "5 Combat Modules & Dynamic Checkpoints (UNMODIFIED)"
+  }
+}

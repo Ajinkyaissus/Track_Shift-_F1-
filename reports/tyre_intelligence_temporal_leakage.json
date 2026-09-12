@@ -1,0 +1,57 @@
+{
+  "audit_timestamp": "2026-09-11T22:00:00Z",
+  "audit_status": "ZERO FUTURE LEAKAGE VERIFIED",
+  "total_features_audited": 7,
+  "violations_found": 0,
+  "audited_features": [
+    {
+      "feature": "tyre_age",
+      "temporal_cutoff_rule": "lap_number <= checkpoint_N",
+      "max_input_timestamp": "checkpoint_N",
+      "leakage_detected": false,
+      "test_result": "PASS"
+    },
+    {
+      "feature": "load_fuel_proxy",
+      "temporal_cutoff_rule": "burn_rate * min(lap_number, checkpoint_N)",
+      "max_input_timestamp": "checkpoint_N",
+      "leakage_detected": false,
+      "test_result": "PASS"
+    },
+    {
+      "feature": "track_evolution_proxy",
+      "temporal_cutoff_rule": "median(clean_laps[lap <= checkpoint_N])",
+      "max_input_timestamp": "checkpoint_N",
+      "leakage_detected": false,
+      "test_result": "PASS"
+    },
+    {
+      "feature": "traffic_context_score",
+      "temporal_cutoff_rule": "lap_flags[lap <= checkpoint_N]",
+      "max_input_timestamp": "checkpoint_N",
+      "leakage_detected": false,
+      "test_result": "PASS"
+    },
+    {
+      "feature": "stage3_anomaly_score",
+      "temporal_cutoff_rule": "TCN receptive field window [t-15 : t <= checkpoint_N]",
+      "max_input_timestamp": "checkpoint_N",
+      "leakage_detected": false,
+      "test_result": "PASS"
+    },
+    {
+      "feature": "stage3_behavioral_drift",
+      "temporal_cutoff_rule": "TCN latent cosine distance [t <= checkpoint_N]",
+      "max_input_timestamp": "checkpoint_N",
+      "leakage_detected": false,
+      "test_result": "PASS"
+    },
+    {
+      "feature": "cumulative_tyre_debt",
+      "temporal_cutoff_rule": "cumsum(max(0, residual[1:checkpoint_N]))",
+      "max_input_timestamp": "checkpoint_N",
+      "leakage_detected": false,
+      "test_result": "PASS"
+    }
+  ]
+}

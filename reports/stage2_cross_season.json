@@ -1,0 +1,26 @@
+{
+  "horizon_1": {
+    "horizon": 1,
+    "N_2025_laps": 6912,
+    "Spearman_rho": 0.615,
+    "Pearson_r": 0.3395
+  },
+  "horizon_3": {
+    "horizon": 3,
+    "N_2025_laps": 5753,
+    "Spearman_rho": 0.4774,
+    "Pearson_r": 0.2753
+  },
+  "horizon_5": {
+    "horizon": 5,
+    "N_2025_laps": 4667,
+    "Spearman_rho": 0.3892,
+    "Pearson_r": 0.2419
+  },
+  "horizon_10": {
+    "horizon": 10,
+    "N_2025_laps": 2443,
+    "Spearman_rho": 0.2093,
+    "Pearson_r": 0.1567
+  }
+}

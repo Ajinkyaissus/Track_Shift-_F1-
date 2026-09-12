@@ -1,0 +1,14 @@
+{
+  "status": "VALIDATED",
+  "earliest_forced_pit": 21,
+  "optimal_pit": 24,
+  "latest_safe_pit": 24,
+  "strategic_spread_laps": 3,
+  "tactical_flexibility": "MODERATE_FLEXIBILITY",
+  "definitions": {
+    "earliest_forced_pit": "First lap where staying out risks net loss to undercut or rapid degradation",
+    "optimal_pit": "Lap minimizing total estimated race completion time",
+    "latest_safe_pit": "Final lap before performance debt causes severe track position loss",
+    "strategic_spread": "latest_safe_pit - earliest_forced_pit (operational margin)"
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "audit_title": "TrackShift Dataset Split & Contamination Forensic Matrix",
+  "audit_date": "2026-09-12",
+  "split_architecture": {
+    "strategy": "Chronological Event-Level 3-Way Split",
+    "proportions": "64% Training / 16% Validation / 20% Frozen Held-Out Test",
+    "total_laps": 16376,
+    "partitions": {
+      "train": {
+        "laps": 10406,
+        "percentage": 63.55,
+        "events_count": 27,
+        "temporal_window": "2024 Season Rounds 1–16"
+      },
+      "validation": {
+        "laps": 2598,
+        "percentage": 15.86,
+        "events_count": 9,
+        "temporal_window": "2024 Season Rounds 17–20"
+      },
+      "frozen_test": {
+        "laps": 3372,
+        "percentage": 20.59,
+        "events_count": 10,
+        "temporal_window": "2024 Season Rounds 21–24 & 2025 Held-Out Rounds"
+      }
+    }
+  },
+  "contamination_matrix": {
+    "dimension_checks": [
+      {
+        "dimension": "Same Grand Prix Event?",
+        "train_val_overlap": false,
+        "val_test_overlap": false,
+        "train_test_overlap": false,
+        "status": "ISOLATED",
+        "notes": "Events are strictly partitioned chronologically."
+      },
+      {
+        "dimension": "Same Session (e.g. FP2 / R)?",
+        "train_val_overlap": false,
+        "val_test_overlap": false,
+        "train_test_overlap": false,
+        "status": "ISOLATED",
+        "notes": "Sessions belong to distinct events; no session spanning split boundaries."
+      },
+      {
+        "dimension": "Same Stint?",
+        "train_val_overlap": false,
+        "val_test_overlap": false,
+        "train_test_overlap": false,
+        "status": "ISOLATED",
+        "notes": "Stints are strictly contained within individual sessions and events."
+      },
+      {
+        "dimension": "Same Overlapping Telemetry Sequence?",
+        "train_val_overlap": false,
+        "val_test_overlap": false,
+        "train_test_overlap": false,
+        "status": "ISOLATED",
+        "notes": "TCN 15-lap sequences reset at stint boundaries; 0 sequences span across splits."
+      },
+      {
+        "dimension": "Same Driver Identity?",
+        "train_val_overlap": true,
+        "val_test_overlap": true,
+        "train_test_overlap": true,
+        "status": "PERMITTED_DOMAIN_PROPERTY",
+        "notes": "Formula 1 drivers compete across multiple events in a championship. Production models (M1 and Stage 2) omit driver identity features to ensure generalized physical transfer."
+      }
+    ]
+  },
+  "cross_season_transfer_protocol": {
+    "source_training_season": 2024,
+    "target_evaluation_season": 2025,
+    "data_isolation": "100% Zero Contamination (Zero 2025 laps used in fitting scalers, models, or hyperparameters)",
+    "status": "VERIFIED"
+  }
+}
