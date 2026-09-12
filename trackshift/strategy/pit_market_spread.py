@@ -10,7 +10,7 @@ Computes:
 - strategic_spread: Difference (latest_safe_pit - earliest_forced_pit) measuring tactical flexibility.
 """
 
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List
 import numpy as np
 
 

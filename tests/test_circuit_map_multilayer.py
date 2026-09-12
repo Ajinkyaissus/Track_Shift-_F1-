@@ -1,7 +1,6 @@
 import pytest
 from fastapi.testclient import TestClient
 from api.main import app
-from api.services.circuits_service import CIRCUIT_FEATURES_MAP
 
 client = TestClient(app)
 

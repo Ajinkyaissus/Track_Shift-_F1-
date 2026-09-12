@@ -5,7 +5,6 @@ in-memory fallback, and single-flight stampede protection.
 """
 
 import asyncio
-import time
 import pytest
 from api.cache import (
     CacheKeys,

@@ -15,7 +15,6 @@ Tests:
 """
 
 import pytest
-import sqlite3
 import os
 import sys
 
@@ -25,8 +24,8 @@ if BASE_DIR not in sys.path:
 
 from fastapi.testclient import TestClient
 
-from api.main import app, DB_PATH
-from api.cache import CacheKeys, DATA_VERSION
+from api.main import app
+from api.cache import CacheKeys
 
 
 client = TestClient(app)

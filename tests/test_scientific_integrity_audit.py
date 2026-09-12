@@ -17,7 +17,6 @@ import sqlite3
 import json
 import pytest
 import numpy as np
-import pandas as pd
 import torch
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,7 +25,7 @@ if BASE_DIR not in sys.path:
 
 from fastapi.testclient import TestClient
 from api.main import app
-from api.models import get_model_registry, BEHAVIORAL_FEATURES, DEFAULT_EMBEDDING_DIM
+from api.models import get_model_registry, DEFAULT_EMBEDDING_DIM
 from api.models.behavioral_model import TemporalBehavioralTCN, BehavioralModelWrapper
 
 DATA_DIR = os.path.join(BASE_DIR, "data")

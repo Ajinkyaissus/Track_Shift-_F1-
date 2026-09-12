@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { useCircuit } from '../context/CircuitContext';
-import { CountryFlag } from '../utils/countryFlags';
 
 function getCompoundColor(comp) {
   const c = (comp || '').toUpperCase();
@@ -25,11 +24,9 @@ function getCompoundShort(comp) {
 export default function PitStopAnalyticsPanel() {
   const {
     sessionPitStops,
-    sessionTelemetry,
     selectedDriver,
     comparisonDriver,
-    selectDriver,
-    selectComparisonDriver
+    selectDriver
   } = useCircuit();
 
   const [activeTab, setActiveTab] = useState('strategy'); // 'strategy' | 'summary' | 'ranking' | 'h2h' | 'diagnostics'
@@ -153,12 +150,6 @@ export default function PitStopAnalyticsPanel() {
       stratB
     };
   }, [h2hDataA, h2hDataB]);
-
-  // Selected Driver Detail Profile
-  const selectedDriverProfile = useMemo(() => {
-    if (!selectedDriver) return null;
-    return driversList.find(d => d.driver_id === selectedDriver) || null;
-  }, [driversList, selectedDriver]);
 
   if (!sessionPitStops) {
     return (

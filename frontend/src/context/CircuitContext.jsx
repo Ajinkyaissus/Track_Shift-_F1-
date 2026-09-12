@@ -5,7 +5,6 @@ import {
   getCircuitMap, 
   getCircuitSessions, 
   getSessionTelemetry, 
-  getSessionPitStops,
   getSessionDegradation,
   getRaceIntelligence,
   getAttribution, 

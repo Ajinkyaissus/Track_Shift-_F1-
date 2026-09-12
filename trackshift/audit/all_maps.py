@@ -13,7 +13,7 @@ import sqlite3
 import asyncio
 import tracemalloc
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict
 import pandas as pd
 
 # Ensure workspace root is in sys.path
@@ -21,8 +21,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
-from api.cache import get_cache_service, DATA_VERSION, MAP_VERSION
-from api.services.circuits_service import CircuitsService, CIRCUIT_FEATURES_MAP, CIRCUIT_COORDINATES
+from api.cache import get_cache_service
+from api.services.circuits_service import CircuitsService, CIRCUIT_FEATURES_MAP
 
 logging.basicConfig(level=logging.WARNING, format='%(levelname)s: %(message)s')
 logger = logging.getLogger("trackshift.audit.all_maps")

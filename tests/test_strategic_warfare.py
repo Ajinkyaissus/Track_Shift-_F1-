@@ -3,10 +3,7 @@ Unit tests for TrackShift Strategic Warfare Engine.
 """
 
 import pytest
-import numpy as np
 from trackshift.strategy import (
-    CIRCUIT_METRICS,
-    COMPOUND_CHARACTERISTICS,
     calculate_debt_liquidation,
     stage1_m1_loss,
     simulate_ghost_car_pit_roi,
@@ -14,7 +11,6 @@ from trackshift.strategy import (
     compute_pit_market_spread,
     evaluate_performance_instability,
     fuse_strategic_decision,
-    simulate_full_race_strategies
 )
 
 

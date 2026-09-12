@@ -4,7 +4,7 @@ Handles residual tyre debt ledgers and hybrid DL/ML behavioral attributions.
 """
 
 import math
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict
 from fastapi import HTTPException
 
 from api.cache import CacheKeys, get_cache_service, LEDGER_VERSION
@@ -21,7 +21,6 @@ class TyreDebtService:
     def _ensure_data_loaded(self):
         import os
         import pandas as pd
-        from api.models import BEHAVIORAL_FEATURES
         BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         DATA_DIR = os.path.join(BASE_DIR, 'data')
         LEDGER_PARQUET = os.path.join(DATA_DIR, 'residual_ledger.parquet')

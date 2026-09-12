@@ -18,7 +18,6 @@ import sqlite3
 import datetime
 import logging
 import pandas as pd
-import numpy as np
 import fastf1
 
 # Ensure base dir is in path
@@ -35,15 +34,6 @@ GEOMETRY_PARQUET = os.path.join(DATA_DIR, 'circuit_geometry.parquet')
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 logger = logging.getLogger("trackshift.ingest")
-
-from pipeline.features import (
-    compute_braking_aggression,
-    compute_throttle_transient_smoothness,
-    compute_lateral_dynamics_proxy,
-    compute_kerb_usage,
-    compute_lockup_flag_rate,
-    estimate_fuel_load
-)
 
 CIRCUIT_METADATA = {
     "monza": {"name": "Autodromo Nazionale Monza", "country": "Italy", "country_code": "IT", "location": "Monza", "lat": 45.6156, "lon": 9.2811, "rotation": 0.0},

@@ -19,20 +19,10 @@ Strictly non-causal terminology:
 
 from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional
-import numpy as np
 import pandas as pd
 
 from trackshift.strategy.debt_liquidation import stage1_m1_loss
-from trackshift.tyre_intelligence.confounders import (
-    ObservableConfounderEstimator,
-    ConfounderContext,
-    compute_track_evolution_proxy,
-    compute_traffic_context_score,
-    compute_load_fuel_proxy,
-    FUEL_EFFECT_COEFFICIENT,
-    TRACK_EVOLUTION_COEFFICIENT,
-    TRAFFIC_EFFECT_COEFFICIENT,
-)
+from trackshift.tyre_intelligence.confounders import ObservableConfounderEstimator
 
 # Frozen Stage 1 M1 Baseline Constants
 STAGE1_M1_INTERCEPT: float = 0.1974

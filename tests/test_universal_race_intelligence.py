@@ -14,7 +14,6 @@ Verifies:
 """
 
 import pytest
-import numpy as np
 from fastapi.testclient import TestClient
 
 from api.main import app, DB_PATH, app_data

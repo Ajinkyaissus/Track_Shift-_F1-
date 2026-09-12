@@ -9,7 +9,7 @@ All candidate outputs are strictly labeled HYPOTHETICAL and maintain empirical
 uncertainty intervals.
 """
 
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List
 import numpy as np
 
 from trackshift.strategy.config import (

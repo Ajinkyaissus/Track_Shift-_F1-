@@ -10,20 +10,18 @@ Terminology:
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple, Any
+from typing import Dict, List, Optional, Any
 import numpy as np
 import pandas as pd
 
 from trackshift.tyre_intelligence.confounders import (
     ObservableConfounderEstimator,
-    ConfounderContext,
     FUEL_EFFECT_COEFFICIENT,
     TRACK_EVOLUTION_COEFFICIENT,
     TRAFFIC_EFFECT_COEFFICIENT,
 )
 from trackshift.tyre_intelligence.model import (
     ObservableDecompositionModel,
-    ContextualResidualLedger,
     STAGE1_M1_INTERCEPT,
     STAGE1_M1_SLOPE,
 )

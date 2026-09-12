@@ -8,10 +8,7 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
-  BarChart,
-  Bar,
-  Cell
+  Legend
 } from 'recharts';
 import { getSessionPrediction, getSessionValidation, compareDriversDegradation, compareCompoundsDegradation } from '../api';
 
@@ -25,7 +22,6 @@ export default function RacePredictionValidationPanel({
 
   // Prediction state
   const [predictionData, setPredictionData] = useState(null);
-  const [predLoading, setPredLoading] = useState(false);
 
   // Validation state
   const [validationData, setValidationData] = useState(null);

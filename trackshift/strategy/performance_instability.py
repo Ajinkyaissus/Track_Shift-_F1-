@@ -15,7 +15,7 @@ Strictly non-causal nomenclature:
 Never implies physical mechanical tyre failure.
 """
 
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List
 import numpy as np
 
 from trackshift.strategy.config import INSTABILITY_WEIGHTS, COMPOUND_CHARACTERISTICS

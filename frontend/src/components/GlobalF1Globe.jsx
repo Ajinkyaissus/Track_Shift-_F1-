@@ -705,7 +705,7 @@ export default function GlobalF1Globe({ onSelectCircuit }) {
               {availableSeasons.map(yr => (
                 <button
                   key={yr}
-                  onClick={(e) => { e.stopPropagation(); selectSeason && selectSeason(yr); }}
+                  onClick={(e) => { e.stopPropagation(); if (selectSeason) selectSeason(yr); }}
                   style={{
                     background: selectedSeason === yr ? 'var(--accent-red)' : 'transparent',
                     color: selectedSeason === yr ? '#FFF' : '#888',

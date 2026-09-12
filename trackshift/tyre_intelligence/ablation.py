@@ -10,19 +10,14 @@ Reconciled evaluation protocol matching frozen Stage 1 & Stage 2 benchmarks:
 """
 
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Any, Tuple
+from typing import Dict, List, Optional, Any
 import numpy as np
 import pandas as pd
 from scipy import stats
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 from pipeline.model_stage1 import load_data
-from trackshift.tyre_intelligence.confounders import (
-    ObservableConfounderEstimator,
-    FUEL_EFFECT_COEFFICIENT,
-    TRACK_EVOLUTION_COEFFICIENT,
-    TRAFFIC_EFFECT_COEFFICIENT,
-)
+from trackshift.tyre_intelligence.confounders import ObservableConfounderEstimator
 from trackshift.tyre_intelligence.model import (
     STAGE1_M1_INTERCEPT,
     STAGE1_M1_SLOPE,

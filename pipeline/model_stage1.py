@@ -19,12 +19,10 @@ import joblib
 import numpy as np
 import pandas as pd
 from datetime import datetime
-from typing import Dict, List, Any, Optional
+from typing import Dict, Any
 
 from sklearn.pipeline import Pipeline
-from sklearn.compose import ColumnTransformer
-from sklearn.preprocessing import OneHotEncoder
-from sklearn.ensemble import HistGradientBoostingRegressor
+from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -144,7 +142,6 @@ def train_baseline_model() -> Dict[str, Any]:
     print(f"   Test partition:  {len(X_test):>6,} laps ({test_mask.sum()/len(data)*100:.1f}%)")
 
     # 2. Parsimonious Production Pipeline: Linear Tyre Age Regression
-    from sklearn.linear_model import LinearRegression
     regressor = LinearRegression()
 
     pipeline = Pipeline(steps=[

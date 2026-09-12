@@ -5,7 +5,6 @@ export default function StrategicWarfarePanel({
   sessionId,
   driverId,
   currentLap = 20,
-  onSelectDriver,
   className = ""
 }) {
   const [data, setData] = useState(null);

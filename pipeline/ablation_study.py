@@ -17,12 +17,11 @@ import os
 import sys
 import json
 import sqlite3
-from typing import Dict, List, Tuple, Any, Optional
+from typing import Dict, Any
 import numpy as np
 import pandas as pd
 import torch
 from sklearn.linear_model import Ridge
-from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

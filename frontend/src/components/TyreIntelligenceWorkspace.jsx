@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { 
-  LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, 
+  LineChart, Line, XAxis, YAxis, CartesianGrid, 
   Tooltip, ResponsiveContainer, Legend, ReferenceLine 
 } from 'recharts';
 import { 
@@ -452,7 +452,6 @@ export default function TyreIntelligenceWorkspace({
                 {provenanceData?.catalog?.map((item) => {
                   const isMeasure = item.feature_nature?.includes('MEASUREMENT');
                   const isProxy = item.feature_nature?.includes('PROXY');
-                  const isModel = item.feature_nature?.includes('MODEL');
 
                   return (
                     <tr key={item.feature_name} style={{ borderBottom: '1px solid #1A1A28' }}>

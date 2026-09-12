@@ -6,7 +6,7 @@ Audits real historical data, cross-season isolation, driver counts, pit stops, r
 import pytest
 from fastapi.testclient import TestClient
 from api.main import app
-from api.cache import CacheKeys, DATA_VERSION
+from api.cache import CacheKeys
 
 client = TestClient(app)
 

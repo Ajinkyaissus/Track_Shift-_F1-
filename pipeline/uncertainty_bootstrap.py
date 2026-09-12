@@ -15,7 +15,7 @@ import json
 import sqlite3
 import numpy as np
 import pandas as pd
-from typing import Dict, List, Tuple, Any
+from typing import Dict, Any
 from sklearn.linear_model import Ridge
 from sklearn.preprocessing import StandardScaler
 

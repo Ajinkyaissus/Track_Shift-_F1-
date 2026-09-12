@@ -12,7 +12,6 @@ import pandas as pd
 from datetime import datetime
 from sklearn.linear_model import Ridge
 from sklearn.metrics import r2_score, mean_squared_error, mean_absolute_error
-import torch
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if BASE_DIR not in sys.path:
@@ -28,9 +27,7 @@ LEDGER_PARQUET = os.path.join(DATA_DIR, 'residual_ledger.parquet')
 
 from pipeline.train_stage3_tcn import (
     train_tcn_model,
-    build_stint_sequences,
-    BEHAVIORAL_FEATURES,
-    DEFAULT_EMBEDDING_DIM
+    BEHAVIORAL_FEATURES
 )
 
 

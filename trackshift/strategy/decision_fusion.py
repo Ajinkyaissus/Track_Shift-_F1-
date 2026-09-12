@@ -21,8 +21,7 @@ Produces:
 - Quantitative confidence & empirical uncertainty bounds
 """
 
-from typing import Dict, Any, List, Optional
-import numpy as np
+from typing import Dict, Any
 
 from trackshift.strategy.config import DECISION_WEIGHTS
 

@@ -9,10 +9,7 @@ Bridges database, parquet telemetry ledgers, and tyre intelligence engines:
 """
 
 import os
-import sqlite3
-import logging
 from typing import Any, Dict, List, Optional
-import numpy as np
 import pandas as pd
 from fastapi import HTTPException
 
@@ -25,8 +22,6 @@ from trackshift.tyre_intelligence import (
     PostRaceValidator,
     ConfounderAblationSuite,
 )
-
-logger = logging.getLogger("trackshift.api.tyre_intelligence")
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DATA_DIR = os.path.join(BASE_DIR, "data")

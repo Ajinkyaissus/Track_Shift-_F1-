@@ -12,17 +12,9 @@ import json
 import pytest
 import numpy as np
 import pandas as pd
-import torch
 
-from pipeline.train_stage3_tcn import (
-    MultiTaskBehavioralTCN,
-    build_stint_sequences,
-    StintSequenceDataset,
-    train_tcn_model,
-    BEHAVIORAL_FEATURES,
-    DEFAULT_EMBEDDING_DIM
-)
-from api.models import get_model_registry, BehavioralModelWrapper
+from pipeline.train_stage3_tcn import build_stint_sequences
+from api.models import BehavioralModelWrapper
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODELS_DIR = os.path.join(BASE_DIR, "models", "stage3")

@@ -10,7 +10,7 @@ Extracts and computes:
 Strict temporal causality: Information timestamp <= lap N.
 """
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Dict, List, Any, Optional
 import numpy as np
 import pandas as pd

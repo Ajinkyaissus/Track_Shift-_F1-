@@ -1,4 +1,4 @@
-import { useMemo, useState, useRef, useEffect, useCallback } from 'react';
+import { useMemo, useState, useEffect, useCallback } from 'react';
 import { useCircuit } from '../context/CircuitContext';
 import { computeDriverLabelLayout, buildTrackObstacles } from '../utils/mapCollisionEngine';
 
@@ -48,26 +48,6 @@ export default function CircuitMap({
   const [hoveredCorner, setHoveredCorner] = useState(null);
   const [hoveredDriver, setHoveredDriver] = useState(null);
   const [hoveredPitStop, setHoveredPitStop] = useState(null);
-
-  // SVG Container ref & dynamic resize observation
-  const svgContainerRef = useRef(null);
-  const [containerDimensions, setContainerDimensions] = useState({ width: 800, height: 600 });
-
-  useEffect(() => {
-    if (!svgContainerRef.current) return;
-    const observer = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        if (entry.contentRect) {
-          const { width, height } = entry.contentRect;
-          if (width > 0 && height > 0) {
-            setContainerDimensions({ width, height });
-          }
-        }
-      }
-    });
-    observer.observe(svgContainerRef.current);
-    return () => observer.disconnect();
-  }, []);
 
   // Reset zoom & pan when circuit changes
   useEffect(() => {
@@ -528,9 +508,9 @@ export default function CircuitMap({
   // =========================================================================
   // 2c. INTELLIGENT COLLISION-FREE DRIVER LABEL LAYOUT & LEADER LINES
   // =========================================================================
-  const { labels: positionedLabels, clusters } = useMemo(() => {
+  const { labels: positionedLabels } = useMemo(() => {
     if (!circuitGeometry || !driverPositions.length) {
-      return { labels: [], clusters: [] };
+      return { labels: [] };
     }
     return computeDriverLabelLayout({
       driverPositions,

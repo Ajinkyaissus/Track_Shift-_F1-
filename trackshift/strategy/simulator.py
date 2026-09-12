@@ -12,7 +12,7 @@ Computes:
 - Mathematical Regret against optimal retrospective oracle
 """
 
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List
 import numpy as np
 
 from trackshift.strategy.config import (

@@ -8,7 +8,6 @@ import sys
 import sqlite3
 import datetime
 import pandas as pd
-import numpy as np
 import fastf1
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

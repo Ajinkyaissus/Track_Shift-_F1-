@@ -20,12 +20,9 @@ import numpy as np
 import pandas as pd
 from fastapi.testclient import TestClient
 
-from pipeline.model_stage1 import load_data
 from trackshift.tyre_intelligence import (
-    FEATURE_PROVENANCE_CATALOG,
     get_provenance_catalog_dict,
     ObservableConfounderEstimator,
-    ConfounderContext,
     ObservableDecompositionModel,
     TyreDegradationCurveGenerator,
     PostRaceValidator,
@@ -36,7 +33,7 @@ from trackshift.tyre_intelligence import (
     TRACK_EVOLUTION_COEFFICIENT,
     TRAFFIC_EFFECT_COEFFICIENT,
 )
-from trackshift.tyre_intelligence.confounders import compute_track_evolution_proxy, compute_traffic_context_score
+from trackshift.tyre_intelligence.confounders import compute_track_evolution_proxy
 from api.main import app
 
 

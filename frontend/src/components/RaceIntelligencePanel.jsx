@@ -2,18 +2,12 @@ import React, { useState, useEffect, useMemo } from 'react';
 import {
   ResponsiveContainer,
   ComposedChart,
-  LineChart,
   Line,
-  AreaChart,
-  Area,
-  BarChart,
-  Bar,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
-  Cell,
   ReferenceLine
 } from 'recharts';
 import { useCircuit } from '../context/CircuitContext';
@@ -48,15 +42,12 @@ function getTeamAccentColor(team) {
 export default function RaceIntelligencePanel() {
   const {
     selectedSession,
-    selectedCircuit,
-    selectedSeason,
     selectedDriver,
     comparisonDriver,
     selectDriver,
     selectComparisonDriver,
     replayLap,
-    raceIntelligenceData,
-    raceIntelligenceLoading
+    raceIntelligenceData
   } = useCircuit();
 
   // Primary sub-view tabs inside Race Intelligence

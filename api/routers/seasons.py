@@ -3,12 +3,10 @@ api/routers/seasons.py — REST endpoints for Seasons, Events, Sessions, Telemet
 """
 
 import sqlite3
-import pandas as pd
 from typing import Optional, List, Dict, Any
 from fastapi import APIRouter, HTTPException, Query
 
 from api.cache import CacheKeys, get_cache_service, DATA_VERSION
-from api.models import get_model_registry
 
 router = APIRouter(tags=["seasons"])
 

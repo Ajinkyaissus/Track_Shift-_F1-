@@ -7,7 +7,7 @@ Classifies liquidation urgency into LOW, MODERATE, HIGH, CRITICAL based on
 explicit configuration thresholds.
 """
 
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, List
 import numpy as np
 
 from trackshift.strategy.config import DEBT_LIQUIDATION_THRESHOLDS

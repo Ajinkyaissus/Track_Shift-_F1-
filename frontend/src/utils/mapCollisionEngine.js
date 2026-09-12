@@ -171,7 +171,7 @@ export function computeDriverLabelLayout({
   comparisonDriver = null,
   hoveredDriver = null,
   labelMode = 'auto', // 'auto' | 'all' | 'selected' | 'none'
-  carDisplayMode = 'all', // 'all' | 'selected' | 'none'
+  _carDisplayMode = 'all', // 'all' | 'selected' | 'none'
   zoomLevel = 1.0,
   scales
 }) {
