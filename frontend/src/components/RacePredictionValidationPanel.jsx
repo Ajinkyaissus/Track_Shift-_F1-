@@ -22,15 +22,32 @@ export default function RacePredictionValidationPanel({
 
   // Prediction state
   const [predictionData, setPredictionData] = useState(null);
+  const [predLoading, setPredLoading] = useState(false);
 
   // Validation state
   const [validationData, setValidationData] = useState(null);
   const [valLoading, setValLoading] = useState(false);
 
   // Cross-driver comparison state
-  const [compareDriverA, setCompareDriverA] = useState(selectedDriver || 'VER');
-  const [compareDriverB, setCompareDriverB] = useState('NOR');
+  const [compareDriverA, setCompareDriverA] = useState(() => selectedDriver || availableDrivers[0]?.driver_id || null);
+  const [compareDriverB, setCompareDriverB] = useState(() => availableDrivers[1]?.driver_id || availableDrivers[0]?.driver_id || null);
   const [crossDriverResult, setCrossDriverResult] = useState(null);
+
+  // Keep comparison drivers synchronized with actual available roster
+  useEffect(() => {
+    if (selectedDriver) {
+      setCompareDriverA(selectedDriver);
+    } else if (!compareDriverA && availableDrivers.length > 0) {
+      setCompareDriverA(availableDrivers[0].driver_id);
+    }
+  }, [selectedDriver, availableDrivers, compareDriverA]);
+
+  useEffect(() => {
+    if (availableDrivers.length > 1 && (!compareDriverB || compareDriverB === compareDriverA)) {
+      const other = availableDrivers.find(d => d.driver_id !== compareDriverA);
+      if (other) setCompareDriverB(other.driver_id);
+    }
+  }, [availableDrivers, compareDriverA, compareDriverB]);
 
   // Cross-compound state
   const [crossCompoundResult, setCrossCompoundResult] = useState(null);
@@ -359,14 +376,14 @@ export default function RacePredictionValidationPanel({
         <div className="pv-view-content">
           <div className="driver-selector-bar">
             <span>Compare:</span>
-            <select value={compareDriverA} onChange={(e) => setCompareDriverA(e.target.value)} className="driver-select">
-              {(availableDrivers.length > 0 ? availableDrivers : [{ driver_id: 'VER', full_name: 'Max Verstappen' }, { driver_id: 'NOR', full_name: 'Lando Norris' }, { driver_id: 'LEC', full_name: 'Charles Leclerc' }, { driver_id: 'PIA', full_name: 'Oscar Piastri' }]).map(d => (
+            <select value={compareDriverA || ''} onChange={(e) => setCompareDriverA(e.target.value)} className="driver-select">
+              {availableDrivers.map(d => (
                 <option key={d.driver_id} value={d.driver_id}>{d.full_name || d.driver_id}</option>
               ))}
             </select>
             <span>vs</span>
-            <select value={compareDriverB} onChange={(e) => setCompareDriverB(e.target.value)} className="driver-select">
-              {(availableDrivers.length > 0 ? availableDrivers : [{ driver_id: 'VER', full_name: 'Max Verstappen' }, { driver_id: 'NOR', full_name: 'Lando Norris' }, { driver_id: 'LEC', full_name: 'Charles Leclerc' }, { driver_id: 'PIA', full_name: 'Oscar Piastri' }]).map(d => (
+            <select value={compareDriverB || ''} onChange={(e) => setCompareDriverB(e.target.value)} className="driver-select">
+              {availableDrivers.map(d => (
                 <option key={d.driver_id} value={d.driver_id}>{d.full_name || d.driver_id}</option>
               ))}
             </select>

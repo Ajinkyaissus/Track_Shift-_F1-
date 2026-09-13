@@ -35,6 +35,7 @@ import pandas as pd
 from fastapi import HTTPException
 
 from api.cache import CacheKeys, get_cache_service, DATA_VERSION
+from trackshift.domain_constants import FUEL_EFFECT_COEFFICIENT
 
 logger = logging.getLogger("trackshift.api.race_intelligence")
 
@@ -545,7 +546,7 @@ class RaceIntelligenceService:
                 stint_comp = current_comp if l_num <= opt_stint_1 else next_comp
                 stint_age = l_num if l_num <= opt_stint_1 else (l_num - opt_stint_1)
 
-                fuel_loss = (max(10.0, 100.0 - (l_num * (100.0 / total_race_laps))) - 10.0) * 0.033
+                fuel_loss = (max(10.0, 100.0 - (l_num * (100.0 / total_race_laps))) - 10.0) * FUEL_EFFECT_COEFFICIENT
                 deg_loss = (deg_rate * stint_age) + (0.0005 * (stint_age ** 1.7))
                 pit_addition = pit_loss_sec if l_num == opt_stint_1 else 0.0
 
@@ -778,7 +779,7 @@ class RaceIntelligenceService:
             },
             "delta_summary": {
                 "race_time_delta_sec": round((dA.get("expected_race_time_sec") or 0) - (dB.get("expected_race_time_sec") or 0), 2),
-                "deg_rate_delta_sec": round((dA.get("tyre_intelligence", {}).get("estimated_deg_rate_sec_per_lap") or 0) - (dB.get("tyre_intelligence", {}).get("estimated_deg_rate_sec_per_lap") or 0), 4),
-                "tyre_debt_delta_sec": round((dA.get("tyre_intelligence", {}).get("cumulative_tyre_debt_sec") or 0) - (dB.get("tyre_intelligence", {}).get("cumulative_tyre_debt_sec") or 0), 3)
+                "deg_rate_delta_sec": round(((dA.get("tyre_intelligence") or {}).get("estimated_deg_rate_sec_per_lap") or 0) - ((dB.get("tyre_intelligence") or {}).get("estimated_deg_rate_sec_per_lap") or 0), 4),
+                "tyre_debt_delta_sec": round(((dA.get("tyre_intelligence") or {}).get("cumulative_tyre_debt_sec") or 0) - ((dB.get("tyre_intelligence") or {}).get("cumulative_tyre_debt_sec") or 0), 3)
             }
         }

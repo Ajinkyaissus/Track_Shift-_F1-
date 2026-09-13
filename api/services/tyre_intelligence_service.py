@@ -41,14 +41,13 @@ class TyreIntelligenceService:
         self.post_race_validator = PostRaceValidator(self.curve_generator)
         self.ablation_suite = ConfounderAblationSuite(self.confounder_estimator)
 
-        self._laps_df_cache: Optional[pd.DataFrame] = None
-
     def _get_laps_df(self) -> pd.DataFrame:
-        if self._laps_df_cache is not None:
-            return self._laps_df_cache
+        if self.app_data.get("laps_df") is not None:
+            return self.app_data["laps_df"]
         if os.path.exists(LAPS_PARQUET):
-            self._laps_df_cache = pd.read_parquet(LAPS_PARQUET)
-            return self._laps_df_cache
+            df = pd.read_parquet(LAPS_PARQUET)
+            self.app_data["laps_df"] = df
+            return df
         raise HTTPException(status_code=500, detail="Telemetry parquet ledger not found.")
 
     def get_provenance_catalog(self) -> Dict[str, Any]:
@@ -70,9 +69,23 @@ class TyreIntelligenceService:
     ) -> Dict[str, Any]:
         """
         Generates the context-aware tyre performance degradation curve for a given stint/driver.
+        Uses in-memory precomputed curves or indexed laps dataframe.
         """
-        df = self._get_laps_df()
+        cache_key = (circuit_id, driver_id, session_id, stint_id, max_tyre_age)
+        precomputed = self.app_data.get("precomputed_curves", {})
+        if cache_key in precomputed:
+            return precomputed[cache_key]
 
+        # Check circuit-driver precomputed index
+        cd_key = (circuit_id, driver_id, max_tyre_age)
+        if not session_id and not stint_id and cd_key in precomputed:
+            return precomputed[cd_key]
+
+        df = self._get_laps_df()
+        if df.empty:
+            raise HTTPException(status_code=404, detail="No telemetry dataset loaded.")
+
+        # Filter using indexed subsets if available
         mask = (df["circuit_id"] == circuit_id) & (df["driver_id"] == driver_id)
         if session_id:
             mask = mask & (df["session_id"] == session_id)
@@ -81,7 +94,6 @@ class TyreIntelligenceService:
 
         subset = df[mask].copy()
         if len(subset) == 0:
-            # Fallback to driver across circuit
             subset = df[(df["circuit_id"] == circuit_id)].copy()
             if len(subset) > 0:
                 driver_id = str(subset["driver_id"].iloc[0])
@@ -107,15 +119,24 @@ class TyreIntelligenceService:
             max_tyre_age=max_tyre_age,
         )
 
-        return curve.to_dict()
+        res_dict = curve.to_dict()
+        if "precomputed_curves" not in self.app_data:
+            self.app_data["precomputed_curves"] = {}
+        self.app_data["precomputed_curves"][cache_key] = res_dict
+        return res_dict
 
     def get_ablation_study(self, dataset_name: str = "2024_2025_Telemetry") -> Dict[str, Any]:
         """
-        Runs or returns the 8-model ablation study.
+        Returns the 8-model ablation study (cached or computed).
         """
+        if self.app_data.get("precomputed_ablation") is not None:
+            return self.app_data["precomputed_ablation"]
+
         df = self._get_laps_df()
         report = self.ablation_suite.run_ablation(df, dataset_name=dataset_name)
-        return report.to_dict()
+        rep_dict = report.to_dict()
+        self.app_data["precomputed_ablation"] = rep_dict
+        return rep_dict
 
     def get_post_race_validation(
         self,
@@ -125,11 +146,23 @@ class TyreIntelligenceService:
         """
         Evaluates predicted degradation vs actual race-day pace across horizons.
         """
+        if not circuit_id and (horizons is None or horizons == [5, 10, 15]) and self.app_data.get("precomputed_post_race_validation") is not None:
+            return self.app_data["precomputed_post_race_validation"]
+
+        # Check reports file directly if available
+        val_file = os.path.join(BASE_DIR, "reports", "post_race_validation_plus15.json")
+        if not circuit_id and os.path.exists(val_file):
+            import json
+            with open(val_file, "r") as f:
+                data = json.load(f)
+                self.app_data["precomputed_post_race_validation"] = data
+                return data
+
         df = self._get_laps_df()
         if circuit_id:
             df = df[df["circuit_id"] == circuit_id].copy()
 
-        h_list = horizons or [1, 3, 5, 10]
+        h_list = horizons or [5, 10, 15]
         report = self.post_race_validator.run_validation_suite(
             df,
             horizons=h_list,

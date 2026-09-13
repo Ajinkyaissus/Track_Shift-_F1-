@@ -1,0 +1,63 @@
+{
+  "D": {
+    "source_columns": [
+      "lap_time_s",
+      "fuel_kg"
+    ],
+    "derivation": "D(t) = max(0, fuel_corrected_lap_time(t) - min_{k in {0,1,2}}(fuel_corrected_lap_time(k)))",
+    "available_at_cutoff": true,
+    "uses_future_information": false,
+    "calculated_before_or_after_split": "Within isolated stint partition; base pace locked at lap 3 min",
+    "training_time_transformation": "Standardized via FeatureScaler(mean, std) fitted strictly on 2024 train"
+  },
+  "Delta_D": {
+    "source_columns": [
+      "D"
+    ],
+    "derivation": "Delta_D(t) = D(t) - D(t-1) for t >= 1; Delta_D(0) = 0.0 (boundary initial state)",
+    "available_at_cutoff": true,
+    "uses_future_information": false,
+    "calculated_before_or_after_split": "Strictly intra-stint; zero cross-stint/cross-driver computation",
+    "training_time_transformation": "Standardized via FeatureScaler(mean, std) fitted strictly on 2024 train"
+  },
+  "Delta2_D": {
+    "source_columns": [
+      "Delta_D"
+    ],
+    "derivation": "Delta2_D(t) = Delta_D(t) - Delta_D(t-1) for t >= 2; Delta2_D(0..1) = 0.0",
+    "available_at_cutoff": true,
+    "uses_future_information": false,
+    "calculated_before_or_after_split": "Strictly intra-stint; zero cross-stint/cross-driver computation",
+    "training_time_transformation": "Standardized via FeatureScaler(mean, std) fitted strictly on 2024 train"
+  },
+  "TyreLife": {
+    "source_columns": [
+      "tyre_age"
+    ],
+    "derivation": "Observed continuous laps run on current physical tyre set from telemetry/FastF1",
+    "available_at_cutoff": true,
+    "uses_future_information": false,
+    "calculated_before_or_after_split": "Observed on current lap row",
+    "training_time_transformation": "Standardized via FeatureScaler(mean, std) fitted strictly on 2024 train"
+  },
+  "FuelProxy": {
+    "source_columns": [
+      "fuel_kg"
+    ],
+    "derivation": "FuelProxy(t) = 110.0 - (LapNumber(t) - 1) * (105.0 / N_scheduled), where N_scheduled is the pre-published official race distance (Category B: causally derived using pre-race calendar constants and current lap index)",
+    "available_at_cutoff": true,
+    "uses_future_information": false,
+    "calculated_before_or_after_split": "Independent row-level evaluation; zero future lap dependence",
+    "training_time_transformation": "Standardized via FeatureScaler(mean, std) fitted strictly on 2024 train"
+  },
+  "Compound": {
+    "source_columns": [
+      "compound"
+    ],
+    "derivation": "Canonical 6-class one-hot encoding: [SOFT, MEDIUM, HARD, INTERMEDIATE, WET, UNKNOWN]",
+    "available_at_cutoff": true,
+    "uses_future_information": false,
+    "calculated_before_or_after_split": "Static map",
+    "training_time_transformation": "Unscaled binary vector (length 6)"
+  }
+}

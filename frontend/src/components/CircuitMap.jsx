@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect, useCallback } from 'react';
+import { useMemo, useState, useEffect, useCallback, useRef } from 'react';
 import { useCircuit } from '../context/CircuitContext';
 import { computeDriverLabelLayout, buildTrackObstacles } from '../utils/mapCollisionEngine';
 
@@ -25,6 +25,7 @@ export default function CircuitMap({
   onSelectDriver = null,
   weatherData = null
 }) {
+  const svgContainerRef = useRef(null);
   const {
     sessionPitStops,
     pitStopDisplayMode,
@@ -106,6 +107,7 @@ export default function CircuitMap({
       cornerBadgeR: Math.max(9, D * 0.012),
       cornerFontSize: Math.max(7.5, D * 0.0095),
       gateLen: Math.max(24, D * 0.038),
+      sfGateLen: Math.max(24, D * 0.038),
       cornerOffset: Math.max(22, D * 0.030)
     };
 
@@ -583,7 +585,7 @@ export default function CircuitMap({
       <div className="circuit-map-wrapper empty-map">
         <div className="empty-state-content">
           <div className="pulse-dot"></div>
-          <span>Loading Circuit Geometry & GPS Telemetry System...</span>
+          <span>Track geometry unavailable</span>
         </div>
       </div>
     );

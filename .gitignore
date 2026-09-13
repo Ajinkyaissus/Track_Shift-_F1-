@@ -1,45 +1,141 @@
-# Data and Databases
+# ==============================================================================
+# TrackShift — Git Ignore Configuration
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Python, Virtual Environments & Caches
+# ------------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual Environments
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# ------------------------------------------------------------------------------
+# 2. Node, Frontend & Build Artifacts
+# ------------------------------------------------------------------------------
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/@rolldown/
+.rolldown/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ------------------------------------------------------------------------------
+# 3. FastF1, Telemetry Caches & Raw Data
+# ------------------------------------------------------------------------------
 data/2022/
 data/2023/
 data/2024/
 data/2025/
-*.ff1pkl
 data/fastf1_http_cache*
+fastf1_http_cache.sqlite
+*.ff1pkl
+car_data.ff1pkl
+position_data.ff1pkl
 api/tyredebt.db
 *.db
 *.sqlite
+*.parquet
+data/*.parquet
 
-# Node & Frontend Build
-node_modules/
-frontend/node_modules/
-dist/
-frontend/dist/
-frontend/@rolldown/
-.rolldown/
+# ------------------------------------------------------------------------------
+# 4. Machine-Generated Transient Benchmarks & Heavy CSV Dumps
+# ------------------------------------------------------------------------------
+production_latency_benchmark.json
+post_race_validation_plus*.json
+pit_window_stability.json
+calendar_comparison.json
+all_maps_performance_report.*
+FINAL_VALIDATION_MATRIX.md
+BRUTAL_AUDIT_REPORT.md
+TRACKSHIFT_*.md
+DATASET_SAMPLE.md
+tests/*.csv
+artifacts/validation_2025/*.csv
 
-# IDE and Tools
-.agents/
-.cursor/
-.jetro/
-
-# Scratch, Temp & Generated Outputs
+# ------------------------------------------------------------------------------
+# 5. Scratch, Temporary Files, Logs & Archives
+# ------------------------------------------------------------------------------
 scratch/
 *.log
 *.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
 *.zip
-tests/*.csv
+*.tar.gz
+*.tgz
+*.7z
+*.rar
 
-# Python / Environment
-__pycache__/
-*.py[cod]
-*$py.class
-.pytest_cache/
+# ------------------------------------------------------------------------------
+# 6. Environment & Secret Credentials
+# ------------------------------------------------------------------------------
 .env
-venv/
-env/
-.venv/
+.env.local
+.env.*.local
+*.pem
+*.key
 
-# OS generated files
+# ------------------------------------------------------------------------------
+# 7. IDE, Editor & Agent Artifacts
+# ------------------------------------------------------------------------------
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.agents/
+.cursor/
+.jetro/
+.tempmediaStorage/
+
+# ------------------------------------------------------------------------------
+# 8. Operating System Files
+# ------------------------------------------------------------------------------
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
-
+desktop.ini

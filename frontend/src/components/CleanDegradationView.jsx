@@ -247,7 +247,7 @@ export default function CleanDegradationView({
                 </div>
                 <div className="deg-stat-card">
                   <span className="stat-label">Provenance</span>
-                  <span className="stat-val" style={{ color: '#00d2be' }}>Stage 1 v3 + Bootstrap CI</span>
+                  <span className="stat-val" style={{ color: '#00d2be' }}>TDSM Prior + Bootstrap CI</span>
                 </div>
               </div>
             </div>
@@ -270,7 +270,7 @@ export default function CleanDegradationView({
                   </div>
                   <div className="c-val">{activeStint.laps[0]?.contextual_factors?.estimated_fuel_load_kg ?? 85.0} <small>kg est.</small></div>
                   <p className="c-desc">
-                    Stage 1 baseline models burn-off rate (~1.7 kg/lap, ~0.032s/kg). Labeled as estimated mass.
+                    Baseline model accounts for fuel burn-off rate (~1.7 kg/lap, ~0.032s/kg). Labeled as estimated mass.
                   </p>
                 </div>
 
@@ -297,7 +297,7 @@ export default function CleanDegradationView({
                   </div>
                   <div className="c-val">{activeStint.compound} · {activeStint.tyre_age_start} to {activeStint.tyre_age_end} laps</div>
                   <p className="c-desc">
-                    Quadratic wear term in Stage 1 baseline isolates non-linear thermal degradation.
+                    Quadratic wear term in physics baseline isolates non-linear thermal degradation.
                   </p>
                 </div>
 
@@ -353,7 +353,7 @@ export default function CleanDegradationView({
                 <div className="flow-card context">
                   <span className="flow-title">2. Contextual Baseline</span>
                   <span className="flow-formula">E[Lap Time | Fuel, Evolution, Track]</span>
-                  <span className="flow-note">Stage 1 Gradient Boosting Baseline</span>
+                  <span className="flow-note">HistGradientBoosting Baseline Prior</span>
                 </div>
                 <div className="flow-operator">=</div>
                 <div className="flow-card clean">

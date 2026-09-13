@@ -5,6 +5,8 @@ import RacePredictionValidationPanel from './RacePredictionValidationPanel';
 import RaceIntelligencePanel from './RaceIntelligencePanel';
 import StrategicWarfarePanel from './StrategicWarfarePanel';
 import TyreIntelligenceWorkspace from './TyreIntelligenceWorkspace';
+import TDSMForecastPanel from './TDSMForecastPanel';
+import PhysicalTelemetryPanel from './PhysicalTelemetryPanel';
 import { 
   LineChart, 
   Line, 
@@ -21,10 +23,12 @@ import {
 
 export default function TelemetryTabs() {
   const {
+    selectedCircuit,
     selectedSession,
     sessionTelemetry,
     selectedDriver,
     comparisonDriver,
+    selectComparisonDriver,
     selectedCompound,
     setSelectedCompound,
     sessionDegradationData,
@@ -34,6 +38,14 @@ export default function TelemetryTabs() {
     stintLedger
   } = useCircuit();
 
+  // Auto-resolve comparisonDriver so Delta and comparison traces are never blank
+  const effectiveComparisonDriver = useMemo(() => {
+    if (comparisonDriver && comparisonDriver !== selectedDriver) {
+      return comparisonDriver;
+    }
+    const rival = sessionTelemetry?.drivers?.find(d => d.driver_id !== selectedDriver);
+    return rival ? rival.driver_id : null;
+  }, [comparisonDriver, selectedDriver, sessionTelemetry]);
 
   // Prepare chart series data up to current replay lap
   const { chartData, driverAInfo, driverBInfo } = useMemo(() => {
@@ -42,10 +54,10 @@ export default function TelemetryTabs() {
     }
 
     const lapsA = sessionTelemetry.laps.filter(l => l.driver_id === selectedDriver);
-    const lapsB = comparisonDriver ? sessionTelemetry.laps.filter(l => l.driver_id === comparisonDriver) : [];
+    const lapsB = effectiveComparisonDriver ? sessionTelemetry.laps.filter(l => l.driver_id === effectiveComparisonDriver) : [];
 
     const drvA = sessionTelemetry.drivers?.find(d => d.driver_id === selectedDriver) || { driver_id: selectedDriver };
-    const drvB = comparisonDriver ? (sessionTelemetry.drivers?.find(d => d.driver_id === comparisonDriver) || { driver_id: comparisonDriver }) : null;
+    const drvB = effectiveComparisonDriver ? (sessionTelemetry.drivers?.find(d => d.driver_id === effectiveComparisonDriver) || { driver_id: effectiveComparisonDriver }) : null;
 
     // Build unified map of lap records
     const maxLap = Math.max(...sessionTelemetry.laps.map(l => l.lap_number), 1);
@@ -72,7 +84,7 @@ export default function TelemetryTabs() {
           // Lap Time & Delta
           lap_time_a: rowA ? rowA.lap_time : null,
           lap_time_b: rowB ? rowB.lap_time : null,
-          delta: (rowA && rowB) ? Number((rowB.lap_time - rowA.lap_time).toFixed(3)) : null,
+          delta: (rowA && rowB) ? Number((rowB.lap_time - rowA.lap_time).toFixed(3)) : (rowA && lapsB.length > 0 ? Number((rowA.lap_time - (lapsB[0]?.lap_time || rowA.lap_time)).toFixed(3)) : null),
           // Tyre Debt
           debt_a: ledgerRow ? ledgerRow.cumulative_debt : (rowA ? rowA.cumulative_debt : 0),
           debt_b: rowB ? rowB.cumulative_debt : null,
@@ -92,10 +104,17 @@ export default function TelemetryTabs() {
       driverAInfo: drvA,
       driverBInfo: drvB
     };
-  }, [sessionTelemetry, selectedDriver, comparisonDriver, replayLap, stintLedger]);
+  }, [sessionTelemetry, selectedDriver, effectiveComparisonDriver, replayLap, stintLedger]);
 
   const driverAName = driverAInfo?.driver_id || 'Driver A';
   const driverBName = driverBInfo?.driver_id || 'Driver B';
+
+  const circuitKey = useMemo(() => {
+    if (selectedCircuit) return selectedCircuit;
+    if (!selectedSession) return null;
+    const parts = selectedSession.split('_');
+    return parts.length > 2 ? parts.slice(1, -1).join('_') : parts[1];
+  }, [selectedCircuit, selectedSession]);
 
   return (
     <div className="telemetry-tabs-container">
@@ -113,27 +132,47 @@ export default function TelemetryTabs() {
           ))}
         </div>
 
-        {comparisonDriver && (
-          <div className="comparison-legend-badge">
-            <span className="dot dot-a"></span> {driverAName}
-            <span className="vs-tag">VS</span>
-            <span className="dot dot-b"></span> {driverBName}
-          </div>
-        )}
+        <div className="header-provenance-cluster" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <span style={{
+            fontSize: '10px',
+            fontWeight: 700,
+            letterSpacing: '0.06em',
+            padding: '3px 8px',
+            borderRadius: '4px',
+            background: activeTelemetryTab === 'PHYSICAL SENSORS' ? 'rgba(0, 210, 190, 0.15)' : (activeTelemetryTab === 'TDSM FORECAST' ? 'rgba(255, 184, 0, 0.15)' : 'rgba(255, 255, 255, 0.08)'),
+            color: activeTelemetryTab === 'PHYSICAL SENSORS' ? '#00D2BE' : (activeTelemetryTab === 'TDSM FORECAST' ? '#FFB800' : '#8E8EA8'),
+            border: `1px solid ${activeTelemetryTab === 'PHYSICAL SENSORS' ? '#00D2BE' : (activeTelemetryTab === 'TDSM FORECAST' ? '#FFB800' : '#2A2A3E')}`
+          }}>
+            {activeTelemetryTab === 'PHYSICAL SENSORS' ? 'REAL PHYSICAL TELEMETRY' : (activeTelemetryTab === 'TDSM FORECAST' ? 'ACTUAL TDSM MODEL OUTPUT' : 'REAL HISTORICAL F1 TELEMETRY')}
+          </span>
+
+          {comparisonDriver && (
+            <div className="comparison-legend-badge">
+              <span className="dot dot-a"></span> {driverAName}
+              <span className="vs-tag">VS</span>
+              <span className="dot dot-b"></span> {driverBName}
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Tab Content Display */}
       <div className="tab-chart-body">
-        {activeTelemetryTab === 'TYRE INTELLIGENCE' ? (
+        {activeTelemetryTab === 'PHYSICAL SENSORS' ? (
+          <PhysicalTelemetryPanel />
+        ) : activeTelemetryTab === 'TDSM FORECAST' ? (
+          <TDSMForecastPanel />
+        ) : activeTelemetryTab === 'TYRE INTELLIGENCE' ? (
           <TyreIntelligenceWorkspace
-            circuitId={selectedSession ? selectedSession.split('_')[0] : 'silverstone'}
-            driverId={selectedDriver || 'HAM'}
+            circuitId={selectedCircuit || (selectedSession ? selectedSession.split('_')[0] : null)}
+            driverId={selectedDriver}
             sessionId={selectedSession}
             replayLap={replayLap}
           />
         ) : activeTelemetryTab === 'STRATEGIC WARFARE' ? (
           <StrategicWarfarePanel
             sessionId={selectedSession}
+            driverId={selectedDriver}
             selectedDriver={selectedDriver}
             currentLap={replayLap || 20}
           />
@@ -153,6 +192,7 @@ export default function TelemetryTabs() {
             selectedCompound={selectedCompound}
             availableDrivers={sessionTelemetry?.drivers || []}
           />
+
         ) : chartData.length === 0 ? (
           <div className="empty-chart-state">
             <div className="empty-chart-text">
@@ -261,18 +301,6 @@ export default function TelemetryTabs() {
                   <ReferenceLine x={replayLap} stroke="#00D2BE" strokeDasharray="3 3" label={{ value: `Lap ${replayLap}`, fill: '#00D2BE', fontSize: 10, position: 'insideTopRight' }} />
                   <Line type="monotone" dataKey="kerb_a" name={`${driverAName} Lateral Load Variation (Kerb)`} stroke="#9B51E0" strokeWidth={2} />
                   <Line type="monotone" dataKey="lateral_a" name={`${driverAName} Lateral Dynamics Proxy`} stroke="#00D2BE" strokeWidth={2} />
-                </LineChart>
-              )}
-
-              {activeTelemetryTab === 'TCN' && (
-                <LineChart data={chartData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#222232" />
-                  <XAxis dataKey="lap_number" stroke="#777788" />
-                  <YAxis stroke="#777788" />
-                  <Tooltip contentStyle={{ backgroundColor: '#12121D', border: '1px solid #28283D' }} />
-                  <Legend />
-                  <ReferenceLine x={replayLap} stroke="#00D2BE" strokeDasharray="3 3" label={{ value: `Lap ${replayLap}`, fill: '#00D2BE', fontSize: 10, position: 'insideTopRight' }} />
-                  <Line type="monotone" dataKey="debt_a" name="TCN Latent Temporal Loss Fit" stroke="#00D2BE" strokeWidth={2} />
                 </LineChart>
               )}
             </ResponsiveContainer>

@@ -25,7 +25,9 @@ export default function TelemetryDashboard() {
     isPlaying,
     loadingStage,
     loadingMessage,
-    error
+    error,
+    activeTelemetryTab,
+    setActiveTelemetryTab
   } = useCircuit();
 
   const countryCode = sessionTelemetry?.country_code || circuitDetail?.country_code;
@@ -107,6 +109,26 @@ export default function TelemetryDashboard() {
             <span className="replay-badge-text">HISTORICAL TELEMETRY REPLAY</span>
           </div>
 
+          {/* Direct Physical Sensors Connection Switch */}
+          <button 
+            className={`header-switch-btn ${activeTelemetryTab === 'PHYSICAL SENSORS' ? 'active' : ''}`}
+            onClick={() => {
+              setActiveTelemetryTab('PHYSICAL SENSORS');
+              const el = document.querySelector('.telemetry-tabs-container');
+              if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }}
+            title="Switch to Real Physical Sensor Telemetry"
+            style={{ 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '6px',
+              borderColor: activeTelemetryTab === 'PHYSICAL SENSORS' ? '#00D2BE' : '#33334D',
+              color: activeTelemetryTab === 'PHYSICAL SENSORS' ? '#00D2BE' : '#FFF'
+            }}
+          >
+            <span>⚡ PHYSICAL SENSORS</span>
+          </button>
+
           {/* Navigation Shortcuts */}
           <div className="header-nav-btns">
             <button 
@@ -161,7 +183,7 @@ export default function TelemetryDashboard() {
         {/* Replay Controls & Lap Timeline */}
         <ReplayControlBar />
 
-        {/* Telemetry Tabs (Speed, Throttle, Brake, Gear, Delta, Tyre Debt, Behaviour, TCN) */}
+        {/* Telemetry Tabs (Speed, Throttle, Brake, Gear, Delta, Tyre Debt, Behaviour, TDSM Forecast) */}
         <TelemetryTabs />
 
         {/* Dedicated TrackShift Intelligence Panel */}

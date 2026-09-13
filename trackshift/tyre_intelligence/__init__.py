@@ -6,7 +6,8 @@ traffic context) from practice and race telemetry to generate clean estimated
 tyre performance degradation curves with post-race validation.
 
 Frozen Architectural Foundations:
-- Stage 1 M1 Baseline: y_hat = 0.1974 + 0.0400 * tyre_age
+- Stage 1 M1 Baseline: y_hat = STAGE1_M1_INTERCEPT + STAGE1_M1_SLOPE * tyre_age
+  (see trackshift.domain_constants for canonical numeric values)
 - Stage 2 Estimated Debt: sum(max(0, residual))
 - Stage 3 TCN Behavioral Intelligence
 - Stage 4 Sensitivity Engine

@@ -51,19 +51,19 @@ export default function DriverCockpitHUD() {
 
   const driverMeta = useMemo(() => {
     return sessionTelemetry?.drivers?.find(d => d.driver_id === selectedDriver) || {
-      driver_id: selectedDriver || 'VER',
+      driver_id: selectedDriver || (sessionTelemetry?.drivers?.[0]?.driver_id ?? '—'),
       driver_number: 1,
-      full_name: selectedDriver || 'Driver',
+      full_name: selectedDriver || (sessionTelemetry?.drivers?.[0]?.full_name ?? 'Driver'),
       team: 'Formula 1',
       team_color: '#E10600',
       compound: 'HARD',
       country_code: '',
       nationality: '',
-      profile_image: `/drivers/${(selectedDriver || 'ver').toLowerCase()}.webp`,
+      profile_image: `/drivers/${(selectedDriver || sessionTelemetry?.drivers?.[0]?.driver_id || 'fallback_driver').toLowerCase()}.webp`,
       reputation_tag: 'neutral',
       telemetry_available: true,
       tyre_analysis_available: true,
-      tcn_available: true
+      tdsm_available: true
     };
   }, [sessionTelemetry, selectedDriver]);
 
@@ -244,7 +244,7 @@ export default function DriverCockpitHUD() {
             </span>
           </div>
           <div className="avail-item">
-            <span className="avail-label">TCN DL</span>
+            <span className="avail-label">TDSM</span>
             <span className={`avail-badge ${hasTelemetry ? 'ready' : 'limited'}`}>
               {hasTelemetry ? 'READY' : 'INSUFFICIENT'}
             </span>

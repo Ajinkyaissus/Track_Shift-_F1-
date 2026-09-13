@@ -1,22 +1,34 @@
 import { useState } from 'react';
 import { useCircuit } from '../context/CircuitContext';
 import GlobalF1Globe from '../components/GlobalF1Globe';
+import PhysicalTelemetryPanel from '../components/PhysicalTelemetryPanel';
 import { CountryFlag, getCountryName } from '../utils/countryFlags';
 
 const CIRCUIT_LENGTHS = {
+  monza: "5.793 km",
   spa: "7.004 km",
   silverstone: "5.891 km",
-  monza: "5.793 km",
-  jeddah: "6.174 km",
-  bahrain: "5.412 km",
-  suzuka: "5.807 km",
-  cota: "5.513 km",
-  interlagos: "4.309 km",
+  monaco: "3.337 km",
   hungaroring: "4.381 km",
-  albert_park: "5.278 km",
-  singapore: "4.940 km",
+  bahrain: "5.412 km",
+  jeddah: "6.174 km",
   abu_dhabi: "5.281 km",
-  monaco: "3.337 km"
+  cota: "5.513 km",
+  miami: "5.412 km",
+  las_vegas: "6.201 km",
+  interlagos: "4.309 km",
+  suzuka: "5.807 km",
+  singapore: "4.940 km",
+  albert_park: "5.278 km",
+  baku: "6.003 km",
+  catalunya: "4.657 km",
+  montreal: "4.361 km",
+  red_bull_ring: "4.318 km",
+  zandvoort: "4.259 km",
+  losail: "5.419 km",
+  rodriguez: "4.304 km",
+  shanghai: "5.451 km",
+  imola: "4.909 km"
 };
 
 export default function CircuitSelectScreen() {
@@ -54,6 +66,17 @@ export default function CircuitSelectScreen() {
           >
             🏁 Circuit Grid List ({circuits.length})
           </button>
+          <button 
+            className={`view-pill ${viewMode === 'physical' ? 'active-physical' : ''}`}
+            onClick={() => setViewMode('physical')}
+            style={viewMode === 'physical' ? {
+              background: '#00D2BE',
+              color: '#0B0B14',
+              boxShadow: '0 2px 10px rgba(0, 210, 190, 0.35)'
+            } : {}}
+          >
+            ⚡ Physical Sensors (Live Hardware)
+          </button>
         </div>
 
         {/* Global Season Selector Pills */}
@@ -82,7 +105,11 @@ export default function CircuitSelectScreen() {
       </div>
 
 
-      {viewMode === 'globe' ? (
+      {viewMode === 'physical' ? (
+        <div style={{ maxWidth: '1440px', margin: '0 auto', padding: '1rem', width: '100%' }}>
+          <PhysicalTelemetryPanel />
+        </div>
+      ) : viewMode === 'globe' ? (
         /* Primary 3D Global F1 World View */
         <GlobalF1Globe 
           onSelectCircuit={selectCircuit} 
@@ -94,7 +121,7 @@ export default function CircuitSelectScreen() {
           <div className="hero-banner">
             <div className="hero-badge">
               <span className="pulse-dot"></span>
-              <span>13 VERIFIED F1 CIRCUITS</span>
+              <span>{circuits.length} LIVE F1 CIRCUITS</span>
             </div>
             <h1 className="hero-title">Grand Prix Circuits Directory</h1>
             <p className="hero-subtitle">
@@ -160,7 +187,7 @@ export default function CircuitSelectScreen() {
                       🗺 {circuit.map_available ? 'GPS Geometry' : 'No Map'}
                     </span>
                     <span className={`status-badge ${circuit.telemetry_available ? 'active-red' : ''}`}>
-                      📡 {circuit.telemetry_available ? 'Telemetry Ready' : 'Offline'}
+                      📡 {circuit.telemetry_available ? 'Telemetry Ready' : (circuit.map_available ? 'Track geometry available — telemetry unavailable' : 'Telemetry unavailable')}
                     </span>
                   </div>
 

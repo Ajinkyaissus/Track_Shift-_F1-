@@ -1,1 +1,1 @@
-{"stint_id": "2024_spa_R_OCO_2", "model_version": "v3_stage1_2026-09-07", "total_debt_seconds": 0.1316, "series": [{"lap_number": 13.0, "residual": 0.1137462673872414, "cumulative_debt": 0.1137462673872414}, {"lap_number": 14.0, "residual": 0.01788905626709623, "cumulative_debt": 0.13163532365433764}]}
+{"stint_id": "2024_spa_R_OCO_2", "model_version": "v4_m1_production_2026-09-10", "total_debt_seconds": 0.0, "series": [{"lap_number": 13.0, "residual": -0.2374, "cumulative_debt": 0.0}, {"lap_number": 14.0, "residual": -0.2774, "cumulative_debt": 0.0}]}

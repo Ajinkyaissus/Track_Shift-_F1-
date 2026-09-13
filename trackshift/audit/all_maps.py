@@ -31,8 +31,8 @@ DB_PATH = os.path.join(BASE_DIR, "api", "tyredebt.db")
 DATA_DIR = os.path.join(BASE_DIR, "data")
 LAPS_PARQUET = os.path.join(DATA_DIR, "laps.parquet")
 GEOMETRY_PARQUET = os.path.join(DATA_DIR, "circuit_geometry.parquet")
-REPORT_JSON = os.path.join(BASE_DIR, "all_maps_performance_report.json")
-REPORT_MD = os.path.join(BASE_DIR, "all_maps_performance_report.md")
+REPORT_JSON = os.path.join(BASE_DIR, "reports", "all_maps_performance_report.json")
+REPORT_MD = os.path.join(BASE_DIR, "reports", "all_maps_performance_report.md")
 
 CIRCUIT_STRESS_CATEGORIES = {
     "monaco": "HIGH DENSITY",

@@ -12,11 +12,14 @@ import asyncio
 import sqlite3
 import pandas as pd
 import numpy as np
+from pathlib import Path
+
+BASE_DIR = str(Path(__file__).resolve().parent.parent.parent)
+if BASE_DIR not in sys.path:
+    sys.path.insert(0, BASE_DIR)
 
 from api.cache import CacheKeys, get_cache_service, DATA_VERSION, LEDGER_VERSION, MAP_VERSION, TELEMETRY_VERSION
 from api.models import get_model_registry, BEHAVIORAL_FEATURES
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 DB_PATH = os.path.join(BASE_DIR, "api", "tyredebt.db")
 DATA_DIR = os.path.join(BASE_DIR, "data")
 GEOMETRY_PARQUET = os.path.join(DATA_DIR, "circuit_geometry.parquet")

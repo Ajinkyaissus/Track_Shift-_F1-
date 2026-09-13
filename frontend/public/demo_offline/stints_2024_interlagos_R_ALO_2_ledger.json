@@ -1,1 +1,1 @@
-{"stint_id": "2024_interlagos_R_ALO_2", "model_version": "v3_stage1_2026-09-07", "total_debt_seconds": -1.7255, "series": [{"lap_number": 29.0, "residual": -1.7255173508790356, "cumulative_debt": -1.7255173508790356}]}
+{"stint_id": "2024_interlagos_R_ALO_2", "model_version": "v4_m1_production_2026-09-10", "total_debt_seconds": 0.0, "series": [{"lap_number": 29.0, "residual": -0.3973, "cumulative_debt": 0.0}]}

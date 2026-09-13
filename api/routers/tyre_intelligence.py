@@ -113,26 +113,49 @@ async def get_confounder_breakdown(
         raise HTTPException(status_code=500, detail=f"Confounder breakdown failed: {str(e)}")
 
 
-@router.get("/api/sessions/{session_id}/tyre-intelligence")
-async def get_session_tyre_intelligence(
+@router.get("/api/sessions/{session_id}/driver-advisory")
+@router.get("/sessions/{session_id}/driver-advisory")
+async def get_session_driver_advisory(
     session_id: str,
-    driver_id: Optional[str] = Query("HAM", description="Driver code"),
-    checkpoint_lap: Optional[int] = Query(None, description="Checkpoint lap age"),
-    service: TyreIntelligenceService = Depends(get_service),
+    driver_id: Optional[str] = Query(None, description="Driver code"),
+    lap: Optional[int] = Query(None, description="Current lap number"),
+    request: Request = None,
 ):
     """
-    Session-scoped endpoint for confounder-aware tyre intelligence.
+    Returns concise, operational, machine-readable radio advisory recommendation for driver/race-engineer.
     """
     try:
-        circuit_id = session_id.split("_")[0] if "_" in session_id else session_id
-        curve = service.get_estimated_degradation_curve(
-            circuit_id=circuit_id,
-            driver_id=driver_id or "HAM",
-            session_id=session_id,
-            max_tyre_age=checkpoint_lap,
-        )
-        return JSONResponse(content=curve)
+        app_data = getattr(request.app.state, "app_data", {}) if request else {}
+        from api.services.driver_advisory_service import DriverAdvisoryService
+        adv_service = DriverAdvisoryService(db_path=DB_PATH, app_data=app_data)
+        data = adv_service.get_driver_advisory(session_id=session_id, driver_id=driver_id, lap=lap)
+        return JSONResponse(content=data)
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Session tyre intelligence failed: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Driver advisory failed: {str(e)}")
+
+
+@router.get("/api/tyre-intelligence/driver-advisory")
+async def get_tyre_intel_driver_advisory(
+    session_id: str = Query("2024_silverstone_R", description="Session ID"),
+    driver_id: Optional[str] = Query(None, description="Driver code"),
+    lap: Optional[int] = Query(None, description="Current lap number"),
+    current_lap: Optional[int] = Query(None, description="Current lap number fallback"),
+    request: Request = None,
+):
+    """
+    Query-param scoped driver advisory endpoint.
+    """
+    try:
+        effective_lap = lap if lap is not None else current_lap
+        app_data = getattr(request.app.state, "app_data", {}) if request else {}
+        from api.services.driver_advisory_service import DriverAdvisoryService
+        adv_service = DriverAdvisoryService(db_path=DB_PATH, app_data=app_data)
+        data = adv_service.get_driver_advisory(session_id=session_id, driver_id=driver_id, lap=effective_lap)
+        return JSONResponse(content=data)
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Driver advisory failed: {str(e)}")
+

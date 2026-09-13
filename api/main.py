@@ -40,8 +40,12 @@ from api.routers import (
     set_race_intelligence_service,
     strategic_warfare_router,
     tyre_intelligence_router,
-    admin_router
+    admin_router,
+    tdsm_router,
+    tdsm_v1_router,
+    physical_telemetry_router
 )
+from api.services.physical_telemetry_service import get_physical_telemetry_service
 
 logger = logging.getLogger("trackshift.api")
 
@@ -75,16 +79,48 @@ app_data = {
 }
 
 
+def validate_production_schemas():
+    """Validates presence and schema of all required production datasets at startup."""
+    required_files = [
+        ("SQLite Database", DB_PATH),
+        ("Laps Parquet", LAPS_PARQUET),
+        ("Ledger Parquet", LEDGER_PARQUET),
+        ("Geometry Parquet", GEOMETRY_PARQUET),
+        ("Predictions Parquet", PREDICTIONS_PARQUET),
+        ("Bootstrap Parquet", BOOTSTRAP_PARQUET),
+    ]
+    for name, path in required_files:
+        if not os.path.exists(path):
+            raise RuntimeError(f"CRITICAL STARTUP FAILURE: Required dataset '{name}' not found at '{path}'")
+
+    # Validate essential columns
+    laps_sample = pd.read_parquet(LAPS_PARQUET)
+    req_laps_cols = ['stint_id', 'circuit_id', 'session_id', 'driver_id', 'lap_number', 'lap_time'] + BEHAVIORAL_FEATURES
+    for c in req_laps_cols:
+        if c not in laps_sample.columns:
+            raise RuntimeError(f"CRITICAL SCHEMA FAILURE: laps.parquet missing column '{c}'")
+
+    ledger_sample = pd.read_parquet(LEDGER_PARQUET)
+    req_ledger_cols = ['stint_id', 'lap_number', 'residual', 'cumulative_debt']
+    for c in req_ledger_cols:
+        if c not in ledger_sample.columns:
+            raise RuntimeError(f"CRITICAL SCHEMA FAILURE: residual_ledger.parquet missing column '{c}'")
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # 1. Initialize Cache & Model Registry
+    # 1. Validate Production Schemas & Fail Fast if Corrupt
+    validate_production_schemas()
+    app.state.app_data = app_data
+
+    # 2. Initialize Cache & Model Registry
     cache = get_cache_service()
     await cache.initialize()
     
     registry = get_model_registry()
     registry.load_registry()
 
-    # 2. Load SQLite Models & Metadata
+    # 3. Load SQLite Models & Metadata
     conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
@@ -131,7 +167,7 @@ async def lifespan(app: FastAPI):
         
     conn.close()
     
-    # 3. Load Circuit Geometry Parquet
+    # 4. Load Circuit Geometry Parquet
     if os.path.exists(GEOMETRY_PARQUET):
         geom_df = pd.read_parquet(GEOMETRY_PARQUET)
         app_data["geom_df"] = geom_df
@@ -141,7 +177,7 @@ async def lifespan(app: FastAPI):
             ).to_dict(orient='records')
             app_data["circuit_geometry"][cid] = pts
             
-    # 4. Load Ledger & Laps Parquets
+    # 5. Load Ledger & Laps Parquets and Build In-Memory Indexed Structures
     if os.path.exists(LEDGER_PARQUET):
         ledger_df = pd.read_parquet(LEDGER_PARQUET)
         app_data["ledger_df"] = ledger_df
@@ -188,7 +224,12 @@ async def lifespan(app: FastAPI):
         driver_signatures = means_df_with_driver.groupby('driver_id')[BEHAVIORAL_FEATURES].mean()
         app_data["driver_signatures"] = driver_signatures.to_dict(orient='index')
 
-    # 5. Load Precomputed Bootstrap Uncertainty if available
+        # Fast in-memory session and stint maps for zero-allocation request routing
+        app_data["laps_by_session"] = {str(sid): grp for sid, grp in laps_df.groupby('session_id')}
+        app_data["laps_by_stint"] = {str(stid): grp for stid, grp in laps_df.groupby('stint_id')}
+        app_data["ledger_by_stint"] = {str(stid): grp for stid, grp in ledger_df.groupby('stint_id')}
+
+    # 6. Load Precomputed Bootstrap Uncertainty
     if os.path.exists(BOOTSTRAP_PARQUET):
         boot_df = pd.read_parquet(BOOTSTRAP_PARQUET)
         for row in boot_df.itertuples(index=False):
@@ -201,7 +242,7 @@ async def lifespan(app: FastAPI):
                 "is_saturated": bool(row.is_saturated)
             }
 
-    # 6. Initialize Services and Inject into Routers
+    # 7. Initialize Services and Inject into Routers
     circuits_svc = CircuitsService(DB_PATH, app_data)
     stints_svc = StintsService(DB_PATH, app_data)
     tyre_debt_svc = TyreDebtService(DB_PATH, app_data)
@@ -216,6 +257,34 @@ async def lifespan(app: FastAPI):
     set_signatures_service(signatures_svc)
     set_degradation_service(degradation_svc)
     set_race_intelligence_service(race_intel_svc)
+
+    # 8. Pre-load Reports into app_data
+    import json
+    val_file = os.path.join(BASE_DIR, "reports", "post_race_validation_plus15.json")
+    if os.path.exists(val_file):
+        with open(val_file, "r") as f:
+            app_data["precomputed_post_race_validation"] = json.load(f)
+
+    pit_stab_file = os.path.join(BASE_DIR, "reports", "pit_window_stability.json")
+    if os.path.exists(pit_stab_file):
+        with open(pit_stab_file, "r") as f:
+            app_data["precomputed_pit_window_stability"] = json.load(f)
+
+    unc_file = os.path.join(BASE_DIR, "reports", "uncertainty_validation.json")
+    if os.path.exists(unc_file):
+        with open(unc_file, "r") as f:
+            app_data["precomputed_uncertainty_validation"] = json.load(f)
+
+    # 9. Warm DL Architecture & Model Inference Kernels
+    try:
+        if registry.behavioral_model:
+            import torch
+            dummy_tcn = torch.zeros((1, 5, 15), dtype=torch.float32)
+            registry.behavioral_model.model.eval()
+            with torch.no_grad():
+                _ = registry.behavioral_model.model(dummy_tcn)
+    except Exception as e:
+        logger.warning(f"DL Model warming warning: {e}")
 
     yield
 
@@ -248,6 +317,9 @@ app.include_router(race_intelligence_router)
 app.include_router(strategic_warfare_router)
 app.include_router(tyre_intelligence_router)
 app.include_router(admin_router)
+app.include_router(tdsm_router)
+app.include_router(tdsm_v1_router)
+app.include_router(physical_telemetry_router)
 
 
 
@@ -335,6 +407,15 @@ async def get_session_pit_stops_global(session_id: str):
     return await circuits_svc.get_session_pit_stops(circuit_id, session_id)
 
 
+@app.get("/sessions/{session_id}/driver-advisory")
+@app.get("/api/sessions/{session_id}/driver-advisory")
+async def get_driver_advisory_global(session_id: str, driver_id: str = None, lap: int = None, current_lap: int = None):
+    from api.services.driver_advisory_service import DriverAdvisoryService
+    effective_lap = lap if lap is not None else current_lap
+    adv_svc = DriverAdvisoryService(DB_PATH, app_data)
+    return adv_svc.get_driver_advisory(session_id, driver_id, effective_lap)
+
+
 @app.websocket("/ws/stints/{stint_id}/live")
 async def live_stint_socket(websocket: WebSocket, stint_id: str):
     await websocket.accept()
@@ -399,3 +480,17 @@ async def live_stint_socket(websocket: WebSocket, stint_id: str):
                 })
     except WebSocketDisconnect:
         pass
+
+
+@app.websocket("/ws/physical-telemetry")
+async def physical_telemetry_ws_root(websocket: WebSocket):
+    """Authoritative root WebSocket route for live physical sensor telemetry fan-out."""
+    service = get_physical_telemetry_service()
+    await service.register_websocket(websocket)
+    try:
+        while True:
+            await websocket.receive_text()
+    except WebSocketDisconnect:
+        service.unregister_websocket(websocket)
+    except Exception:
+        service.unregister_websocket(websocket)

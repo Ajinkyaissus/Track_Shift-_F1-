@@ -11,6 +11,8 @@ from api.routers.race_intelligence import router as race_intelligence_router, se
 from api.routers.strategic_warfare import router as strategic_warfare_router
 from api.routers.tyre_intelligence import router as tyre_intelligence_router
 from api.routers.admin import router as admin_router
+from api.routers.tdsm import router as tdsm_router, v1_router as tdsm_v1_router
+from api.routers.physical_telemetry import router as physical_telemetry_router
 
 __all__ = [
     "circuits_router",
@@ -27,7 +29,10 @@ __all__ = [
     "set_race_intelligence_service",
     "strategic_warfare_router",
     "tyre_intelligence_router",
-    "admin_router"
+    "admin_router",
+    "tdsm_router",
+    "tdsm_v1_router",
+    "physical_telemetry_router"
 ]
 
 

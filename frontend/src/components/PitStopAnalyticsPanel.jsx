@@ -30,28 +30,30 @@ export default function PitStopAnalyticsPanel() {
   } = useCircuit();
 
   const [activeTab, setActiveTab] = useState('strategy'); // 'strategy' | 'summary' | 'ranking' | 'h2h' | 'diagnostics'
-  const [h2hDriverA, setH2hDriverA] = useState(() => selectedDriver || 'VER');
-  const [h2hDriverB, setH2hDriverB] = useState(() => comparisonDriver || 'NOR');
+  const [h2hDriverA, setH2hDriverA] = useState(() => selectedDriver || null);
+  const [h2hDriverB, setH2hDriverB] = useState(() => comparisonDriver || null);
 
   const driversList = useMemo(() => {
     return sessionPitStops?.drivers || [];
   }, [sessionPitStops]);
 
   // Keep h2h drivers in sync when selectedDriver / comparisonDriver change
-  useMemo(() => {
+  useEffect(() => {
     if (selectedDriver && driversList.some(d => d.driver_id === selectedDriver)) {
       setH2hDriverA(selectedDriver);
+    } else if (!h2hDriverA && driversList.length > 0) {
+      setH2hDriverA(driversList[0].driver_id);
     }
-  }, [selectedDriver, driversList]);
+  }, [selectedDriver, driversList, h2hDriverA]);
 
-  useMemo(() => {
+  useEffect(() => {
     if (comparisonDriver && driversList.some(d => d.driver_id === comparisonDriver)) {
       setH2hDriverB(comparisonDriver);
     } else if (driversList.length > 1 && (!h2hDriverB || h2hDriverB === h2hDriverA)) {
       const other = driversList.find(d => d.driver_id !== h2hDriverA);
       if (other) setH2hDriverB(other.driver_id);
     }
-  }, [comparisonDriver, h2hDriverA, driversList]);
+  }, [comparisonDriver, h2hDriverA, driversList, h2hDriverB]);
 
   // Summary Table Data (All Drivers)
   const summaryTableRows = useMemo(() => {

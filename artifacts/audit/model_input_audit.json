@@ -1,0 +1,54 @@
+{
+  "total_input_dimensions": 11,
+  "state_dimensions": {
+    "count": 3,
+    "features": [
+      "D",
+      "Delta_D",
+      "Delta2_D"
+    ],
+    "indices": [
+      0,
+      1,
+      2
+    ]
+  },
+  "continuous_context_dimensions": {
+    "count": 2,
+    "features": [
+      "TyreLife",
+      "FuelProxy"
+    ],
+    "indices": [
+      3,
+      4
+    ]
+  },
+  "compound_one_hot_dimensions": {
+    "count": 6,
+    "classes": [
+      "SOFT",
+      "MEDIUM",
+      "HARD",
+      "INTERMEDIATE",
+      "WET",
+      "UNKNOWN"
+    ],
+    "indices": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ]
+  },
+  "order_consistency_check": {
+    "dataset_py": "[cont_scaled(5), comp_oh(6)] -> 11 dims",
+    "trainer_py": "[cont_scaled(5), comp_oh(6)] -> 11 dims",
+    "validate_2025_py": "[cont_scaled(5), comp_oh(6)] -> 11 dims",
+    "inference_py": "[cont_scaled(5), comp_oh(6)] -> 11 dims",
+    "api_tdsm_py": "[cont_scaled(5), comp_oh(6)] -> 11 dims",
+    "verdict": "PASS: 100% identical feature ordering across training, validation, inference, and serving API."
+  }
+}

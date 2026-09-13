@@ -38,7 +38,7 @@ async def get_strategic_warfare(
     and candidate strategy simulations.
     """
     try:
-        data = service.get_strategic_warfare_analysis(
+        data = await service.get_strategic_warfare_analysis(
             session_id=session_id,
             driver_id=driver_id,
             lap=lap
@@ -61,7 +61,7 @@ async def get_strategic_decision(
     Returns Decision Fusion recommendations (BEST ACTION, WHY, RISK, ALTERNATIVE, BATTLE MATRIX).
     """
     try:
-        data = service.get_strategic_warfare_analysis(session_id=session_id, driver_id=driver_id, lap=lap)
+        data = await service.get_strategic_warfare_analysis(session_id=session_id, driver_id=driver_id, lap=lap)
         return JSONResponse(content=data.get("strategic_decision_fusion", {}))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -78,7 +78,7 @@ async def get_competitor_radar(
     Returns Competitor Undercut Vulnerability radar and attack windows.
     """
     try:
-        data = service.get_strategic_warfare_analysis(session_id=session_id, driver_id=driver_id, lap=lap)
+        data = await service.get_strategic_warfare_analysis(session_id=session_id, driver_id=driver_id, lap=lap)
         return JSONResponse(content=data.get("undercut_vulnerability", {}))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -95,7 +95,7 @@ async def get_ghost_car_roi(
     Returns Ghost-Car Pit ROI Multi-Lap simulation curve.
     """
     try:
-        data = service.get_strategic_warfare_analysis(session_id=session_id, driver_id=driver_id, lap=lap)
+        data = await service.get_strategic_warfare_analysis(session_id=session_id, driver_id=driver_id, lap=lap)
         return JSONResponse(content=data.get("ghost_car_roi", {}))
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

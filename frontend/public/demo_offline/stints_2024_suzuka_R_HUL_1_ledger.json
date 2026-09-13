@@ -1,1 +1,1 @@
-{"stint_id": "2024_suzuka_R_HUL_1", "model_version": "v3_stage1_2026-09-07", "total_debt_seconds": 0.8658, "series": [{"lap_number": 4.0, "residual": 0.09154339519104579, "cumulative_debt": 0.09154339519104579}, {"lap_number": 5.0, "residual": 0.7742072127308319, "cumulative_debt": 0.8657506079218777}]}
+{"stint_id": "2024_suzuka_R_HUL_1", "model_version": "v3_stage1_2026-09-07", "total_debt_seconds": 0.8658, "series": [{"lap_number": 4.0, "residual": 0.0915, "cumulative_debt": 0.0915}, {"lap_number": 5.0, "residual": 0.7742, "cumulative_debt": 0.8658}]}

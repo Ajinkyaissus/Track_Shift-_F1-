@@ -1,0 +1,66 @@
+{
+  "model_name": "TDSM",
+  "architecture": "TinyTDSM (State-Transition)",
+  "state_dimension": 3,
+  "context_dimension": 8,
+  "input_dimension": 11,
+  "frozen_timestamp": "2026-09-12T23:38:28.263956+00:00",
+  "random_seed": 42,
+  "python_version": "3.12.4 (tags/v3.12.4:8e8a4ba, Jun  6 2024, 19:30:16) [MSC v.1940 64 bit (AMD64)]",
+  "torch_version": "2.13.0+cpu",
+  "dataset_source": "data/combined_2024_2025_laps.parquet",
+  "training_season": 2024,
+  "train_rounds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+  ],
+  "val_rounds": [
+    19,
+    20,
+    21,
+    22,
+    23,
+    24
+  ],
+  "train_laps_count": 17963,
+  "val_laps_count": 4578,
+  "training_duration_seconds": 93.28,
+  "preprocessing_version": "v2_cumulative_mad_noise_floor",
+  "active_model_file": "tdsm_model_2024_v2.pth",
+  "sigma_by_compound": {
+    "SOFT": 0.3996,
+    "HARD": 0.3536,
+    "MEDIUM": 0.37,
+    "INTERMEDIATE": 0.38,
+    "WET": 0.38,
+    "UNKNOWN": 0.38
+  },
+  "checkpoints": {
+    "v1": {
+      "file": "tdsm_model_2024.pth",
+      "preprocessing": "v1_non_cumulative_unfiltered",
+      "status": "archived_baseline"
+    },
+    "v2": {
+      "file": "tdsm_model_2024_v2.pth",
+      "preprocessing": "v2_cumulative_mad_noise_floor",
+      "status": "active_retrained"
+    }
+  }
+}

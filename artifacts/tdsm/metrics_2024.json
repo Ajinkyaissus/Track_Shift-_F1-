@@ -1,0 +1,50 @@
+{
+  "overall": {},
+  "by_horizon": {
+    "+1": {
+      "MAE": 0.2894,
+      "RMSE": 0.728,
+      "MedianAE": 0.1514,
+      "Bias": 0.0244,
+      "R2": 0.6762,
+      "N": 4353
+    },
+    "+3": {
+      "MAE": 0.5175,
+      "RMSE": 0.9051,
+      "MedianAE": 0.396,
+      "Bias": 0.1234,
+      "R2": 0.5154,
+      "N": 3920
+    },
+    "+5": {
+      "MAE": 0.6476,
+      "RMSE": 0.9983,
+      "MedianAE": 0.5602,
+      "Bias": 0.1788,
+      "R2": 0.4218,
+      "N": 3500
+    },
+    "+10": {
+      "MAE": 0.9017,
+      "RMSE": 1.2198,
+      "MedianAE": 0.8031,
+      "Bias": 0.3352,
+      "R2": 0.1999,
+      "N": 2504
+    }
+  },
+  "by_compound": {},
+  "by_tyre_age": {},
+  "dataset_summary": {
+    "total_rows": 4578,
+    "num_events": 0,
+    "num_sessions": 0,
+    "num_drivers": 0,
+    "num_stints": 0
+  },
+  "best_val_loss": 0.91537,
+  "epochs": 35,
+  "train_samples": 17963,
+  "val_samples": 4578
+}

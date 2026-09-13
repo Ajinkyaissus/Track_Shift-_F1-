@@ -8,6 +8,11 @@ Variable Classification:
 - REAL MEASUREMENT: Direct FIA timing or 100Hz telemetry
 - OBSERVABLE PROXY: Physically bounded mathematical estimation
 - MODEL-DERIVED FEATURE: Multi-head neural network output
+
+Scientific hardening (2026-09):
+- fuel proxy coefficient corrected to 0.033 s/kg (canonical production FUEL_EFFECT_COEFFICIENT).
+  Previous incorrect entry stated -0.018 s/kg (research/dead-path coefficient).
+- tyre_age raw_fields updated to include FastF1 TyreLife field.
 """
 
 from dataclasses import dataclass
@@ -34,14 +39,15 @@ FEATURE_PROVENANCE_CATALOG: List[Dict[str, Any]] = [
         "feature_name": "tyre_age",
         "category": "Tyre & Session Context",
         "feature_nature": "REAL MEASUREMENT",
-        "source": "FastF1 / Official FIA timing",
-        "raw_fields": ["lap_number", "stint_start_lap"],
-        "transformation": "lap_number - stint_start_lap + 1",
-        "derivation": "lap_number - stint_start_lap + 1",
+        "source": "FastF1 / Official FIA timing (TyreLife field)",
+        "raw_fields": ["TyreLife", "LapNumber", "stint_start_lap"],
+        "transformation": "tyre_age_start + (lap_number - start_lap); primary source: FastF1 TyreLife",
+        "derivation": "tyre_age_start + (lap_number - start_lap); gap-preserving (missing laps maintain physical age)",
         "unit": "laps",
         "time_availability": "Available online at current lap N",
         "scientific_status": "PRODUCTION (Stage 1 Core)",
-        "nomenclature": "Observable Tyre Age (laps)"
+        "nomenclature": "Observable Tyre Age (laps)",
+        "provenance_source": "dataset_field (TyreLife via FastF1) or reconstructed_from_stint_history"
     },
     {
         "feature_name": "compound",
@@ -62,12 +68,16 @@ FEATURE_PROVENANCE_CATALOG: List[Dict[str, Any]] = [
         "feature_nature": "OBSERVABLE PROXY",
         "source": "FastF1 session model / stint progression",
         "raw_fields": ["fuel_load_est", "lap_number", "total_session_laps"],
-        "transformation": "Estimated initial session load (~110kg) decaying by ~1.7kg/lap (-0.018 s/kg)",
-        "derivation": "(110kg - fuel_est_kg) * -0.018 s/kg",
+        "transformation": "Estimated initial session load (~110kg) decaying by ~1.7kg/lap (0.033 s/kg)",
+        "derivation": "fuel_est_kg * 0.033 s/kg (canonical FUEL_EFFECT_COEFFICIENT)",
         "unit": "kg / seconds offset (Observable Proxy)",
         "time_availability": "Available online at current lap N",
         "scientific_status": "RESEARCH / CONTEXTUAL PROXY",
-        "nomenclature": "Observable Load / Fuel Proxy (Never True Fuel Weight)"
+        "nomenclature": "Observable Load / Fuel Proxy (Never True Fuel Weight)",
+        "coefficient": 0.033,
+        "coefficient_unit": "s/kg",
+        "coefficient_source": "trackshift.domain_constants.FUEL_EFFECT_COEFFICIENT",
+        "coefficient_note": "Canonical production value. Research code may use -0.018 (quarantined in tyre_intelligence/research/)."
     },
     {
         "feature_name": "track_evolution_proxy",

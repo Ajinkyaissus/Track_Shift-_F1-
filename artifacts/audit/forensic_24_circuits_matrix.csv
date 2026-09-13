@@ -1,0 +1,25 @@
+track_id,name,country,in_2024,in_2025,geom_parquet,laps_parquet,ledger_rows,db_stints,offline_ready,map_status,map_points,sess_2024,sess_2025,telem_status,telem_laps,telem_drivers,replay_ready,trackshift_ok
+abu_dhabi,Yas Marina Circuit,United Arab Emirates,True,True,648,732,732,95,True,200,648,1,1,200,344,20,True,True
+albert_park,Albert Park Circuit,Australia,True,True,598,476,476,157,True,200,598,1,1,200,278,19,True,True
+bahrain,Bahrain International Circuit,Bahrain,True,True,703,888,888,125,True,200,703,1,1,200,399,20,True,True
+baku,Baku City Circuit,Azerbaijan,True,True,817,693,693,83,False,200,817,1,1,200,391,20,True,True
+catalunya,Circuit de Barcelona-Catalunya,Spain,False,True,592,0,0,72,False,200,592,0,1,200,0,19,True,True
+cota,Circuit of the Americas,United States,True,True,740,818,818,84,True,200,740,1,1,200,390,20,True,True
+hungaroring,Hungaroring,Hungary,True,True,621,1122,1122,109,True,200,621,1,1,200,586,20,True,True
+imola,Autodromo Enzo e Dino Ferrari,Italy,True,True,616,923,923,104,False,200,616,1,1,200,440,20,True,True
+interlagos,Autodromo Jose Carlos Pace,Brazil,True,True,615,915,915,109,True,200,615,1,1,200,473,20,True,True
+jeddah,Jeddah Corniche Circuit,Saudi Arabia,True,True,716,414,414,78,True,200,716,1,1,200,192,20,True,True
+las_vegas,Las Vegas Strip Circuit,United States,True,True,738,539,539,102,False,200,738,1,1,200,287,20,True,True
+losail,Lusail International Circuit,Qatar,True,True,624,665,665,141,False,200,624,1,1,200,363,20,True,True
+miami,Miami International Autodrome,United States,True,True,692,499,499,94,False,200,692,1,1,200,437,20,True,True
+monaco,Circuit de Monaco,Monaco,True,True,585,1170,1170,103,True,200,585,1,1,200,564,20,True,True
+montreal,Circuit Gilles Villeneuve,Canada,True,True,586,1707,1707,164,False,200,586,1,1,200,1217,20,True,True
+monza,Autodromo Nazionale Monza,Italy,True,True,626,477,477,88,True,200,626,1,1,200,264,20,True,True
+red_bull_ring,Red Bull Ring,Austria,True,True,518,650,650,116,False,200,518,1,1,200,488,20,True,True
+rodriguez,Autódromo Hermanos Rodríguez,Mexico,True,True,594,1018,1018,88,False,200,594,1,1,200,510,20,True,True
+shanghai,Shanghai International Circuit,China,True,True,756,811,811,105,False,200,756,1,1,200,432,20,True,True
+silverstone,Silverstone Circuit,United Kingdom,True,True,675,532,532,118,True,200,675,1,1,200,297,20,True,True
+singapore,Marina Bay Street Circuit,Singapore,True,True,701,1082,1082,86,True,200,701,1,1,200,518,20,True,True
+spa,Circuit de Spa-Francorchamps,Belgium,True,True,763,703,703,127,True,200,763,1,1,200,266,20,True,True
+suzuka,Suzuka International Racing Course,Japan,True,True,698,571,571,115,True,200,698,1,1,200,222,20,True,True
+zandvoort,Circuit Zandvoort,Netherlands,True,True,567,1108,1108,105,False,200,567,1,1,200,531,20,True,True

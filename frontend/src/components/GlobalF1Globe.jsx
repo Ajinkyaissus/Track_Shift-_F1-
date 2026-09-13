@@ -821,11 +821,11 @@ export default function GlobalF1Globe({ onSelectCircuit }) {
               </div>
               <div className="feature-item">
                 <span className="feature-icon">🧠</span>
-                <span>Stage 3 TCN Behavioral Analysis</span>
+                <span>TDSM State-Space Transition Modeling</span>
               </div>
               <div className="feature-item">
                 <span className="feature-icon">📈</span>
-                <span>Stage 4 Observational Sensitivity</span>
+                <span>Causal Counterfactual Degradation</span>
               </div>
             </div>
 

@@ -1,0 +1,25 @@
+track_id,name,country,in_2024,in_2025,geom_pts,laps,db_sess,db_stints,offline_demo,map_status,map_pts,sess_24,sess_25,telem_frames,replay_ready,trackshift_intel
+abu_dhabi,Yas Marina Circuit,United Arab Emirates,True,True,648,732,2,95,True,200,648,1,1,0,False,True
+albert_park,Albert Park Circuit,Australia,True,True,598,476,2,157,True,200,598,1,1,0,False,True
+bahrain,Bahrain International Circuit,Bahrain,True,True,703,888,2,125,True,200,703,1,1,0,False,True
+baku,Baku City Circuit,Azerbaijan,True,True,817,693,2,83,False,200,817,1,1,0,False,True
+catalunya,Circuit de Barcelona-Catalunya,Spain,False,True,592,0,1,72,False,200,592,0,1,0,False,True
+cota,Circuit of the Americas,United States,True,True,740,818,2,84,True,200,740,1,1,0,False,True
+hungaroring,Hungaroring,Hungary,True,True,621,1122,2,109,True,200,621,1,1,0,False,True
+imola,Autodromo Enzo e Dino Ferrari,Italy,True,True,616,923,2,104,False,200,616,1,1,0,False,True
+interlagos,Autodromo Jose Carlos Pace,Brazil,True,True,615,915,2,109,True,200,615,1,1,0,False,True
+jeddah,Jeddah Corniche Circuit,Saudi Arabia,True,True,716,414,2,78,True,200,716,1,1,0,False,True
+las_vegas,Las Vegas Strip Circuit,United States,True,True,738,539,2,102,False,200,738,1,1,0,False,True
+losail,Lusail International Circuit,Qatar,True,True,624,665,2,141,False,200,624,1,1,0,False,True
+miami,Miami International Autodrome,United States,True,True,692,499,2,94,False,200,692,1,1,0,False,True
+monaco,Circuit de Monaco,Monaco,True,True,585,1170,2,103,True,200,585,1,1,0,False,True
+montreal,Circuit Gilles Villeneuve,Canada,True,True,586,1707,2,164,False,200,586,1,1,0,False,True
+monza,Autodromo Nazionale Monza,Italy,True,True,626,477,2,88,True,200,626,1,1,0,False,True
+red_bull_ring,Red Bull Ring,Austria,True,True,518,650,2,116,False,0,0,0,0,0,False,False
+rodriguez,Autódromo Hermanos Rodríguez,Mexico,True,True,594,1018,2,88,False,0,0,0,0,0,False,False
+shanghai,Shanghai International Circuit,China,True,True,756,811,2,105,False,0,0,0,0,0,False,False
+silverstone,Silverstone Circuit,United Kingdom,True,True,675,532,2,118,True,0,0,0,0,0,False,False
+singapore,Marina Bay Street Circuit,Singapore,True,True,701,1082,2,86,True,0,0,0,0,0,False,False
+spa,Circuit de Spa-Francorchamps,Belgium,True,True,763,703,2,127,True,0,0,0,0,0,False,False
+suzuka,Suzuka International Racing Course,Japan,True,True,698,571,2,115,True,0,0,0,0,0,False,False
+zandvoort,Circuit Zandvoort,Netherlands,True,True,567,1108,2,105,False,0,0,0,0,0,False,False

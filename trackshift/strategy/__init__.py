@@ -44,7 +44,14 @@ from trackshift.strategy.simulator import (
     execute_strategic_checkpoint
 )
 
+from trackshift.strategy.driver_advisory import (
+    generate_driver_advisory,
+    DriverAdvisoryResponse
+)
+from trackshift.strategy.decision_engine import TDSMStrategyEngine
+
 __all__ = [
+    "TDSMStrategyEngine",
     "CIRCUIT_METRICS",
     "DEFAULT_METRICS",
     "COMPOUND_CHARACTERISTICS",
@@ -60,5 +67,7 @@ __all__ = [
     "evaluate_performance_instability",
     "fuse_strategic_decision",
     "simulate_full_race_strategies",
-    "execute_strategic_checkpoint"
+    "execute_strategic_checkpoint",
+    "generate_driver_advisory",
+    "DriverAdvisoryResponse"
 ]

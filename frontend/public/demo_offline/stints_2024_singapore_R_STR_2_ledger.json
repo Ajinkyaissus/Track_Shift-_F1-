@@ -1,1 +1,1 @@
-{"stint_id": "2024_singapore_R_STR_2", "model_version": "v3_stage1_2026-09-07", "total_debt_seconds": 0.0427, "series": [{"lap_number": 27.0, "residual": 0.04272940039398648, "cumulative_debt": 0.04272940039398648}]}
+{"stint_id": "2024_singapore_R_STR_2", "model_version": "v4_m1_production_2026-09-10", "total_debt_seconds": 0.0, "series": [{"lap_number": 27.0, "residual": -0.2774, "cumulative_debt": 0.0}]}

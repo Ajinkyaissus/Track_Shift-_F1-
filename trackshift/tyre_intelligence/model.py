@@ -15,28 +15,79 @@ Strictly non-causal terminology:
 - 'Observable Confounder Adjustment'
 - 'Context-Aware Tyre-Performance Estimation'
 - 'Contextual Residual Deviation'
+
+Scientific hardening note (2026-09):
+- Tyre age is now derived from the `tyre_age` column in stint_df (preferred),
+  or reconstructed from `tyre_age_start + (lap_number - start_lap)` if available,
+  or falls back to sequential index ONLY after explicit sort — with provenance logged.
+- track_evolution_proxy absent → uses 0.0, source = "unavailable" (never lap_number).
+- All frozen M1 constants imported from trackshift.domain_constants (one source).
+- estimate_contextual_lap_performance and compute_stint_contextual_residuals have been
+  moved to trackshift.tyre_intelligence.research.contextual_pipeline (zero prod callers).
 """
 
 from dataclasses import dataclass, field
 from typing import Dict, List, Any, Optional
+import logging
 import pandas as pd
 
-from trackshift.strategy.debt_liquidation import stage1_m1_loss
+from trackshift.domain_constants import (
+    STAGE1_M1_INTERCEPT,
+    STAGE1_M1_SLOPE,
+    stage1_m1_loss_by_compound,
+)
 from trackshift.tyre_intelligence.confounders import ObservableConfounderEstimator
 
-# Frozen Stage 1 M1 Baseline Constants
-STAGE1_M1_INTERCEPT: float = 0.1974
-STAGE1_M1_SLOPE: float = 0.0400
+logger = logging.getLogger("trackshift.tyre_intelligence.model")
 
-# Explicit Contextual Regression Coefficients (Fitted on Train Split)
-CONTEXT_COEFFICIENTS = {
-    "fuel_load_kg_slope": -0.018,       # Lap time loss increases as fuel burns off
-    "track_evolution_coef": 0.35,      # Sensitivity to track rubbering in
-    "traffic_penalty_scale": 0.45,      # Direct time loss per unit traffic score
-    "braking_aggression_scale": 0.008,  # Micro-wear / thermal surge per unit decel
-    "lateral_dynamics_scale": 0.12,     # Tyre lateral load friction offset
-    "anomaly_penalty_scale": 0.25       # Performance cost per unit behavioral anomaly
-}
+# Re-export for downstream importers (backward-compatible)
+__all__ = [
+    "STAGE1_M1_INTERCEPT",
+    "STAGE1_M1_SLOPE",
+    "stage1_m1_loss_by_compound",
+    "DecompositionPoint",
+    "ContextualResidualLedger",
+    "ObservableDecompositionModel",
+]
+
+# Tyre age source labels (provenance vocabulary)
+TYRE_AGE_SOURCE_DATASET_FIELD = "dataset_field"
+TYRE_AGE_SOURCE_RECONSTRUCTED = "reconstructed_from_stint_history"
+TYRE_AGE_SOURCE_SEQUENTIAL_FALLBACK = "sequential_fallback_verified"
+TYRE_AGE_SOURCE_UNAVAILABLE = "unavailable"
+
+
+def _derive_tyre_age(row: "pd.Series", idx: int, start_lap: Optional[int], tyre_age_start: Optional[int]) -> tuple:
+    """
+    Derive physical tyre age for a single row with provenance tracking.
+
+    Priority:
+    1. `tyre_age` column directly in row (FastF1 TyreLife-derived field).
+    2. Reconstruct: tyre_age_start + (lap_number - start_lap).
+    3. Sequential index (only if caller verified sort is chronological).
+
+    Returns
+    -------
+    (age: int, source: str)
+    """
+    # Priority 1: direct tyre_age column
+    raw_age = row.get("tyre_age")
+    if raw_age is not None and not (isinstance(raw_age, float) and pd.isna(raw_age)):
+        return int(raw_age), TYRE_AGE_SOURCE_DATASET_FIELD
+
+    # Priority 2: reconstruct from stint history
+    lap_num = row.get("lap_number")
+    if (
+        tyre_age_start is not None
+        and start_lap is not None
+        and lap_num is not None
+        and not pd.isna(lap_num)
+    ):
+        age = int(tyre_age_start) + (int(lap_num) - int(start_lap))
+        return max(1, age), TYRE_AGE_SOURCE_RECONSTRUCTED
+
+    # Priority 3: sequential fallback (only if data is confirmed sorted)
+    return idx + 1, TYRE_AGE_SOURCE_SEQUENTIAL_FALLBACK
 
 
 @dataclass
@@ -44,12 +95,14 @@ class DecompositionPoint:
     """Single lap point for observable confounder decomposition."""
     lap_number: int
     tyre_age: int
+    tyre_age_source: str          # Provenance: how tyre_age was obtained
     observed_lap_time: float
     observed_pace_delta: float
     m1_baseline_delta: float
     context_adjusted_delta: float
     fuel_effect: float
     track_evolution_effect: float
+    track_evolution_source: str   # Provenance: "dataset_field" | "unavailable"
     traffic_effect: float
     total_confounder_delta: float
     m1_residual: float
@@ -74,11 +127,13 @@ class ContextualResidualLedger:
                 {
                     "lap_number": p.lap_number,
                     "tyre_age": p.tyre_age,
+                    "tyre_age_source": p.tyre_age_source,
                     "observed_lap_time": round(float(p.observed_lap_time), 3),
                     "observed_pace_delta": round(float(p.observed_pace_delta), 3),
                     "m1_baseline_delta": round(float(p.m1_baseline_delta), 3),
                     "context_adjusted_delta": round(float(p.context_adjusted_delta), 3),
                     "total_confounder_delta": round(float(p.total_confounder_delta), 3),
+                    "track_evolution_source": p.track_evolution_source,
                     "contextual_residual": round(float(p.contextual_residual), 3),
                     "contextual_debt_accumulated": round(float(p.contextual_debt_accumulated), 3),
                     "m1_debt_accumulated": round(float(p.m1_debt_accumulated), 3),
@@ -92,6 +147,17 @@ class ObservableDecompositionModel:
     """
     Decomposes raw stint telemetry into Stage 1 M1 baseline, observable
     confounder adjustments, and contextual residuals.
+
+    Tyre Age Lineage
+    ----------------
+    Input stint_df must contain a `tyre_age` column (FastF1 TyreLife-derived).
+    If absent, the model attempts reconstruction from `tyre_age_start` and
+    `start_lap` columns. If neither is available, falls back to sequential
+    index (only after deterministic sort by lap_number) — with explicit
+    provenance logging.
+
+    Missing laps are handled correctly: gaps in lap_number are preserved
+    in tyre_age when using the dataset_field or reconstructed sources.
     """
 
     def __init__(self, confounder_estimator: Optional[ObservableConfounderEstimator] = None):
@@ -104,25 +170,75 @@ class ObservableDecompositionModel:
         stint_id: str,
         base_lap_time: float,
     ) -> ContextualResidualLedger:
+        """
+        Decompose a stint into M1 baseline and contextual residuals.
+
+        Parameters
+        ----------
+        stint_df : pd.DataFrame
+            Stint lap rows. MUST be sortable by lap_number for chronological order.
+            Should contain `tyre_age` column for physically correct tyre age.
+        driver_id : str
+        stint_id : str
+        base_lap_time : float
+            Reference lap time for delta computation.
+
+        Returns
+        -------
+        ContextualResidualLedger
+        """
+        # P0 FIX: Sort by lap_number BEFORE iterating — never assume row order is chronological.
+        if "lap_number" in stint_df.columns:
+            df = stint_df.sort_values("lap_number").reset_index(drop=True)
+        else:
+            df = stint_df.reset_index(drop=True)
+            logger.warning(
+                "decompose_stint: stint_df for %s/%s has no lap_number column. "
+                "Row order assumed chronological — verify upstream data.",
+                driver_id, stint_id
+            )
+
+        # Extract stint context for tyre age reconstruction (priority 2 fallback)
+        tyre_age_start: Optional[int] = None
+        start_lap: Optional[int] = None
+        if "tyre_age_start" in df.columns and not df["tyre_age_start"].isna().all():
+            tyre_age_start = int(df["tyre_age_start"].iloc[0])
+        if "start_lap" in df.columns and not df["start_lap"].isna().all():
+            start_lap = int(df["start_lap"].iloc[0])
+
         points: List[DecompositionPoint] = []
         cum_m1_debt = 0.0
         cum_context_debt = 0.0
 
-        for idx, (_, row) in enumerate(stint_df.iterrows()):
+        # Track if we used fallback so we warn once, not per-lap
+        used_fallback = False
+
+        for idx, row in df.iterrows():
+            # -- Tyre age (with provenance) --
+            age, age_source = _derive_tyre_age(row, int(idx), start_lap, tyre_age_start)
+            if age_source == TYRE_AGE_SOURCE_SEQUENTIAL_FALLBACK and not used_fallback:
+                logger.warning(
+                    "decompose_stint: stint %s/%s using sequential_fallback_verified for tyre_age. "
+                    "Add tyre_age column to stint_df for physical correctness.",
+                    driver_id, stint_id
+                )
+                used_fallback = True
+
             lap_num = int(row.get("lap_number", idx + 1))
-            age = idx + 1
             raw_time = float(row.get("lap_time", base_lap_time))
             observed_delta = raw_time - base_lap_time
 
-            # Stage 1 M1 linear baseline delta
-            m1_delta = STAGE1_M1_INTERCEPT + STAGE1_M1_SLOPE * age
+            # Stage 1 M1 linear baseline delta (compound-aware with safe single-slope fallback)
+            comp_val = row.get("compound") if "compound" in row else row.get("Compound")
+            m1_delta = stage1_m1_loss_by_compound(age, comp_val)
 
-            # Extract observable confounders
+            # Extract observable confounders (track_evolution_source tracked internally)
             ctx = self.confounders.extract_context(row.to_dict())
             conf_breakdown = self.confounders.compute_total_confounder_delta(ctx)
 
             fuel_eff = conf_breakdown["fuel_delta"]
             track_eff = conf_breakdown["track_evolution_delta"]
+            track_evo_src = conf_breakdown.get("track_evolution_source", "unavailable")
             traf_eff = conf_breakdown["traffic_delta"]
             tot_conf = conf_breakdown["total_confounder_adjustment"]
 
@@ -140,12 +256,14 @@ class ObservableDecompositionModel:
                 DecompositionPoint(
                     lap_number=lap_num,
                     tyre_age=age,
+                    tyre_age_source=age_source,
                     observed_lap_time=raw_time,
                     observed_pace_delta=observed_delta,
                     m1_baseline_delta=m1_delta,
                     context_adjusted_delta=context_delta,
                     fuel_effect=fuel_eff,
                     track_evolution_effect=track_eff,
+                    track_evolution_source=track_evo_src,
                     traffic_effect=traf_eff,
                     total_confounder_delta=tot_conf,
                     m1_residual=m1_res,
@@ -160,118 +278,3 @@ class ObservableDecompositionModel:
             stint_id=stint_id,
             points=points,
         )
-
-
-def estimate_contextual_lap_performance(
-    tyre_age: int,
-    lap_number: int,
-    total_laps: int = 55,
-    fuel_load_est: Optional[float] = None,
-    track_evolution_proxy_sec: float = 0.0,
-    traffic_context_score: float = 0.0,
-    braking_aggression: float = 50.0,
-    lateral_dynamics_proxy: float = 0.20,
-    stage3_anomaly_score: float = 0.0,
-    stage3_drift_score: float = 0.0
-) -> Dict[str, Any]:
-    s1_loss = stage1_m1_loss(tyre_age)
-
-    fuel_info = compute_load_fuel_proxy(fuel_load_est, lap_number, total_laps)
-    fuel_kg = fuel_info["estimated_fuel_load_kg"]
-    fuel_burn_kg = max(0.0, 110.0 - fuel_kg)
-    fuel_comp = fuel_burn_kg * CONTEXT_COEFFICIENTS["fuel_load_kg_slope"]
-
-    te_comp = track_evolution_proxy_sec * CONTEXT_COEFFICIENTS["track_evolution_coef"]
-    traffic_comp = traffic_context_score * CONTEXT_COEFFICIENTS["traffic_penalty_scale"]
-
-    brake_delta = max(0.0, braking_aggression - 48.0) * CONTEXT_COEFFICIENTS["braking_aggression_scale"]
-    lateral_delta = max(0.0, lateral_dynamics_proxy - 0.15) * CONTEXT_COEFFICIENTS["lateral_dynamics_scale"]
-    anomaly_delta = stage3_anomaly_score * CONTEXT_COEFFICIENTS["anomaly_penalty_scale"]
-
-    behavioral_comp = brake_delta + lateral_delta + anomaly_delta
-    total_context_adj = fuel_comp + te_comp + traffic_comp + behavioral_comp
-    expected_context_loss = s1_loss + total_context_adj
-
-    return {
-        "tyre_age": tyre_age,
-        "lap_number": lap_number,
-        "baseline_stage1_loss_sec": round(s1_loss, 4),
-        "contextual_adjustment_sec": round(total_context_adj, 4),
-        "expected_contextual_loss_sec": round(expected_context_loss, 4),
-        "component_breakdown": {
-            "tyre_age_m1_sec": round(s1_loss, 4),
-            "fuel_load_effect_sec": round(fuel_comp, 4),
-            "track_evolution_effect_sec": round(te_comp, 4),
-            "traffic_context_effect_sec": round(traffic_comp, 4),
-            "behavioral_context_effect_sec": round(behavioral_comp, 4)
-        },
-        "scientific_nomenclature": "Context-Aware Tyre-Performance Estimation (Observable Confounder Adjustment)"
-    }
-
-
-def compute_stint_contextual_residuals(
-    stint_laps: List[Dict[str, Any]],
-    track_evolution_series: Optional[List[float]] = None
-) -> Dict[str, Any]:
-    lap_records = []
-    cum_s1_debt = 0.0
-    cum_context_debt = 0.0
-
-    for idx, lap in enumerate(stint_laps):
-        lap_num = lap.get("lap_number", idx + 1)
-        age = lap.get("tyre_age", idx + 1)
-        obs_loss = lap.get("actual_lap_time_loss", 0.0)
-        fuel_est = lap.get("fuel_load_est", None)
-        te = track_evolution_series[idx] if (track_evolution_series and idx < len(track_evolution_series)) else 0.0
-
-        traffic_info = compute_traffic_context_score(lap)
-        traf_score = traffic_info["traffic_score"]
-
-        est = estimate_contextual_lap_performance(
-            tyre_age=age,
-            lap_number=lap_num,
-            fuel_load_est=fuel_est,
-            track_evolution_proxy_sec=te,
-            traffic_context_score=traf_score,
-            braking_aggression=lap.get("braking_aggression", 50.0),
-            lateral_dynamics_proxy=lap.get("lateral_dynamics_proxy", 0.20),
-            stage3_anomaly_score=lap.get("stage3_anomaly_score", 0.0),
-            stage3_drift_score=lap.get("stage3_drift_score", 0.0)
-        )
-
-        s1_pred = est["baseline_stage1_loss_sec"]
-        context_pred = est["expected_contextual_loss_sec"]
-
-        s1_res = obs_loss - s1_pred
-        s1_inc = max(0.0, s1_res)
-        cum_s1_debt += s1_inc
-
-        context_res = obs_loss - context_pred
-        context_inc = max(0.0, context_res)
-        cum_context_debt += context_inc
-
-        lap_records.append({
-            "lap_number": lap_num,
-            "tyre_age": age,
-            "observed_loss_sec": round(obs_loss, 4),
-            "stage1_baseline_sec": round(s1_pred, 4),
-            "contextual_expected_sec": round(context_pred, 4),
-            "stage2_raw_residual_sec": round(s1_res, 4),
-            "contextual_residual_sec": round(context_res, 4),
-            "cumulative_stage2_debt_sec": round(cum_s1_debt, 4),
-            "cumulative_context_debt_sec": round(cum_context_debt, 4),
-            "confounder_breakdown": est["component_breakdown"],
-            "traffic_info": traffic_info
-        })
-
-    return {
-        "stint_laps_evaluated": len(lap_records),
-        "total_stage2_debt_sec": round(cum_s1_debt, 4),
-        "total_context_adjusted_debt_sec": round(cum_context_debt, 4),
-        "lap_records": lap_records,
-        "provenance": {
-            "stage1_model": "Frozen M1 Linear Baseline",
-            "contextual_model": "Confounder-Aware Observable Decomposition",
-            "leakage_boundary": "Strictly chronological per-lap estimation"
-        }
-    }

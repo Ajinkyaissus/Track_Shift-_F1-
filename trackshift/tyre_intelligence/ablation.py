@@ -11,12 +11,19 @@ Reconciled evaluation protocol matching frozen Stage 1 & Stage 2 benchmarks:
 
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Any
+import os
 import numpy as np
 import pandas as pd
 from scipy import stats
-from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from pipeline.model_stage1 import load_data
+def load_data(parquet_path: str = None) -> pd.DataFrame:
+    if parquet_path is None:
+        parquet_path = os.path.join(BASE_DIR, "data", "laps.parquet")
+    if not os.path.exists(parquet_path):
+        parquet_path = os.path.join(BASE_DIR, "data", "combined_2024_2025_laps.parquet")
+    return pd.read_parquet(parquet_path)
+
 from trackshift.tyre_intelligence.confounders import ObservableConfounderEstimator
 from trackshift.tyre_intelligence.model import (
     STAGE1_M1_INTERCEPT,

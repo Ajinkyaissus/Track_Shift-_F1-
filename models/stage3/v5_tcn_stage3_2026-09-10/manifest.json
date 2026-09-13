@@ -1,9 +1,0 @@
-{
-  "model_version": "v5_tcn_stage3_2026-09-10",
-  "stage": 3,
-  "model_hash_sha256": "ac4f0402376f9d83873ef72f3cbe2601fe028b8f1bb6ffb9cf9cfa0528fe3a4a",
-  "created_at": "2026-09-10T18:53:22.235136",
-  "split_method": "chronological_events (train_dates: 27, val_dates: 9, test_dates: 10)",
-  "dataset_laps_total": 18511,
-  "dataset_ledger_total": 16376
-}

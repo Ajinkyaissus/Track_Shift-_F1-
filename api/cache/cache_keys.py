@@ -4,7 +4,7 @@ stints, telemetry embeddings, attributions, ledgers, and counterfactuals.
 """
 
 DATA_VERSION = "2024-fastf1-v1"
-LEDGER_VERSION = "v3_stage2"
+LEDGER_VERSION = "v4_regenerated"
 MAP_VERSION = "v1_geo"
 TELEMETRY_VERSION = "v1_seq"
 FEATURE_SCHEMA_VERSION = "v1_behavioral_5feat"

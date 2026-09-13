@@ -39,7 +39,11 @@ export default function TrackShiftIntelligencePanel() {
     stintAttribution,
     driverSignatures,
     sessionDegradationData,
-    currentDriverLapTelemetry
+    currentDriverLapTelemetry,
+    tdsmState,
+    tdsmForecast,
+    tdsmModelVersion,
+    replayLap
   } = useCircuit();
 
   const [panelSection, setPanelSection] = useState('DEGRADATION'); // 'DEGRADATION' | 'VALIDATION' | 'BEHAVIORAL' | 'PIT_STOPS'
@@ -47,14 +51,14 @@ export default function TrackShiftIntelligencePanel() {
 
   const driverMeta = useMemo(() => {
     return sessionTelemetry?.drivers?.find(d => d.driver_id === selectedDriver) || {
-      driver_id: selectedDriver || 'VER',
+      driver_id: selectedDriver || (sessionTelemetry?.drivers?.[0]?.driver_id ?? '—'),
       driver_number: 1,
-      full_name: selectedDriver || 'Driver',
+      full_name: selectedDriver || (sessionTelemetry?.drivers?.[0]?.full_name ?? 'Driver'),
       team: 'Formula 1',
       team_color: '#E10600',
       country_code: '',
       nationality: '',
-      profile_image: `/drivers/${(selectedDriver || 'ver').toLowerCase()}.webp`,
+      profile_image: `/drivers/${(selectedDriver || sessionTelemetry?.drivers?.[0]?.driver_id || 'fallback_driver').toLowerCase()}.webp`,
       reputation_tag: 'neutral'
     };
   }, [sessionTelemetry, selectedDriver]);
@@ -153,7 +157,6 @@ export default function TrackShiftIntelligencePanel() {
   };
 
   const activeResult = cfResult || localHypotheticalEstimate;
-  const stage3Version = stintAttribution?.model_version || 'v5_tcn_stage3_2026-09-07';
   const totalDebtSec = stintLedger?.total_debt_seconds ?? currentDriverLapTelemetry?.cumulative_debt ?? 0;
 
   return (
@@ -176,7 +179,7 @@ export default function TrackShiftIntelligencePanel() {
           className={`hub-nav-btn ${panelSection === 'BEHAVIORAL' ? 'active' : ''}`}
           onClick={() => setPanelSection('BEHAVIORAL')}
         >
-          ⚡ TCN Behavioral & Sensitivity
+          ⚡ TDSM State & Sensitivity
         </button>
         <button
           className={`hub-nav-btn ${panelSection === 'PIT_STOPS' ? 'active' : ''}`}
@@ -244,17 +247,17 @@ export default function TrackShiftIntelligencePanel() {
         <PitStopAnalyticsPanel />
       )}
 
-      {/* SECTION 4: TCN BEHAVIORAL & OBSERVATIONAL SENSITIVITY */}
+      {/* SECTION 4: TDSM STATE-SPACE & CAUSAL SENSITIVITY */}
       {panelSection === 'BEHAVIORAL' && (
         <>
           <div className="intelligence-header-row">
             <div>
-              <span className="panel-tag">DEEP LEARNING + HYBRID ML</span>
-              <h2 className="intelligence-title">BEHAVIORAL & SENSITIVITY</h2>
+              <span className="panel-tag">PHYSICS-INFORMED STATE-SPACE DYNAMICS</span>
+              <h2 className="intelligence-title">TDSM STATE-SPACE & SENSITIVITY</h2>
             </div>
             <div className="model-version-pills">
-              <span className="version-pill stage1-pill">Stage 1: Baseline HistGradientBoosting</span>
-              <span className="version-pill stage3-pill">Stage 3: {stage3Version}</span>
+              <span className="version-pill stage1-pill">Baseline: Physics Degradation Prior</span>
+              <span className="version-pill stage3-pill">TDSM: {tdsmModelVersion || 'v2.0-StateTransition'}</span>
             </div>
           </div>
 
@@ -263,7 +266,7 @@ export default function TrackShiftIntelligencePanel() {
             <div className="intelligence-card">
               <div className="card-top-row">
                 <h3 className="card-sub-title">Cumulative Estimated Tyre Debt</h3>
-                <span className="badge-dim">FastF1 Residuals</span>
+                <span className="badge-dim">FastF1 Telemetry</span>
               </div>
               <p className="card-desc">
                 Accumulated performance deviation against fuel-corrected baseline degradation profile from <code>data/residual_ledger.parquet</code>.
@@ -278,66 +281,61 @@ export default function TrackShiftIntelligencePanel() {
                 </div>
                 <div className="debt-stat">
                   <span className="d-label">ACTIVE STINT</span>
-                  <div className="d-stint-code">{selectedStint || '2024_GP_STINT'}</div>
+                  <div className="d-stint-code">{selectedStint || `${selectedDriver}_STINT`}</div>
                 </div>
               </div>
             </div>
 
-            {/* 2. Stage 3 TCN Behavioral State */}
+            {/* 2. TDSM Dynamic State-Space Vector */}
+            <div className="intelligence-card">
+              <div className="card-top-row">
+                <h3 className="card-sub-title">TDSM Dynamic State-Space Vector</h3>
+                <span className="badge-dim">S_t = [D_t, ΔD_t, Δ²D_t]</span>
+              </div>
+              <p className="card-desc">
+                Real-time 3-dimensional state representation driving the multi-horizon transition head for {driverMeta.full_name || driverMeta.driver_id} at Lap {replayLap}.
+              </p>
 
-        <div className="intelligence-card">
-          <div className="card-top-row">
-            <h3 className="card-sub-title">Stage 3: TCN Behavioral State</h3>
-            <span className="badge-dim">16-D Latent Space</span>
-          </div>
-          <p className="card-desc">
-            Multi-task Temporal Convolutional Network extracts a deterministic 16-dimensional embedding of driver behavioral telemetry.
-          </p>
-
-          {/* 16-D Embedding Vector Visualization */}
-          <div className="embedding-vector-container">
-            <span className="vector-label">16-D BEHAVIORAL EMBEDDING (z_behavior):</span>
-            {(() => {
-              const activeDriverObj = sessionTelemetry?.drivers?.find(d => (d.driver?.id === selectedDriver || d.driver?.abbreviation === selectedDriver || d.driver_id === selectedDriver));
-              const tcnData = activeDriverObj?.tcn;
-              const tcnEmbedding = tcnData?.available && Array.isArray(tcnData?.embedding) && tcnData.embedding.length > 0 ? tcnData.embedding : null;
-
-              if (tcnEmbedding) {
-                return (
-                  <div className="vector-cells-grid">
-                    {tcnEmbedding.map((val, i) => (
-                      <div 
-                        key={i} 
-                        className="vector-cell"
-                        style={{ 
-                          backgroundColor: val >= 0 ? `rgba(0, 210, 190, ${Math.min(1, Math.abs(val) * 1.5)})` : `rgba(225, 6, 0, ${Math.min(1, Math.abs(val) * 1.5)})` 
-                        }}
-                        title={`Dim ${i + 1}: ${val}`}
-                      >
-                        <span className="cell-num">{i + 1}</span>
-                      </div>
-                    ))}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginTop: '12px' }}>
+                <div style={{ background: 'rgba(255,255,255,0.03)', padding: '8px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ fontSize: '10px', color: '#94a3b8' }}>D_t (DEBT)</div>
+                  <div style={{ fontSize: '15px', fontWeight: 800, color: (tdsmState?.D ?? 0) >= 0 ? '#f87171' : '#34d399', fontFamily: 'monospace' }}>
+                    {tdsmState ? `${tdsmState.D >= 0 ? '+' : ''}${tdsmState.D.toFixed(3)}s` : '—'}
                   </div>
-                );
-              }
-              return (
-                <div className="tcn-unavailable-banner" style={{ padding: '10px 14px', background: 'rgba(255,255,255,0.03)', borderRadius: '6px', color: '#94a3b8', fontSize: '11px', border: '1px solid rgba(255,255,255,0.08)', letterSpacing: '0.05em' }}>
-                  TCN ANALYSIS UNAVAILABLE — INSUFFICIENT REAL TELEMETRY
                 </div>
-              );
-            })()}
-          </div>
-        </div>
+                <div style={{ background: 'rgba(255,255,255,0.03)', padding: '8px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ fontSize: '10px', color: '#94a3b8' }}>ΔD_t (VELOCITY)</div>
+                  <div style={{ fontSize: '15px', fontWeight: 800, color: '#38bdf8', fontFamily: 'monospace' }}>
+                    {tdsmState ? `${tdsmState.Delta_D >= 0 ? '+' : ''}${tdsmState.Delta_D.toFixed(3)}s` : '—'}
+                  </div>
+                </div>
+                <div style={{ background: 'rgba(255,255,255,0.03)', padding: '8px', borderRadius: '6px', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div style={{ fontSize: '10px', color: '#94a3b8' }}>Δ²D_t (ACCEL)</div>
+                  <div style={{ fontSize: '15px', fontWeight: 800, color: '#a78bfa', fontFamily: 'monospace' }}>
+                    {tdsmState ? `${tdsmState.Delta2_D >= 0 ? '+' : ''}${tdsmState.Delta2_D.toFixed(3)}s` : '—'}
+                  </div>
+                </div>
+              </div>
 
-        {/* 3. Stage 4 Observational Sensitivity Decomposition */}
-        <div className="intelligence-card span-2-col">
-          <div className="card-top-row">
-            <h3 className="card-sub-title">Observational Sensitivity Decomposition</h3>
-            <span className="badge-dim">Stage 4 Learned Coefficients</span>
-          </div>
-          <p className="card-desc">
-            Quantifies the observational sensitivity of tyre debt accumulation across the 5 behavioral dimensions under fitted model parameters.
-          </p>
+              {tdsmForecast && (
+                <div style={{ display: 'flex', justifyContent: 'space-between', background: 'rgba(0,210,190,0.06)', border: '1px solid rgba(0,210,190,0.2)', borderRadius: '6px', padding: '8px 12px', marginTop: '10px', fontSize: '11px' }}>
+                  <span>Forecast +1L: <strong>+{tdsmForecast['+1']?.toFixed(3)}s</strong></span>
+                  <span>+3L: <strong>+{tdsmForecast['+3']?.toFixed(3)}s</strong></span>
+                  <span>+5L: <strong>+{tdsmForecast['+5']?.toFixed(3)}s</strong></span>
+                  <span>+10L: <strong>+{tdsmForecast['+10']?.toFixed(3)}s</strong></span>
+                </div>
+              )}
+            </div>
+
+            {/* 3. Causal Counterfactual Decomposition */}
+            <div className="intelligence-card span-2-col">
+              <div className="card-top-row">
+                <h3 className="card-sub-title">Causal Counterfactual Decomposition</h3>
+                <span className="badge-dim">Attribution Matrix</span>
+              </div>
+              <p className="card-desc">
+                Quantifies the observational sensitivity of tyre debt accumulation across driver behavioral channels under causal isolation.
+              </p>
 
           {stintAttribution && stintAttribution.attribution ? (
             <div className="attribution-content-grid">

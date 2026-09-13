@@ -237,10 +237,11 @@ class DegradationService:
                     cum_debt += max(0.0, residual)
 
                 # Clean estimated tyre-performance degradation signal:
-                # Raw loss stripped of fuel and track evolution confounders
                 fuel_component = (fuel_est - 10.0) * 0.032
                 track_evolution_component = (track_evolution / 5.0) * 0.25
-                clean_deg_signal = max(0.0, raw_pace_loss - fuel_component + track_evolution_component)
+                stint_start_fuel = float(valid_laps.iloc[0].get('fuel_load_est') or max(10.0, 100.0 - (int(valid_laps.iloc[0]['lap_number']) * 1.7)))
+                fuel_burn_gain = max(0.0, stint_start_fuel - fuel_est) * 0.033
+                clean_deg_signal = max(0.0, raw_pace_loss + fuel_burn_gain)
 
                 # Empirical bootstrap confidence interval (95% CI)
                 stint_variance = 0.04 + 0.015 * (tyre_age ** 0.5)

@@ -1,1 +1,1 @@
-{"stint_id": "2024_abu_dhabi_R_PIA_1", "model_version": "v3_stage1_2026-09-07", "total_debt_seconds": -0.2121, "series": [{"lap_number": 4.0, "residual": -0.21208259473631322, "cumulative_debt": -0.21208259473631322}]}
+{"stint_id": "2024_abu_dhabi_R_PIA_1", "model_version": "v4_m1_production_2026-09-10", "total_debt_seconds": 0.0, "series": [{"lap_number": 4.0, "residual": -0.3573, "cumulative_debt": 0.0}]}

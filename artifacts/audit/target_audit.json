@@ -1,0 +1,47 @@
+{
+  "2024": {
+    "dataset": "2024",
+    "total_samples": 22541,
+    "horizons": {
+      "+1": {
+        "valid": 21454,
+        "masked": 1087
+      },
+      "+3": {
+        "valid": 19310,
+        "masked": 3231
+      },
+      "+5": {
+        "valid": 17218,
+        "masked": 5323
+      },
+      "+10": {
+        "valid": 12370,
+        "masked": 10171
+      }
+    }
+  },
+  "2025": {
+    "dataset": "2025",
+    "total_samples": 22197,
+    "horizons": {
+      "+1": {
+        "valid": 21133,
+        "masked": 1064
+      },
+      "+3": {
+        "valid": 19046,
+        "masked": 3151
+      },
+      "+5": {
+        "valid": 17016,
+        "masked": 5181
+      },
+      "+10": {
+        "valid": 12367,
+        "masked": 9830
+      }
+    }
+  },
+  "masking_rule": "Strict binary mask (1.0 = observed actual future D, 0.0 = unobserved/masked as NaN). Zero copying, interpolation, or mean-filling."
+}

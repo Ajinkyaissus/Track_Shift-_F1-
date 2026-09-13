@@ -437,7 +437,8 @@ export async function getTyreProvenance() {
   return fetchWithFallback("/api/tyre-intelligence/provenance", "tyre_provenance.json");
 }
 
-export async function getEstimatedDegradationCurve(circuitId = "silverstone", driverId = "HAM", sessionId = null, checkpointLap = null) {
+export async function getEstimatedDegradationCurve(circuitId, driverId, sessionId = null, checkpointLap = null) {
+  if (!circuitId || !driverId) return null;
   let url = `/api/tyre-intelligence/degradation-curve?circuit_id=${encodeURIComponent(circuitId)}&driver_id=${encodeURIComponent(driverId)}`;
   if (sessionId) url += `&session_id=${encodeURIComponent(sessionId)}`;
   if (checkpointLap !== null && checkpointLap !== undefined) url += `&checkpoint_lap=${encodeURIComponent(checkpointLap)}`;
@@ -454,14 +455,161 @@ export async function getPostRaceValidation(circuitId = null) {
   return fetchWithFallback(url, `post_race_validation_${circuitId || 'all'}.json`);
 }
 
-export async function getConfounderBreakdown(circuitId = "silverstone", driverId = "HAM") {
+export async function getConfounderBreakdown(circuitId, driverId) {
+  if (!circuitId || !driverId) return null;
   return fetchWithFallback(`/api/tyre-intelligence/confounder-breakdown?circuit_id=${encodeURIComponent(circuitId)}&driver_id=${encodeURIComponent(driverId)}`, `confounder_breakdown_${circuitId}_${driverId}.json`);
 }
 
-export async function getSessionTyreIntelligence(sessionId, driverId = "HAM", checkpointLap = null) {
+export async function getSessionTyreIntelligence(sessionId, driverId, checkpointLap = null) {
+  if (!sessionId || !driverId) return null;
   let url = `/api/sessions/${sessionId}/tyre-intelligence?driver_id=${encodeURIComponent(driverId)}`;
   if (checkpointLap !== null && checkpointLap !== undefined) url += `&checkpoint_lap=${encodeURIComponent(checkpointLap)}`;
   return fetchWithFallback(url, `session_tyre_intelligence_${sessionId}_${driverId}.json`);
 }
+
+export async function getDriverAdvisory(sessionId, driverId = null, lap = null) {
+  let url = `/api/sessions/${sessionId}/driver-advisory?`;
+  const params = [];
+  if (driverId) params.push(`driver_id=${encodeURIComponent(driverId)}`);
+  if (lap !== null && lap !== undefined) params.push(`lap=${encodeURIComponent(lap)}`);
+  url += params.join('&');
+  return fetchWithFallback(url, `driver_advisory_${sessionId}_${driverId || 'ALL'}.json`);
+}
+
+/**
+ * Official TDSM State-Space Prediction Client
+ * Sends current driver state S_t = [D_t, Delta_D_t, Delta2_D_t] and Context [L, Fuel, Compound]
+ * to POST /api/tdsm/predict
+ */
+export async function predictTDSM(payload) {
+  if (isOfflineMode) {
+    const D = Number(payload.D || 0);
+    const d1 = Number(payload.Delta_D || 0);
+    const d2 = Number(payload.Delta2_D || 0);
+    return {
+      model: "TDSM",
+      model_version: "TDSM-v2.0-StateTransition-Offline",
+      model_used: "TDSM",
+      data_cutoff_lap: payload.data_cutoff_lap,
+      forecast: {
+        "+1": Number((D + 1 * d1 + 0.5 * d2 * 1).toFixed(4)),
+        "+3": Number((D + 3 * d1 + 0.5 * d2 * 9).toFixed(4)),
+        "+5": Number((D + 5 * d1 + 0.5 * d2 * 25).toFixed(4)),
+        "+10": Number((D + 10 * d1 + 0.5 * d2 * 100).toFixed(4))
+      }
+    };
+  }
+
+  try {
+    const res = await fetch(`${API_BASE}/api/tdsm/predict`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if (!res.ok) throw new Error(`TDSM API error: ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    console.warn("TDSM API fetch error:", err);
+    throw err;
+  }
+}
+
+/**
+ * Real Physical Sensor Telemetry Client
+ */
+export async function getPhysicalTelemetryStatus() {
+  try {
+    const res = await fetch(`${API_BASE}/api/physical-telemetry/status`);
+    if (!res.ok) throw new Error(`Physical status error: ${res.status}`);
+    return await res.json();
+  } catch (err) {
+    return { system_status: "offline", active_devices_online: 0, error: err.message };
+  }
+}
+
+export async function getPhysicalDevices() {
+  try {
+    const res = await fetch(`${API_BASE}/api/physical-telemetry/devices`);
+    if (!res.ok) throw new Error(`Physical devices error: ${res.status}`);
+    return await res.json();
+  } catch {
+    return [];
+  }
+}
+
+export async function getLatestPhysicalTelemetry(deviceId) {
+  if (!deviceId) return null;
+  try {
+    const res = await fetch(`${API_BASE}/api/physical-telemetry/latest/${encodeURIComponent(deviceId)}`);
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+export async function getPhysicalTelemetryHistory(deviceId, limit = 150) {
+  if (!deviceId) return [];
+  try {
+    const res = await fetch(`${API_BASE}/api/physical-telemetry/history/${encodeURIComponent(deviceId)}?limit=${limit}`);
+    if (!res.ok) return [];
+    return await res.json();
+  } catch {
+    return [];
+  }
+}
+
+export function createPhysicalTelemetryWebSocket(onMessage, onStatusChange) {
+  const wsUrl = API_BASE.replace(/^http/, 'ws') + '/ws/physical-telemetry';
+  let ws = null;
+  let reconnectTimer = null;
+  let isClosedManually = false;
+
+  function connect() {
+    try {
+      ws = new WebSocket(wsUrl);
+
+      ws.onopen = () => {
+        if (onStatusChange) onStatusChange('connected');
+      };
+
+      ws.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data);
+          if (onMessage) onMessage(data);
+        } catch (e) {
+          console.warn("[PhysicalTelemetryWS] JSON parse error:", e);
+        }
+      };
+
+      ws.onclose = () => {
+        if (onStatusChange) onStatusChange('disconnected');
+        if (!isClosedManually) {
+          reconnectTimer = setTimeout(connect, 3000);
+        }
+      };
+
+      ws.onerror = () => {
+        if (onStatusChange) onStatusChange('error');
+      };
+    } catch {
+      if (onStatusChange) onStatusChange('error');
+      if (!isClosedManually) {
+        reconnectTimer = setTimeout(connect, 3000);
+      }
+    }
+  }
+
+  connect();
+
+  return {
+    close: () => {
+      isClosedManually = true;
+      if (reconnectTimer) clearTimeout(reconnectTimer);
+      if (ws) ws.close();
+    }
+  };
+}
+
 
 

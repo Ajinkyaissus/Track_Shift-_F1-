@@ -127,7 +127,7 @@ class StrategicWarfareService:
             }
         return meta
 
-    def get_strategic_warfare_analysis(
+    async def get_strategic_warfare_analysis(
         self,
         session_id: str,
         driver_id: Optional[str] = None,
@@ -172,7 +172,7 @@ class StrategicWarfareService:
 
         # Determine driver and lap
         if not s_laps.empty:
-            available_drivers = s_laps["driver"].unique().tolist()
+            available_drivers = s_laps["driver_id"].unique().tolist() if "driver_id" in s_laps.columns else (s_laps["driver"].unique().tolist() if "driver" in s_laps.columns else ["ALB"])
             if not driver_id or driver_id not in available_drivers:
                 driver_id = available_drivers[0]
             max_session_lap = int(s_laps["lap_number"].max())
@@ -187,7 +187,7 @@ class StrategicWarfareService:
 
         # Cache key check
         cache_key = f"strategic_warfare:{session_id}:{driver_id}:{current_lap}:{DATA_VERSION}"
-        cached_result = self.cache.get(cache_key)
+        cached_result = await self.cache.get(cache_key)
         if cached_result:
             return cached_result
 
@@ -212,7 +212,7 @@ class StrategicWarfareService:
             base_lap_time_sec=83.5
         )
 
-        self.cache.set(cache_key, result, ttl=3600)
+        await self.cache.set(cache_key, result, ttl=3600)
         return result
 
     def get_checkpoint_series(

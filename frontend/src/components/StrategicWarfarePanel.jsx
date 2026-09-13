@@ -4,9 +4,11 @@ import { getStrategicWarfare, getStrategicCheckpoints } from '../api';
 export default function StrategicWarfarePanel({
   sessionId,
   driverId,
+  selectedDriver,
   currentLap = 20,
   className = ""
 }) {
+  const activeDriver = driverId || selectedDriver;
   const [data, setData] = useState(null);
   const [checkpoints, setCheckpoints] = useState([]);
   const [selectedLap, setSelectedLap] = useState(currentLap);
@@ -23,13 +25,13 @@ export default function StrategicWarfarePanel({
   useEffect(() => {
     let isMounted = true;
     async function loadData() {
-      if (!sessionId || !driverId) return;
+      if (!sessionId || !activeDriver) return;
       setLoading(true);
       setError(null);
       try {
         const [stratData, cpData] = await Promise.all([
-          getStrategicWarfare(sessionId, driverId, selectedLap),
-          getStrategicCheckpoints(sessionId, driverId).catch(() => ({ checkpoints: [] }))
+          getStrategicWarfare(sessionId, activeDriver, selectedLap),
+          getStrategicCheckpoints(sessionId, activeDriver).catch(() => ({ checkpoints: [] }))
         ]);
         if (isMounted) {
           setData(stratData);
@@ -45,7 +47,7 @@ export default function StrategicWarfarePanel({
     }
     loadData();
     return () => { isMounted = false; };
-  }, [sessionId, driverId, selectedLap]);
+  }, [sessionId, activeDriver, selectedLap]);
 
   if (loading && !data) {
     return (
@@ -62,9 +64,9 @@ export default function StrategicWarfarePanel({
 
   if (error || !data) {
     return (
-      <div className="p-6 bg-red-950/40 rounded-xl border border-red-800/60 text-red-300 text-sm">
-        <div className="font-bold mb-1">Strategic Engine Unavailable</div>
-        <div className="text-xs text-red-400/80">{error || "No strategic data returned"}</div>
+      <div className="p-6 bg-slate-900/60 rounded-xl border border-slate-800 text-slate-300 text-sm">
+        <div className="font-bold mb-1 text-amber-400">Strategy Unavailable</div>
+        <div className="text-xs text-slate-400">Strategy unavailable — insufficient real race context</div>
       </div>
     );
   }
@@ -222,11 +224,11 @@ export default function StrategicWarfarePanel({
                 </div>
 
                 <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/60">
-                  <div className="text-[10px] text-slate-400 font-mono">WIN PROB</div>
+                  <div className="text-[10px] text-slate-400 font-mono">DEBT ADVANTAGE</div>
                   <div className="text-lg font-black text-amber-300 mt-0.5">
-                    {Math.round((rec.win_probability || 0) * 100)}%
+                    {rec.tyre_debt_delta != null ? `${rec.tyre_debt_delta > 0 ? '+' : ''}${rec.tyre_debt_delta.toFixed(2)}s` : 'OPTIMAL'}
                   </div>
-                  <div className="text-[10px] text-slate-500">podium: {Math.round((rec.podium_probability || 0) * 100)}%</div>
+                  <div className="text-[10px] text-slate-500">tyre debt offset</div>
                 </div>
 
                 <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-700/60">
@@ -510,11 +512,11 @@ export default function StrategicWarfarePanel({
                 <span className="text-slate-200">+{instability.metric_components?.recent_pace_slope_sec_per_lap} s/lap</span>
               </div>
               <div className="flex justify-between p-2 rounded bg-slate-800/40">
-                <span className="text-slate-400">Stage 3 Anomaly Head:</span>
+                <span className="text-slate-400">TDSM Anomaly Head:</span>
                 <span className="text-slate-200">{instability.metric_components?.stage3_anomaly_score}</span>
               </div>
               <div className="flex justify-between p-2 rounded bg-slate-800/40">
-                <span className="text-slate-400">Stage 3 Behavioral Drift:</span>
+                <span className="text-slate-400">TDSM Behavioral Drift:</span>
                 <span className="text-slate-200">{instability.metric_components?.stage3_drift_score}</span>
               </div>
             </div>
@@ -525,7 +527,7 @@ export default function StrategicWarfarePanel({
       {/* Scientific Disclaimer Footer */}
       <div className="p-3 rounded-lg bg-slate-950 border border-slate-800/80 text-[11px] text-slate-500 flex items-center justify-between">
         <div>
-          <strong>SCIENTIFIC VALIDATION NOTICE:</strong> Strategy recommendations are probabilistic forecasts derived from validated Stage 1-4 models and empirical pit horizons. No guaranteed race victory is implied.
+          <strong>SCIENTIFIC VALIDATION NOTICE:</strong> Strategy recommendations are probabilistic forecasts derived from validated TDSM state-space and physics-informed models and empirical pit horizons. No guaranteed race victory is implied.
         </div>
         <div className="font-mono text-slate-600">
           TRACKSHIFT STRATEGIC WARFARE v1.0

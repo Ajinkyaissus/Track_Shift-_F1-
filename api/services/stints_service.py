@@ -25,15 +25,17 @@ class StintsService:
         self.cache = get_cache_service()
 
     def _ensure_data_loaded(self):
-        if not self.app_data.get("stint_feature_means") and os.path.exists(LAPS_PARQUET):
-            laps_df = pd.read_parquet(LAPS_PARQUET)
-            means_df = laps_df.groupby('stint_id')[BEHAVIORAL_FEATURES].mean()
-            self.app_data["stint_feature_means"] = means_df.to_dict(orient='index')
+        if not self.app_data.get("stint_feature_means"):
+            if self.app_data.get("laps_df") is not None:
+                laps_df = self.app_data["laps_df"]
+                means_df = laps_df.groupby('stint_id')[BEHAVIORAL_FEATURES].mean()
+                self.app_data["stint_feature_means"] = means_df.to_dict(orient='index')
 
-        if not self.app_data.get("ledger") and os.path.exists(LEDGER_PARQUET):
-            ledger_df = pd.read_parquet(LEDGER_PARQUET)
-            for stint_id, group in ledger_df.groupby('stint_id'):
-                self.app_data["ledger"][stint_id] = group[['lap_number', 'residual', 'cumulative_debt']].to_dict(orient='records')
+        if not self.app_data.get("ledger"):
+            if self.app_data.get("ledger_df") is not None:
+                ledger_df = self.app_data["ledger_df"]
+                for stint_id, group in ledger_df.groupby('stint_id'):
+                    self.app_data["ledger"][stint_id] = group[['lap_number', 'residual', 'cumulative_debt']].to_dict(orient='records')
 
     def _dict_factory(self, cursor, row):
         d = {}
