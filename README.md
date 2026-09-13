@@ -30,6 +30,8 @@
 
 ## 🏎️ Overview
 
+> ⚡ **Original & In-House Architecture (OG)**: TrackShift is an original, ground-up engineering initiative. The **Tyre Degradation State Model (TDSM)** is our own custom model architecture—designed, mathematically formulated, trained from raw telemetry, and rigorously tested in-house across 22,197 laps. No off-the-shelf pre-trained models or generic third-party wrappers were used.
+
 **TrackShift** is a state-of-the-art Formula 1 engineering platform designed to bridge the gap between high-frequency physics telemetry, machine-learned tyre degradation dynamics, and mission-critical pit wall strategy decisions.
 
 Built on the **Tyre Degradation State Model (TDSM)**, the system models continuous tyre wear transitions across multi-lap horizons ($+1, +3, +5, +10$ laps) using causal temporal formulations trained strictly on chronological 2024 race telemetry, fully validated on 22,197 laps across the unseen 2025 season.
@@ -279,7 +281,7 @@ pytest tests/
 
 ## 👥 Authors & Core Contributors
 
-**TrackShift** was architected and built by:
+**TrackShift** is an **original ("OG") project**. The entire platform, hardware telemetry ingestion engine, and proprietary **TDSM neural forecasting architecture** were conceived, mathematically formulated, trained, and empirically tested in-house by:
 - **Harshit Ranbhare**
 - **Ajinkya Supate**
 - **Harshal Upadhye**
